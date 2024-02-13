@@ -3,7 +3,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'upc_db',
         'USER': 'root',
-        'PASSWORD': '0309@dlfroal',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306', 
     }
