@@ -6,7 +6,7 @@ DATABASES = {
         'NAME': 'upc_db', # mydatabase
         'USER': 'dlfroal', # mydatabaseuser
         'PASSWORD': 'thdnp22', # mypassword
-        'HOST': '25.16.17.46', # host
+        'HOST': '10.28.1.16', # host
         'PORT': '3306',
     }
 }
@@ -15,4 +15,4 @@ DATABASES = {
 SECRET_KEY = 'django-insecure-1!+o277jmi28p27u0-i3ay_w++)+!lft)3t*(*f9s0%6i=d_k^'
 
 # Email smtp
-EMAI_HOST_PASSWORD = 'sdcr phzs sdjr dzhs'
+EMAI_HOST_PASSWORD = 'thdnp@1004'

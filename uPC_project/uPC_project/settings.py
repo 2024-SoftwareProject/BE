@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     # pip install django-bootstrap5
 
-    'user_app',
     'accounts_app',
 ]
 
@@ -121,12 +120,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# django SMTP 설정
+# # django SMTP 설정
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.naver.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'upc.sw1004@gmail.com'
+EMAIL_HOST_USER = 'upc_sw1004@naver.com'
 EMAIL_HOST_PASSWORD = private_settings.EMAI_HOST_PASSWORD
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
