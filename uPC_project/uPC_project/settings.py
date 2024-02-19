@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,7 +40,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
     # pip install djangorestframework
-    'user_app'
+    'django_extensions',
+    # pip install djang-extensions
+    'django_bootstrap5',
+    # pip install django-bootstrap5
+
+    'user_app',
+    'accounts_app',
 ]
 
 MIDDLEWARE = [
@@ -113,3 +119,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# django SMTP 설정
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'upc.sw1004@gmail.com'
+EMAIL_HOST_PASSWORD = private_settings.EMAI_HOST_PASSWORD
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
