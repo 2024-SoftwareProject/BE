@@ -1,0 +1,31 @@
+{% load django_bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% bootstrap_css %}
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    {% if user.is_authenticated %}
+    <p>{{ user }}님, 안녕하세요.</p>
+    <form action="{% url 'logout' %}" method="POST">
+      {% csrf_token %}
+      <button>Logout</button>
+    </form>
+    <a href ="{% url 'mypage' %}">mypage</a>
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'signup' %}">signup</a>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+  </div>
+  {% bootstrap_javascript %}
+</body>
+</html>
