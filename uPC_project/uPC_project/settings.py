@@ -160,13 +160,13 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'upc_sw1004@naver.com'
 EMAIL_HOST_PASSWORD = private_settings.EMAIL_HOST_PASSWORD
 EMAIL_USE_TLS = True
-DEFAULT_FORM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # # [accounts 추가 설정]
-
 # 이거 안 하면 내가 만든 User모델 못 사용함
 AUTH_USER_MODEL = 'accounts_app.User'
+
 # 인증 방법은 email 통해 진행/ email 회원가입에 필요
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
