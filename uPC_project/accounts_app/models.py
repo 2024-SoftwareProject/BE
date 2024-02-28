@@ -4,21 +4,22 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 # Create your models here
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, password, name, email, **extra_fields):
-        if not id:
-            raise ValueError('ID Required!')
+    def create_user(self, username, password, name, email, auth, **extra_fields):
+        if not username:
+            raise ValueError('username Required!')
         user = self.model(
             username = username,
             name = name,
             email = email,
+            auth = auth,
             **extra_fields,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, username, password, name=None, email=None):
-        user = self.create_user(username, password, name, email)
+    def create_superuser(self, username, password, name=None, email=None, auth=None):
+        user = self.create_user(username, password, name, email, auth)
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
@@ -38,6 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name="가입일", blank=True)
 
+    auth = models.CharField(max_length=10, verbose_name="인증번호", null=True)
     groups = models.ManyToManyField('auth.Group', related_name='user_accounts', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='user_accounts', blank=True)
 

@@ -21,6 +21,9 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
+from django.http import HttpResponse
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError
@@ -28,10 +31,10 @@ from django.core.exceptions import ValidationError
 from .models import User
 from .forms import SignupForm, LoginForm
 from .forms import CustomUserChangeForm, CheckPasswordForm
-from .forms import RecoveryIdForm, RecoveryPwForm
+from .forms import RecoveryPwForm
 from .forms import CustomPasswordChangeForm, CustomSetPasswordForm
 
-from .helper import send_mail
+from .helper import send_mail, email_auth_num
 from .decorators import login_message_required, admin_required, logout_message_required
 from django.utils.decorators import method_decorator
 
@@ -138,13 +141,35 @@ class login(FormView):
 @require_POST
 def logout(request):
     if request.method == 'POST':
-        auth_logout(request)
+        logout(request)
     return redirect('home')
 
 
-# 계정 삭제
-@login_required
-def delete_account(request):
+# 마이페이지
+@login_message_required
+def mypage(request):
+    if request.method == 'GET':
+        return render(request, 'accounts/mypage.html')    
+
+
+# 계정 수정
+@login_message_required
+def updateAccount(request):
+    if request.method == 'POST':
+        user_change_form = CustomUserChangeForm(request.POST, instance=request.user)
+        if user_change_form.is_valid():
+            user_change_form.save()
+            messages.success(request, '회원정보가 수정되었습니다')
+            return redirect('accounts/mypage')
+    else:
+        user_change_form = CustomUserChangeForm(instance=request.user)
+    context = {'user_change_form':user_change_form}
+    return render(request, 'accounts/update_account.html', context)
+
+
+# 회원탈퇴
+@login_message_required
+def deleteAccount(request):
     if request.method == 'POST':
         password_form = CheckPasswordForm(request.user, request.POST)
 
@@ -155,29 +180,82 @@ def delete_account(request):
             return redirect('home')
     else :
         password_form = CheckPasswordForm(request.user)
+    return render(request, 'accounts/delete_account.html', {'password_form':password_form})
 
-    return render(request, 'accounts/delete_profile.html', {'password_form':password_form})
+
+# 비밀번호 찾기
+@method_decorator(logout_message_required, name='dispatch')
+class recoveryPW(View):
+    template_name = 'accounts/recovery_pw.html'
+    recovery_pw = RecoveryPwForm
+
+    def get(self, request):
+        if request.method == 'GET':
+            form_pw = self.recovery_pw(None)
+            return render(request, self.template_name, {'form_pw':form_pw})
 
 
-# 계정 수정
-@login_required
-def update_account(request):
-    if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
+# 비밀번호 AJAX 통신
+def ajax_find_pw(request):
+    username = request.POST.get('username')
+    name = request.POST.get('name')
+    email = request.POST.get('email')
+    result_pw = User.objects.get(username=username, name=name, email=email)
+
+    if result_pw:
+        auth_num = email_auth_num()
+        result_pw.auth = auth_num
+        result_pw.save()
+        send_mail(
+            '[uPC] 비밀번호 찾기 인증 메일입니다',
+            [email],
+            html=render_to_string('accounts/recovery_pw_email.html',{
+                'auth_num' : auth_num,
+            }))
+    return HttpResponse(json.dumps(
+        {"result":result_pw.username}, cls=DjangoJSONEncoder),
+        content_type="application/json")
+
+
+# 비밀번호 찾기 인증번호 확인
+def auth_confirm(request):
+    username = request.POST.get('username')
+    input_auth_num = request.POST.get('input_auth_num')
+    user = User.objects.get(username=username, auth=input_auth_num)
+    user.auth = ""
+    user.save()
+    request.session['auth'] = user.username
+    return HttpResponse(json.dumps(
+        {"result":user.username}, cls=DjangoJSONEncoder),
+        content_type ="application/json")
+
+
+# 비밀번호 찾기 새 비밀번호 등록
+@ logout_message_required
+def auth_pw_reset(request):
+    if request.method == "GET":
+        if not request.session.get('auth',False):
+            raise PermissionDenied
+        
+    if request.method == "POST":
+        session_user = request.session['auth']
+        current_user = User.objects.get(username=session_user)
+        login(request, current_user)
+
+        reset_password_form = CustomSetPasswordForm(request.user, request.POST)
+
+        if reset_password_form.is_valid():
+            user = reset_password_form.save()
+            messages.success(request, "비밀번호 변경완료! 변경된 비밀번호로 로그인하세요")
+            logout(request)
+            return redirect('accounts:login')
+        else:
+            logout(request)
+            request.session['auth'] = session_user
     else:
-        form = CustomUserChangeForm(instance=request.user)
-    context = {'form':form}
-    return render(request, 'accounts/update_profile.html', context)
+        reset_password_form = CustomSetPasswordForm(request.user)
 
-
-# 마이페이지
-@login_required
-def mypage(request):
-    if request.method == 'POST':
-        return render(request, 'accounts/mypage.html')
+    return render(request, 'accounts/password_reset.html', {'form':reset_password_form})
 
 
 # 이메일 인증 활성화

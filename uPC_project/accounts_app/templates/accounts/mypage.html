@@ -5,12 +5,13 @@
 {% block content %}
     <h2>Welcome to My Page</h2>
     <!-- Display user information or additional content as needed -->
+    <p>username: {{ user.username}}</p>
     <p>Email: {{ user.email }}</p>
-    <p>Name: {{ user.get_full_name }}</p>
+    <p>Name: {{ user.name }}</p>
     <!-- Add more content as needed -->
-    <a href="{% url 'update_profile' %}">Update Profile</a>
+    <a href="{% url 'mypage/updateAccount' %}">Update Profile</a>
     <form action="{% url 'delete' %}" method="POST">
         {% csrf_token %}
         <button>회원탈퇴</button>
-        </form>
+    </form>
 {% endblock %}

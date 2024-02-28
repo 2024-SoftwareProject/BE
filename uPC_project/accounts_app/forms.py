@@ -104,30 +104,6 @@ class CheckPasswordForm(forms.Form):
                 self.add_error('password', '비밀번호가 일치하지 않습니다.')
 
 
-# 아이디 찾기 폼
-class RecoveryIdForm(forms.Form):
-    nickname = forms.CharField(widget=forms.TextInput,)
-    email = forms.EmailField(widget=forms.EmailInput,)
-
-    class Meta:
-        fields = ['name', 'email']
-
-    def __init__(self, *args, **kwargs):
-        super(RecoveryIdForm, self).__init__(*args, **kwargs)
-        self.fields['name'].label = '이름'
-        self.fields['name'].widget.attrs.update({
-            'placeholder': '이름을 입력해주세요',
-            'class': 'form-control',
-            'id': 'form_name',
-        })
-        self.fields['email'].label = '이메일'
-        self.fields['email'].widget.attrs.update({
-            'placeholder': '이메일을 입력해주세요',
-            'class': 'form-control',
-            'id': 'form_email' 
-        })
-
-
 # 비밀번호 찾기 폼
 class RecoveryPwForm(forms.Form):
     user_id = forms.CharField(widget=forms.TextInput,)
