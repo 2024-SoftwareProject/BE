@@ -143,16 +143,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# 바로 카카오 로그인페이지로 이동
-SOCIALACCOUNT_LOGIN_ON_GET = True
-# 로그인 후 리다이렉트할 페이지
-LOGIN_REDIRECT_URL = 'home'
-# 로그아웃 후 리다이렉트할 페이지
-ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
-# 로그아웃 버튼 클릭 시 자동 로그아웃
-ACCOUNT_LOGOUT_ON_GET = True
-
-
 # email 설정
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.naver.com'
@@ -164,7 +154,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # # [accounts 추가 설정]
-# 이거 안 하면 내가 만든 User모델 못 사용함
+# 이거 안 하면 내가 만든 User모델 못 사용함 //  accounts_app/models.py/class User
 AUTH_USER_MODEL = 'accounts_app.User'
 
 # 인증 방법은 email 통해 진행/ email 회원가입에 필요
@@ -175,4 +165,18 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # get 방식으로 email 인증에 접속했을때 허용
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+# 바로 카카오 로그인페이지로 이동
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+# 로그아웃 후 리다이렉트할 페이지
+ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
+
+# 로그아웃 버튼 클릭 시 자동 로그아웃
+ACCOUNT_LOGOUT_ON_GET = True
+
+# 로그인 후 리다이렉트할 페이지
+LOGIN_REDIRECT_URL = 'home'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

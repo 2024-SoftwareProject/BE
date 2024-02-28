@@ -3,8 +3,8 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import login, logout
+from django.contrib.auth import authenticate, update_session_auth_hash
 from django import forms
 from django.views.generic import CreateView, FormView, TemplateView
 from django.views.generic import View
@@ -65,16 +65,6 @@ class Agreement(View):
     
 
 # 회원가입
-# def signup(request):
-#     if request.method == 'POST':
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('home')
-#     else:
-#         form = UserCreationForm()
-#     context = {'form': form}
-#     return render(request, 'accounts/signup.html', context)
 class signup(CreateView):
     model = User
     template_name = 'accounts/signup.html'
@@ -84,7 +74,6 @@ class signup(CreateView):
         if not request.session.get('agreement', False):
             raise PermissionDenied
         request.session['agreement'] = False
-
         if request.user.is_authenticated:
             return redirect('home')
         
@@ -95,7 +84,6 @@ class signup(CreateView):
     
     def form_valid(self, form):
         self.object = form.save()
-
         send_mail(
             '{}님의 회원가입 인증메일 입니다.'.format(self.object.user_id),
             [self.object.email],
@@ -110,20 +98,40 @@ class signup(CreateView):
 
 
 # 로그인
-def login(request):
-    #로그인 되면 메인으로 리다이렉트
-    if request.user.is_authenticated:
-        return redirect('home')
+@method_decorator(logout_message_required, name='dispatch')
+class login(FormView):
+    template_name = 'accounts/login.html'
+    form_class = LoginForm
+    success_url = 'home'
+
+    def form_valid(self, form):
+        email = form.cleand_data.get("email")
+        password = form.cleaned_data.get("password")
+
+        user = authenticate(self.request, email=email, password=password)
+        if user is not None:
+            self.request.session['email'] = email
+            login(self.request, user)
+
+            remember_session = self.request.POST.get('remember_session',False)
+            if remember_session:
+                settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+        return super().form_valid(form)
+
+
+    # #로그인 되면 메인으로 리다이렉트
+    # if request.user.is_authenticated:
+    #     return redirect('home')
     
-    if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
-        if form.is_valid():
-            auth_login(request, form.get_user())
-            return redirect('home')
-    else:
-        form = AuthenticationForm()
-    context = {'form': form}
-    return render(request, 'accounts/login.html', context)
+    # if request.method == 'POST':
+    #     form = AuthenticationForm(request, request.POST)
+    #     if form.is_valid():
+    #         auth_login(request, form.get_user())
+    #         return redirect('home')
+    # else:
+    #     form = AuthenticationForm()
+    # context = {'form': form}
+    # return render(request, 'accounts/login.html', context)
 
 
 # 로그아웃
