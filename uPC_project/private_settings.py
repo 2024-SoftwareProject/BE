@@ -15,4 +15,4 @@ DATABASES = {
 SECRET_KEY = 'django-insecure-7+1muv^0)9%#-_o@vb4152b$pf!x$*do3e!3x45m1fwa@^^qt8'
 
 # Email smtp
-EMAI_HOST_PASSWORD = 'thdnp@1004'
+EMAIL_HOST_PASSWORD = 'thdnp@1004'

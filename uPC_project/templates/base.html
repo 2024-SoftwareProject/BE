@@ -18,9 +18,11 @@
       <button>Logout</button>
     </form>
     <a href ="{% url 'mypage' %}">mypage</a>
+
     {% else %}
     <a href="{% url 'login' %}">Login</a>
     <a href="{% url 'signup' %}">signup</a>
+    
     {% endif %}
 
     {% block content %}
