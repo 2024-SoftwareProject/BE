@@ -42,7 +42,7 @@ from django.utils.decorators import method_decorator
 
 
 # 회원가입 인증메일 발송 안내 창
-def signup_success(request):
+def Signup_success(request):
     if not request.session.get('signup_auth', False):
         raise PermissionDenied
     request.session['signup_auth'] = False
@@ -68,7 +68,7 @@ class Agreement(View):
     
 
 # 회원가입
-class signup(CreateView):
+class Signup(CreateView):
     model = User
     template_name = 'accounts/signup.html'
     form_class = SignupForm
@@ -81,16 +81,16 @@ class signup(CreateView):
             return redirect('home')
         
     def get_success_url(self):
-        self.requst.session['signup_auth'] = True
+        self.request.session['signup_auth'] = True
         messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다')
         return reverse('accounts:signup_success')
     
     def form_valid(self, form):
         self.object = form.save()
         send_mail(
-            '{}님의 회원가입 인증메일 입니다.'.format(self.object.user_id),
+            '{}님의 회원가입 인증메일 입니다.'.format(self.object.username),
             [self.object.email],
-            html = render('accounts/signup_email.html',{
+            html = render_to_string('accounts/signup_email.html',{
                 'user':self.object,
                 'uid': urlsafe_base64_encode(force_bytes(self.object.pk)).encode().decode(),
                 'domain': self.request.META['HTTP_HOST'],
@@ -102,13 +102,13 @@ class signup(CreateView):
 
 # 로그인
 @method_decorator(logout_message_required, name='dispatch')
-class login(FormView):
+class Login(FormView):
     template_name = 'accounts/login.html'
     form_class = LoginForm
-    success_url = 'home'
+    success_url = '/'
 
     def form_valid(self, form):
-        email = form.cleand_data.get("email")
+        email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
 
         user = authenticate(self.request, email=email, password=password)
@@ -120,7 +120,6 @@ class login(FormView):
             if remember_session:
                 settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
         return super().form_valid(form)
-
 
     # #로그인 되면 메인으로 리다이렉트
     # if request.user.is_authenticated:
@@ -139,15 +138,14 @@ class login(FormView):
 
 # 로그아웃
 @require_POST
-def logout(request):
-    if request.method == 'POST':
-        logout(request)
+def Logout(request):
+    logout(request)
     return redirect('home')
 
 
 # 마이페이지
 @login_message_required
-def mypage(request):
+def Mypage(request):
     if request.method == 'GET':
         return render(request, 'accounts/mypage.html')    
 

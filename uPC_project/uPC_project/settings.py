@@ -126,6 +126,8 @@ TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
 # 디폴트 SITE의 id / 등록을 하지 않으면, 각 요청 시에 host명의 Site 인스턴스를 찾는다 .
@@ -171,7 +173,6 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # 로그아웃 후 리다이렉트할 페이지
 ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
-
 # 로그아웃 버튼 클릭 시 자동 로그아웃
 ACCOUNT_LOGOUT_ON_GET = True
 
@@ -179,4 +180,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 LOGIN_REDIRECT_URL = 'home'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+LOGIN_URL = 'accounts/login'
+LOGOUT_URL = 'accounts/logout'
 

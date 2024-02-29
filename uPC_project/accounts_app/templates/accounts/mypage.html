@@ -9,8 +9,8 @@
     <p>Email: {{ user.email }}</p>
     <p>Name: {{ user.name }}</p>
     <!-- Add more content as needed -->
-    <a href="{% url 'mypage/updateAccount' %}">Update Profile</a>
-    <form action="{% url 'delete' %}" method="POST">
+    <a href="{% url 'update_account' %}">Update Profile</a>
+    <form action="{% url 'delete_account' %}" method="POST">
         {% csrf_token %}
         <button>회원탈퇴</button>
     </form>
