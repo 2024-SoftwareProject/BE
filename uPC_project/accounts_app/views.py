@@ -269,10 +269,9 @@ def auth_pw_reset(request):
 # 이메일 인증 활성화
 def activate(request, uid64, token):
     try:
-        uid = str(urlsafe_base64_decode(uid64))
-        model = get_user_model()
-        current_user = model.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, model.DoesNotExist, ValidationError):
+        uid = urlsafe_base64_decode(uid64).decode('utf-8')
+        current_user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist, ValidationError):
         messages.error(request, '메일 인증에 실패했습니다.')
         return redirect('login')
 
