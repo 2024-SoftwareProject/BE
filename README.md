@@ -19,6 +19,7 @@ django.core.exceptions.ImproperlyConfigured: WSGI application 'uPC.wsgi.applicat
 이것도 db문제랑 연결되는데 db password를 감춰야 해서 gitignore 하면 import private_settings 가 안 되는 문제,,
 
 ==============
+
 ~2/26
 accounts구현
 회원가입 // 닉네임, 비밀번호 2중확인
@@ -33,3 +34,15 @@ accounts구현
 +++ 카카오 api 연동시도했지만 html에 나타나지 않음
 우선, backend에서 할 수 있는 영역은 아님
 front에서 담당 요망
+
+
+===========
+
+~2/29
+accounts 수정 및 html 리드 코드 작성
+로그인
+로그아웃
+회원탈퇴
+회원정보 수정
+비밀번호 변경
+마이페이지
