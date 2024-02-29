@@ -58,10 +58,7 @@ class Agreement(View):
     def post(self, request, *args, **kwarg):
         if request.POST.get('agreement1', False) and request.POST.get('agreement2', False):
             request.session['agreement'] = True
-            if request.POST.get('signup') == 'signup':       
-                return redirect('/accounts/signup/')
-            else:
-                return redirect('/accounts/signup/')
+            return redirect('signup')
         else:
             messages.info(request, "약관에 모두 동의해주세요.")
             return render(request, 'accounts/agreement.html')  
@@ -75,20 +72,25 @@ class Signup(CreateView):
 
     def get(self, request, *args, **kwargs):
         if not request.session.get('agreement', False):
-            raise PermissionDenied
+            return redirect('agreement')
         request.session['agreement'] = False
+    
         if request.user.is_authenticated:
             return redirect('home')
+        
+        # 조건에 맞지 않을 때 어떤 HttpResponse 객체를 반환할지 지정
+        return super().get(request, *args, **kwargs)
         
     def get_success_url(self):
         self.request.session['signup_auth'] = True
         messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다')
-        return reverse('accounts:signup_success')
+        return reverse('signup_success')
     
     def form_valid(self, form):
         self.object = form.save()
+
         send_mail(
-            '{}님의 회원가입 인증메일 입니다.'.format(self.object.username),
+            '[uPC] {}님의 회원가입 인증메일 입니다.'.format(self.object.username),
             [self.object.email],
             html = render_to_string('accounts/signup_email.html',{
                 'user':self.object,
