@@ -19,6 +19,6 @@ urlpatterns=[
     path('mypage/', views.Mypage, name='mypage'),
     path('mypage/editAccount/', views.editAccount, name='edit_account'),
     path('maypage/editPassword/', views.editPassword, name='edit_password'),
-    path('mypage/editAccount/', views.deleteAccount , name='delete_account'),
+    path('mypage/deleteAccount/', views.deleteAccount , name='delete_account'),
     
 ]
