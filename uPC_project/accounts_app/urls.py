@@ -17,7 +17,8 @@ urlpatterns=[
     path('recovery/pw/reset/', views.auth_pw_reset, name='recovery_pw_reset'),
 
     path('mypage/', views.Mypage, name='mypage'),
-    path('mypage/updateAccount/', views.updateAccount, name='update_account'),
-    path('mypage/deleteAccount/', views.deleteAccount , name='delete_account'),
+    path('mypage/editAccount/', views.editAccount, name='edit_account'),
+    path('maypage/editPassword/', views.editPassword, name='edit_password'),
+    path('mypage/editAccount/', views.deleteAccount , name='delete_account'),
     
 ]

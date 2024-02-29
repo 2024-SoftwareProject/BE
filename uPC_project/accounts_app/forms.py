@@ -82,7 +82,15 @@ class CustomUserChangeForm(UserChangeForm):
         attrs={'class': 'form-control', 'maxlength':'20',}), ) 
     class Meta:
         model = get_user_model()
-        fields = ['name']
+        fields = ['username', 'name']
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        user_model = get_user_model()     
+        # 중복 체크
+        if user_model.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError('이미 사용 중인 아이디입니다.')   
+        return username
 
 
 # 회원탈퇴 비밀번호확인 폼

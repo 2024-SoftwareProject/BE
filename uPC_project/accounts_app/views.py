@@ -2,7 +2,7 @@ from django.conf import settings
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login, logout
 from django.contrib.auth import authenticate, update_session_auth_hash
 from django import forms
@@ -121,20 +121,6 @@ class Login(FormView):
                 settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
         return super().form_valid(form)
 
-    # #로그인 되면 메인으로 리다이렉트
-    # if request.user.is_authenticated:
-    #     return redirect('home')
-    
-    # if request.method == 'POST':
-    #     form = AuthenticationForm(request, request.POST)
-    #     if form.is_valid():
-    #         auth_login(request, form.get_user())
-    #         return redirect('home')
-    # else:
-    #     form = AuthenticationForm()
-    # context = {'form': form}
-    # return render(request, 'accounts/login.html', context)
-
 
 # 로그아웃
 @require_POST
@@ -152,17 +138,39 @@ def Mypage(request):
 
 # 계정 수정
 @login_message_required
-def updateAccount(request):
+def editAccount(request):
     if request.method == 'POST':
         user_change_form = CustomUserChangeForm(request.POST, instance=request.user)
+
         if user_change_form.is_valid():
             user_change_form.save()
             messages.success(request, '회원정보가 수정되었습니다')
-            return redirect('accounts/mypage')
+            return redirect('mypage')
+        
     else:
         user_change_form = CustomUserChangeForm(instance=request.user)
+
     context = {'user_change_form':user_change_form}
-    return render(request, 'accounts/update_account.html', context)
+    return render(request, 'accounts/edit_account.html', context)
+
+
+# 비밀번호 수정
+@login_message_required
+def editPassword(request):
+    if request.method == 'POST':
+        password_change_form = CustomPasswordChangeForm(request.user, request.POST)
+
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, '비밀번호가 성공적으로 변경되었습니다')
+            return redirect('mypage')
+        
+    else:
+        password_change_form = CustomPasswordChangeForm(request.user)
+
+    context = {'password_change_form':password_change_form}
+    return render(request, 'accounts/edit_password.html', context)
 
 
 # 회원탈퇴
