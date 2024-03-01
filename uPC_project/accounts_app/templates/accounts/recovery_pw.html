@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% csrf_token %}
+<form method="post" action="{% url 'ajax_pw'%}">
+    <section class="vh-100" style="background-color: #A0A083;">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+              <div class="card text-black" style="border-radius: 25px;">
+                <div class="card-body p-md-5">
+                  <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+  
+                      <h1 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">비밀번호 찾기</h1>
+  
+                      <form class="mx-1 mx-md-4">
+                        <!--입력 칸-->
+
+                        <!--아이디-->
+                        <div class="mb-4 md-form">
+                            <label name="label_user_id" for="{{ form_pw.user_id.id_for_label }}"><i
+                                class="fas fa-user"></i>&nbsp;&nbsp;{{ form_pw.user_id.label }}</label>
+                                {{ form_pw.user_id }}
+                        </div>
+                        <!--이름-->
+                        <div class="mb-4 md-form">
+                            <label name="label_name" for="{{ form_pw.name.id_for_label }}"><i
+                                class="fas fa-user-edit"></i>&nbsp;&nbsp;{{ form_pw.name.label }}</label>
+                                {{ form_pw.name }}
+                        </div>
+                        <!--이메일-->
+                        <div class="mb-4 md-form">
+                            <label name="label_email" for="{{ form_pw.email.id_for_label }}"><i
+                                    class="fas fa-envelope"></i>&nbsp;&nbsp;{{ form_pw.email.label }}</label>
+                                {{ form_pw.email }}
+                            <small class="form-text text-muted">
+                                등록하신 메일로 인증번호가 발송됩니다.
+                            </small>
+                        </div>
+                        <!--확인 버튼-->
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button type="button" class="btn btn-primary btn-lg">확인</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  </form>
+{% endblock %}
