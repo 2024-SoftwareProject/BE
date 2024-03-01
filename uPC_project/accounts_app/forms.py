@@ -114,7 +114,7 @@ class CheckPasswordForm(forms.Form):
 
 # 비밀번호 찾기 폼
 class RecoveryPwForm(forms.Form):
-    user_id = forms.CharField(widget=forms.TextInput,)
+    username = forms.CharField(widget=forms.TextInput,)
     name = forms.CharField(widget=forms.TextInput,)
     email = forms.EmailField(widget=forms.EmailInput,)
 
