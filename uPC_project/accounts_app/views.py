@@ -208,12 +208,14 @@ def ajax_find_pw(request):
     username = request.POST.get('username')
     name = request.POST.get('name')
     email = request.POST.get('email')
-    result_pw = User.objects.get(username=username, name=name, email=email)
+    target_user = User.objects.get(username=username, name=name, email=email)
 
-    if result_pw:
+
+    if target_user:
         auth_num = email_auth_num()
-        result_pw.auth = auth_num
-        result_pw.save()
+        target_user.auth = auth_num
+        # target_user.password = auth_num.encode()
+        target_user.save()
         send_mail(
             '[uPC] 비밀번호 찾기 인증 메일입니다',
             [email],
@@ -221,7 +223,7 @@ def ajax_find_pw(request):
                 'auth_num' : auth_num,
             }))
     return HttpResponse(json.dumps(
-        {"result":result_pw.username}, cls=DjangoJSONEncoder),
+        {"result":target_user.username}, cls=DjangoJSONEncoder),
         content_type="application/json")
 
 
@@ -229,12 +231,12 @@ def ajax_find_pw(request):
 def auth_confirm(request):
     username = request.POST.get('username')
     input_auth_num = request.POST.get('input_auth_num')
-    user = User.objects.get(username=username, auth=input_auth_num)
-    user.auth = ""
-    user.save()
-    request.session['auth'] = user.username
+    target_user = User.objects.get(username=username, auth=input_auth_num)
+    target_user.auth = ""
+    target_user.save()
+    request.session['auth'] = target_user.username
     return HttpResponse(json.dumps(
-        {"result":user.username}, cls=DjangoJSONEncoder),
+        {"result":target_user.username}, cls=DjangoJSONEncoder),
         content_type ="application/json")
 
 
@@ -256,7 +258,7 @@ def auth_pw_reset(request):
             user = reset_password_form.save()
             messages.success(request, "비밀번호 변경완료! 변경된 비밀번호로 로그인하세요")
             logout(request)
-            return redirect('accounts:login')
+            return redirect('login')
         else:
             logout(request)
             request.session['auth'] = session_user

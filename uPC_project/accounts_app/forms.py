@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import check_password
 # 회원가입 폼
 class SignupForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
-        super(SignupForm, self).__init__(*args, **kwargs)
+        super(SignupForm, self).__init__(*args, **kwrgs)
 
         self.fields['username'].label = '아이디'
         self.fields['username'].widget.attrs.update({
