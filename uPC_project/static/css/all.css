@@ -1,0 +1,25 @@
+#menu{
+    top: 55px;
+    float:left;
+    position:fixed; 
+    background-color: red;
+  }
+  ul.main_category{
+    list-style:none;
+  }
+  ul.main_category li{
+    padding: 10px;
+    background-color: #ADBCA5;
+    color: #514444;
+  }
+  ul.main_category ul.sub_menu{
+    left: 200px;
+  }
+  ul.main_category ul.sub_menu li{
+    list-style: none;
+    display:inline-block;
+    
+  }
+  ul.main_category ul.sub_menu li:hover{
+    background-color: white;
+  }
