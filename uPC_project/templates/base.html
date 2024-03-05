@@ -1,4 +1,5 @@
 {% load django_bootstrap5 %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static "css/all.css" %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% bootstrap_javascript %}
 </head>
@@ -55,6 +57,52 @@
         </div>
     </div>
 </nav>
+<div class="btn"></div>
+<div onclick="history.back();" class="page_cover"></div>
+  <div id="menu">
+    <ul class="main_category">
+      <li><a>컴퓨터</a>
+        <ul class="sub_menu">
+          <li><a>컴퓨터 메뉴1</a></li>
+          <li><a>컴퓨터 메뉴2</a></li>
+          <li><a>컴퓨터 메뉴3</a></li>
+          <li><a>컴퓨터 메뉴4</a></li>
+        </ul>
+      </li>
+      
+      <li><a>주변기기</a>
+        <ul class="sub_menu">
+          <li><a>주변기기 메뉴1</a></li>
+          <li><a>주변기기 메뉴2</a></li>
+          <li><a>주변기기 메뉴3</a></li>
+          <li><a>주변기기 메뉴4</a></li>
+        </ul>
+      </li>
+      
+      <li><a>누르면 서브메뉴</a>
+      <ul class="sub_menu">
+        <li><a>서브 메뉴1</a></li>
+        <li><a>서브 메뉴2</a></li>
+        <li><a>서브 메뉴3</a></li>
+        <li><a>서브 메뉴4</a></li>
+      </ul>
+      </li>
+  <div onclick="history.back();" class="close"></div>
+</div>
+<script type="text/javascript">
+  window.onhashchange = function() {
+    if (location.hash != "#open") {
+      $("#menu,.page_cover,html").removeClass("open");
+    }
+  };
+
+  $(document).ready(function(){
+    $("#menu ul.sub_menu").hide();
+    $("#menu ul.main_category li").click(function(){
+      $("ul",this).slideToggle("fast");
+    })
+  })
+</script>
 
 <!-- home_base.html
 <form action="/clawlingApp/search/" method="GET" class="mt-3">
