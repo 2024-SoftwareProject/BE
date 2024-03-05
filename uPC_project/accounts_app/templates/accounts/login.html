@@ -26,8 +26,12 @@
   <script>
     function loginWithKakao() {
       Kakao.Auth.authorize({
+<<<<<<< HEAD
         //여기 redirecturl 추가해야 함
         redirectUri: 'http://127.0.0.1:8000/accounts/kakao/login/callback/',
+=======
+        redirect_uri: {redirect_uri},
+>>>>>>> aad902c6d4d01e7fd429201332534c22d6730735
       });
     }
   
@@ -54,6 +58,25 @@
       var parts = document.cookie.split(name + '=');
       if (parts.length === 2) { return parts[1].split(';')[0]; }
     }
+    $.ajax({
+      type : "POST"
+      , url : 'https://kauth.kakao.com/oauth/token'
+      , data : {
+          grant_type : 'authorization_code',
+          client_id : {client_id},
+          redirect_uri : {redirect_uri},
+          code : {authorize_code}
+      }
+      , contentType:'application/x-www-form-urlencoded;charset=utf-8'
+      , dataType: null
+      , success : function(response) {
+          Kakao.Auth.setAccessToken(response.access_token);
+          document.querySelector('button.api-btn').style.visibility = 'visible';
+      }
+      ,error : function(jqXHR, error) {
+  
+      }
+  });
   </script>
 {% endblock %}
 {% endblock %}
