@@ -27,7 +27,7 @@
     function loginWithKakao() {
       Kakao.Auth.authorize({
         //여기 redirecturl 추가해야 함
-        redirectUri: '',
+        redirectUri: 'http://127.0.0.1:8000/accounts/kakao/login/callback/',
       });
     }
   

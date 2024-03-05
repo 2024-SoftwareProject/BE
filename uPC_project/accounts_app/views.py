@@ -113,7 +113,7 @@ class Login(FormView):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
 
-        user = authenticate(self.request, email=email, password=password)
+        user = authenticate(self.request, email=email, password=password, backend='django.contrib.auth.backends.ModelBackend')
         if user is not None:
             self.request.session['email'] = email
             login(self.request, user)
@@ -249,15 +249,14 @@ def auth_pw_reset(request):
         
     if request.method == "POST":
         session_user = request.session['auth']
-        current_user = User.objects.get(username=session_user)
-        login(request, current_user)
+        current_user = User.objects.get(username = session_user)
 
         reset_password_form = CustomSetPasswordForm(request.user, request.POST)
 
         if reset_password_form.is_valid():
-            user = reset_password_form.save()
+            current_user.set_password(request.POST['new_password1'])
+            current_user.save()
             messages.success(request, "비밀번호 변경완료! 변경된 비밀번호로 로그인하세요")
-            logout(request)
             return redirect('login')
         else:
             logout(request)
@@ -286,5 +285,4 @@ def activate(request, uid64, token):
 
     messages.error(request, '메일 인증에 실패했습니다.')
     return redirect('login')
-
 

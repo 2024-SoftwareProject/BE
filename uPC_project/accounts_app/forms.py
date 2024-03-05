@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import check_password
 # 회원가입 폼
 class SignupForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
-        super(SignupForm, self).__init__(*args, **kwrgs)
+        super(SignupForm, self).__init__(*args, **kwargs)
 
         self.fields['username'].label = '아이디'
         self.fields['username'].widget.attrs.update({
@@ -145,8 +145,8 @@ class RecoveryPwForm(forms.Form):
 
 # 비밀번호찾기 새 비밀번호 입력 폼
 class CustomSetPasswordForm(SetPasswordForm):
-    def __init__(self, *args, **kwargs):
-        super(CustomSetPasswordForm, self).__init__(*args, **kwargs)
+    def __init__(self, user, *args, **kwargs):
+        super(CustomSetPasswordForm, self).__init__(user, *args, **kwargs)
         self.fields['new_password1'].label = '새 비밀번호'
         self.fields['new_password1'].widget.attrs.update({
             'class': 'form-control',

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from products_app.models import Product
 
 # Create your models here
 
@@ -32,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=128, verbose_name="비밀번호")
     name = models.CharField(max_length=8, verbose_name="이름", null=True)
     email = models.EmailField(max_length=254, verbose_name="이메일", null=True, unique=True)
-    whishlist = models.ManyToManyField('products_app.Product', blank=True, related_name='wishlist')
+    whishlist = models.ManyToManyField(Product, blank=True, related_name='wishlist')
 
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
