@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}My Page{% endblock %}
+
+{% block content %}
+<div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                <h2 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Welcome to MyPage</h2>
+                <!-- Display user information or additional content as needed -->
+                <div style="text-align:center; font-size: 30px;">
+                    <p>username: {{ user.username}}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Name: {{ user.name }}</p>
+                </div>
+                
+                <!-- Add more content as needed -->
+                <div style="margin-top: 30px; display: inline-block; text-align: center;">
+                    <a href="{% url 'edit_account' %}">회원 정보 수정</a>
+                    <a href="{% url 'edit_password' %}">비밀번호 수정</a>
+                </div>
+                
+                    
+                <form style="text-align: right; : 10px;" action="{% url 'delete_account' %}" method="POST">
+                    {% csrf_token %}
+                    <button style="margin-top: 50px; color: grey">회원탈퇴</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+    
+{% endblock %}
