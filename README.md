@@ -1,6 +1,8 @@
 # BE
 2024 소프트웨어프로젝트 준비
 
+**clone 할때 DB, migrations files 다 삭제하고 create DB, migation 진행해야함**
+
 ~2/13
 가상환경, django, gitignore, mysql 세팅
 signup(회원가입)로직 구현 (로그인 자체 코드는 금방할 것 같은데 회원 관리 db부터 막힘...)
