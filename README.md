@@ -2,6 +2,7 @@
 2024 소프트웨어프로젝트 준비
 
 **clone 할때 DB, migrations files 다 삭제하고 create DB, migation 진행해야함**
+**그리고 private setting file 자기 db에 맞게 설정 변경**
 
 ~2/13
 가상환경, django, gitignore, mysql 세팅
