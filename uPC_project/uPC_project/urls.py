@@ -24,6 +24,6 @@ urlpatterns = [
     path('', include('uPC_app.urls')),
 
     path('accounts/', include('accounts_app.urls')),
-    # path('accounts/', include('allauth.urls')),
+    path('search', include('products_app.urls')),
 
 ]

@@ -23,3 +23,13 @@
   ul.main_category ul.sub_menu li:hover{
     background-color: white;
   }
+
+  .outer {
+    text-align: center;
+    margin-top: 55px; /* 상단 여백 추가 */
+  }
+  
+  .inner {
+    display: inline-block;
+    text-align: left; /* 내부 텍스트를 왼쪽 정렬로 설정 */
+  }
