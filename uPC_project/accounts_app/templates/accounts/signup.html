@@ -58,11 +58,18 @@
                         <div class="form-outline flex-fill mb-0">
                           {% csrf_token %}
                           {{ form.password2.label_tag }} {{ form.password2 }}
-                          {% if form.password1.errors %}
+                          {% if form.password1.errors or form.password2.errors %}
                             <span class="text-danger">
                               {% for error in form.password1.errors %}
                                 ❗ {{ error }}
                                 {% if not forloop.last %}<br>{% endif %}
+                              {% endfor %}
+
+                              {% for error in form.password2.errors %}
+                                {% if error not in form.password1.errors %}
+                                  ❗ {{ error }}
+                                  {% if not forloop.last %}<br>{% endif %}
+                                {% endif %}
                               {% endfor %}
                             </span>
                           {% endif %}

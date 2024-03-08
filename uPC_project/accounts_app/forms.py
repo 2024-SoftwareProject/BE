@@ -50,16 +50,6 @@ class SignupForm(UserCreationForm):
         user.is_active = False
         user.save()
         return user
-    
-    def clean_password1(self):
-        password1 = self.cleaned_data.get('password1')
-        try:
-            validate_password(password1)
-        except forms.ValidationError as e:
-            for error in e.error_list:
-                self.add_error('password1', error)
-            raise e
-        return password1
 
 
 # 로그인 폼

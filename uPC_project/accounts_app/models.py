@@ -19,7 +19,8 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         
         user.email_confirmed = True
-        user.save(using=self.db)
+        user.save(using=self._db)
+
         return user
     
     def create_superuser(self, username, password, name=None, email=None, auth=None):

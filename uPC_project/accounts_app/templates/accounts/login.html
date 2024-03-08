@@ -15,13 +15,13 @@
                   {% csrf_token %} {{ form.as_p }}
                   <button type="submit" class = "btn btn-primary btn-lg" style="margin-top: 20px; display: inline; float:right; text-align: right;">로그인하기</button>
                   
-                  <!-- {% if messages %}
+                  {% if messages %}
                     <div class="alert alert-info" role="alert">
                       {% for message in messages %}
                         {{ message }}
                       {% endfor %}
                     </div>
-                  {% endif %} -->
+                  {% endif %}
                   
                   <div class="text-right p-t-8 p-b-31">
                     <a style="display:inline;" href="{% url 'recovery_pw' %}">

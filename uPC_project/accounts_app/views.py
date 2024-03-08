@@ -115,7 +115,6 @@ class Login(FormView):
 
         user = authenticate(self.request, email=email, password=password, backend='django.contrib.auth.backends.ModelBackend')
         if user is not None:
-
             if user.email_confirmed:
                 self.request.session['email'] = email
                 login(self.request, user)
@@ -125,21 +124,24 @@ class Login(FormView):
                     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
             else:
                 self.send_verification_email(user)
-                messages.error(self.request, '이메일 인증 후에 로그인이 가능합니다')
+                messages.error(self.request, '이메일 인증 후 로그인 해 주세요')
                 return redirect('login')
+            # authenticate에서는 이메일인증 안 되면 user = None이라 반환.. 자체 백에드 제작 필요..나중에..시도..
         else:
-            messages.error(self.request, '이메일 또는 비밀번호가 올바르지 않습니다')
+            messages.error(self.request, '이메일 또는 비밀번호가 올바르지 않거나 이메일 인증이 완료되지 않았습니다')
+            return redirect('login')
+        
         return super().form_valid(form)
     
-    def send_varification_email(self):
+    def send_verification_email(self, user):
         send_mail(
-            '[uPC] {}님의 회원가입 인증메일 입니다.'.format(self.object.username),
-            [self.object.email],
+            '[uPC] {}님의 회원가입 인증메일 입니다.'.format(user.username),
+            [user.email],
             html = render_to_string('accounts/signup_email.html',{
-                'user':self.object,
-                'uid': urlsafe_base64_encode(force_bytes(self.object.pk)).encode().decode(),
+                'user': user,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)).encode().decode(),
                 'domain': self.request.META['HTTP_HOST'],
-                'token': default_token_generator.make_token(self.object),
+                'token': default_token_generator.make_token(user),
             }),
         )
 
@@ -297,6 +299,7 @@ def activate(request, uid64, token):
         return redirect('login')
 
     if default_token_generator.check_token(current_user, token):
+        current_user.email_confirmed = True
         current_user.is_active = True
         current_user.save()
 
