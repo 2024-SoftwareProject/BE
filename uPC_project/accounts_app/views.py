@@ -115,13 +115,33 @@ class Login(FormView):
 
         user = authenticate(self.request, email=email, password=password, backend='django.contrib.auth.backends.ModelBackend')
         if user is not None:
-            self.request.session['email'] = email
-            login(self.request, user)
 
-            remember_session = self.request.POST.get('remember_session',False)
-            if remember_session:
-                settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+            if user.email_confirmed:
+                self.request.session['email'] = email
+                login(self.request, user)
+
+                remember_session = self.request.POST.get('remember_session',False)
+                if remember_session:
+                    settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+            else:
+                self.send_verification_email(user)
+                messages.error(self.request, '이메일 인증 후에 로그인이 가능합니다')
+                return redirect('login')
+        else:
+            messages.error(self.request, '이메일 또는 비밀번호가 올바르지 않습니다')
         return super().form_valid(form)
+    
+    def send_varification_email(self):
+        send_mail(
+            '[uPC] {}님의 회원가입 인증메일 입니다.'.format(self.object.username),
+            [self.object.email],
+            html = render_to_string('accounts/signup_email.html',{
+                'user':self.object,
+                'uid': urlsafe_base64_encode(force_bytes(self.object.pk)).encode().decode(),
+                'domain': self.request.META['HTTP_HOST'],
+                'token': default_token_generator.make_token(self.object),
+            }),
+        )
 
 
 # 로그아웃

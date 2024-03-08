@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, UserCreationForm
 from django.contrib.auth.forms import SetPasswordForm, PasswordChangeForm
+from django.contrib.auth.password_validation import validate_password
 
 from .models import User
 from django.contrib.auth import get_user_model
@@ -32,7 +33,7 @@ class SignupForm(UserCreationForm):
         self.fields['email'].label = '이메일'
         self.fields['email'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': '회원가입 후 입력하신 메일로 본인인증 메일이 전송됩니다',
+            'placeholder': '입력하신 메일로 본인인증 메일이 전송됩니다',
         })
         self.fields['name'].label = '이름'
         self.fields['name'].widget.attrs.update({
@@ -49,6 +50,16 @@ class SignupForm(UserCreationForm):
         user.is_active = False
         user.save()
         return user
+    
+    def clean_password1(self):
+        password1 = self.cleaned_data.get('password1')
+        try:
+            validate_password(password1)
+        except forms.ValidationError as e:
+            for error in e.error_list:
+                self.add_error('password1', error)
+            raise e
+        return password1
 
 
 # 로그인 폼
