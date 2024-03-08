@@ -1,82 +1,154 @@
 {% load django_bootstrap5 %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% bootstrap_css %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-  </head>
-  <body class="pt-5">
-    <div class="container">
-      {% if user.is_authenticated %}
-      <p>{{ user }}님, 안녕하세요.</p>
-      <form action="{% url 'logout' %}" method="POST">
-        {% csrf_token %}
-        <button>Logout</button>
-      </form>
-      <a href="{% url 'mypage' %}">mypage</a>
-
-      {% else %}
-
-      <nav
-        class="navbar navbar-expand-lg bg-body-tertiary navbar-expand-md navbar-dark bg-dark fixed-top"
-        style="padding: 12px"
-      >
-        <div class="container-fluid">
-          <div
-            class="collapse navbar-collapse justify-content-between"
-            id="collapsibleNavbar"
-          >
-            <ul class="navbar-nav">
-              <a class="navbar-brand" href="/">uPC</a>
-              <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span class="navbar-toggler-icon"></span>
-              </button>
-            </ul>
-
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#">판매하기</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">핫이슈</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">추천</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">게시판</a>
-              </li>
-            </ul>
-
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#">마이페이지</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}">로그인</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'signup' %}">회원가입</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      {% endif %} {% block content %} {% endblock %}
-    </div>
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static "css/all.css" %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% bootstrap_javascript %}
-  </body>
+
+    <style>
+      .outer {
+          text-align: center; 
+      }
+  </style>
+
+
+</head>
+<body class="pt-5">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">uPC</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">판매하기</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">핫이슈</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">추천</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'mypage' %}">마이페이지</a>
+                </li>
+            </ul>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">로그인</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'signup' %}">회원가입</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% if user.is_authenticated %}
+            <form class="form-inline" action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button class="btn btn-sm btn-outline-secondary" type="submit">Logout</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+
+<p> </p>
+
+
+
+<div class="outer"> <!-- 중앙 정렬을 원하는 부분 -->
+  <div class="inner">
+      <section>
+          <h3>아래 검색창에 검색할 항목을 넣으세요</h3>
+          <form action="/search" method="GET">
+              <div class="search">
+                  <input type="text" name="query" value="">
+                  <button type="submit">검색</button>
+              </div>
+          </form>
+      </section>
+  </div>
+</div>
+
+
+
+
+<div class="btn"></div>
+<div onclick="history.back();" class="page_cover"></div>
+  <div id="menu">
+    <ul class="main_category">
+      <li><a>컴퓨터</a>
+        <ul class="sub_menu">
+          <li><a>컴퓨터 메뉴1</a></li>
+          <li><a>컴퓨터 메뉴2</a></li>
+          <li><a>컴퓨터 메뉴3</a></li>
+          <li><a>컴퓨터 메뉴4</a></li>
+        </ul>
+      </li>
+      
+      <li><a>주변기기</a>
+        <ul class="sub_menu">
+          <li><a>주변기기 메뉴1</a></li>
+          <li><a>주변기기 메뉴2</a></li>
+          <li><a>주변기기 메뉴3</a></li>
+          <li><a>주변기기 메뉴4</a></li>
+        </ul>
+      </li>
+      
+      <li><a>누르면 서브메뉴</a>
+      <ul class="sub_menu">
+        <li><a>서브 메뉴1</a></li>
+        <li><a>서브 메뉴2</a></li>
+        <li><a>서브 메뉴3</a></li>
+        <li><a>서브 메뉴4</a></li>
+      </ul>
+      </li>
+  <div onclick="history.back();" class="close"></div>
+</div>
+<script type="text/javascript">
+  window.onhashchange = function() {
+    if (location.hash != "#open") {
+      $("#menu,.page_cover,html").removeClass("open");
+    }
+  };
+
+  $(document).ready(function(){
+    $("#menu ul.sub_menu").hide();
+    $("#menu ul.main_category li").click(function(){
+      $("ul",this).slideToggle("fast");
+    })
+  })
+</script>
+
+<!-- home_base.html
+<form action="/clawlingApp/search/" method="GET" class="mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="input-group">
+          <input type="text" class="form-control" name="query" placeholder="검색어를 입력하세요">
+          <button class="btn btn-outline-secondary" type="submit">검색</button>
+      </div>
+    </div>
+  </div>
+</form> -->
+
+{% block content %}
+{% endblock %}
+
+</body>
 </html>

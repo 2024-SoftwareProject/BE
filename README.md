@@ -1,6 +1,13 @@
 # BE
 2024 소프트웨어프로젝트 준비
 
+===========
+
+**clone 할때 DB, migrations files 다 삭제하고 create DB, migation 진행해야함**
+**그리고 private setting file 자기 db에 맞게 설정 변경**
+
+===========
+
 ~2/13
 가상환경, django, gitignore, mysql 세팅
 signup(회원가입)로직 구현 (로그인 자체 코드는 금방할 것 같은데 회원 관리 db부터 막힘...)
@@ -18,7 +25,7 @@ django.core.exceptions.ImproperlyConfigured: WSGI application 'uPC.wsgi.applicat
 *gitignore문제
 이것도 db문제랑 연결되는데 db password를 감춰야 해서 gitignore 하면 import private_settings 가 안 되는 문제,,
 
-==============
+===========
 
 ~2/26
 accounts구현
@@ -35,7 +42,6 @@ accounts구현
 우선, backend에서 할 수 있는 영역은 아님
 front에서 담당 요망
 
-
 ===========
 
 ~2/29
@@ -46,3 +52,8 @@ accounts 수정 및 html 리드 코드 작성
 회원정보 수정
 비밀번호 변경
 마이페이지
+
+===========
+
+~ 3/8
+accounts_app, product_app 통합

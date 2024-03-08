@@ -61,7 +61,6 @@ INSTALLED_APPS = [
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
@@ -176,6 +175,8 @@ ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
 # 로그아웃 버튼 클릭 시 자동 로그아웃
 ACCOUNT_LOGOUT_ON_GET = True
 
+ACCOUNT_PASSWORD_RESET_ON_GET = True
+
 # 로그인 후 리다이렉트할 페이지
 LOGIN_REDIRECT_URL = 'home'
 
@@ -184,3 +185,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 LOGIN_URL = 'accounts/login'
 LOGOUT_URL = 'accounts/logout'
 
+
+# session 만료 시간 3시간
+SESSION_COOKIE_AGE = 10800

@@ -113,15 +113,37 @@ class Login(FormView):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
 
-        user = authenticate(self.request, email=email, password=password)
+        user = authenticate(self.request, email=email, password=password, backend='django.contrib.auth.backends.ModelBackend')
         if user is not None:
-            self.request.session['email'] = email
-            login(self.request, user)
+            if user.email_confirmed:
+                self.request.session['email'] = email
+                login(self.request, user)
 
-            remember_session = self.request.POST.get('remember_session',False)
-            if remember_session:
-                settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+                remember_session = self.request.POST.get('remember_session',False)
+                if remember_session:
+                    settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+            else:
+                self.send_verification_email(user)
+                messages.error(self.request, '이메일 인증 후 로그인 해 주세요')
+                return redirect('login')
+            # authenticate에서는 이메일인증 안 되면 user = None이라 반환.. 자체 백에드 제작 필요..나중에..시도..
+        else:
+            messages.error(self.request, '이메일 또는 비밀번호가 올바르지 않거나 이메일 인증이 완료되지 않았습니다')
+            return redirect('login')
+        
         return super().form_valid(form)
+    
+    def send_verification_email(self, user):
+        send_mail(
+            '[uPC] {}님의 회원가입 인증메일 입니다.'.format(user.username),
+            [user.email],
+            html = render_to_string('accounts/signup_email.html',{
+                'user': user,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)).encode().decode(),
+                'domain': self.request.META['HTTP_HOST'],
+                'token': default_token_generator.make_token(user),
+            }),
+        )
 
 
 # 로그아웃
@@ -208,12 +230,14 @@ def ajax_find_pw(request):
     username = request.POST.get('username')
     name = request.POST.get('name')
     email = request.POST.get('email')
-    result_pw = User.objects.get(username=username, name=name, email=email)
+    target_user = User.objects.get(username=username, name=name, email=email)
 
-    if result_pw:
+
+    if target_user:
         auth_num = email_auth_num()
-        result_pw.auth = auth_num
-        result_pw.save()
+        target_user.auth = auth_num
+        # target_user.password = auth_num.encode()
+        target_user.save()
         send_mail(
             '[uPC] 비밀번호 찾기 인증 메일입니다',
             [email],
@@ -221,7 +245,7 @@ def ajax_find_pw(request):
                 'auth_num' : auth_num,
             }))
     return HttpResponse(json.dumps(
-        {"result":result_pw.username}, cls=DjangoJSONEncoder),
+        {"result":target_user.username}, cls=DjangoJSONEncoder),
         content_type="application/json")
 
 
@@ -229,12 +253,12 @@ def ajax_find_pw(request):
 def auth_confirm(request):
     username = request.POST.get('username')
     input_auth_num = request.POST.get('input_auth_num')
-    user = User.objects.get(username=username, auth=input_auth_num)
-    user.auth = ""
-    user.save()
-    request.session['auth'] = user.username
+    target_user = User.objects.get(username=username, auth=input_auth_num)
+    target_user.auth = ""
+    target_user.save()
+    request.session['auth'] = target_user.username
     return HttpResponse(json.dumps(
-        {"result":user.username}, cls=DjangoJSONEncoder),
+        {"result":target_user.username}, cls=DjangoJSONEncoder),
         content_type ="application/json")
 
 
@@ -247,16 +271,15 @@ def auth_pw_reset(request):
         
     if request.method == "POST":
         session_user = request.session['auth']
-        current_user = User.objects.get(username=session_user)
-        login(request, current_user)
+        current_user = User.objects.get(username = session_user)
 
         reset_password_form = CustomSetPasswordForm(request.user, request.POST)
 
         if reset_password_form.is_valid():
-            user = reset_password_form.save()
+            current_user.set_password(request.POST['new_password1'])
+            current_user.save()
             messages.success(request, "비밀번호 변경완료! 변경된 비밀번호로 로그인하세요")
-            logout(request)
-            return redirect('accounts:login')
+            return redirect('login')
         else:
             logout(request)
             request.session['auth'] = session_user
@@ -276,6 +299,7 @@ def activate(request, uid64, token):
         return redirect('login')
 
     if default_token_generator.check_token(current_user, token):
+        current_user.email_confirmed = True
         current_user.is_active = True
         current_user.save()
 
@@ -284,5 +308,4 @@ def activate(request, uid64, token):
 
     messages.error(request, '메일 인증에 실패했습니다.')
     return redirect('login')
-
 

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p style="padding-left: 130px;">검색 결과 입니다!</p>
+    <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
+        {% for product in page_obj %}
+            <div style="border: 1px solid #ccc;">
+                <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto;" alt="Product Image">
+                <h6>{{ product.Pd_Name }}</h6>
+                <a href="{{ product.Pd_URL }}"> 링크는 이쪽 !</a>
+                <p>Market: {{ product.Pd_Market }}</p>
+                <p>Category: {{ product.Pd_Category }}</p>
+                <p>Price: {{ product.Pd_Price }} 원 </p>
+            </div>
+        {% empty %}
+            <p>No results found.</p>
+        {% endfor %}
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col" style="text-align: center;">
+            {% if page_obj.has_previous %}
+                <a href="?query={{ request.GET.query }}&page=1" class="btn btn-outline-secondary">First</a>
+                <a href="?query={{ request.GET.query }}&page={{ page_obj.previous_page_number }}" class="btn btn-outline-secondary">Previous</a>
+            {% endif %}
+            </div>
+            <div class="col-6" style="text-align: center;">
+                <span class="mx-auto">{{page_obj.number}} of {{page_obj.paginator.num_pages}}</span>
+            </div>
+            <div class="col" style="text-align: center;">
+                {% if page_obj.has_next %}
+                    <a href="?query={{ request.GET.query }}&page={{ page_obj.next_page_number }}" class="btn btn-outline-secondary">Next</a>
+                    <a href="?query={{ request.GET.query }}&page={{page_obj.paginator.num_pages}}" class="btn btn-outline-secondary">Last</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
