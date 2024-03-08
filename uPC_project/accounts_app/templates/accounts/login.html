@@ -14,10 +14,20 @@
                   
                   {% csrf_token %} {{ form.as_p }}
                   <button type="submit" class = "btn btn-primary btn-lg" style="margin-top: 20px; display: inline; float:right; text-align: right;">로그인하기</button>
+                  
+                  <!-- {% if messages %}
+                    <div class="alert alert-info" role="alert">
+                      {% for message in messages %}
+                        {{ message }}
+                      {% endfor %}
+                    </div>
+                  {% endif %} -->
+                  
                   <div class="text-right p-t-8 p-b-31">
                     <a style="display:inline;" href="{% url 'recovery_pw' %}">
                       비밀번호 찾기
                     </a>
+
                   </div>
                   <div id="kakao-login" style="position: relative; padding-top: 100px;text-align: center;">
                     <a id="kakao-login-btn" href="javascript:loginWithKakao()">

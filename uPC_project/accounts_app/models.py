@@ -17,6 +17,9 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save(using=self._db)
+        
+        user.email_confirmed = True
+        user.save(using=self.db)
         return user
     
     def create_superuser(self, username, password, name=None, email=None, auth=None):
@@ -27,8 +30,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin):
-    
+class User(AbstractBaseUser, PermissionsMixin): 
     username = models.CharField(max_length=20, verbose_name="아이디", unique=True)
     password = models.CharField(max_length=128, verbose_name="비밀번호")
     name = models.CharField(max_length=8, verbose_name="이름", null=True)
@@ -41,6 +43,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name="가입일", blank=True)
 
     auth = models.CharField(max_length=10, verbose_name="인증번호", null=True)
+    email_confirmed = models.BooleanField(default=False, verbose_name="이메일 확인 여부")
+
     groups = models.ManyToManyField('auth.Group', related_name='user_accounts', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='user_accounts', blank=True)
 
