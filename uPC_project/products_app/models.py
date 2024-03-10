@@ -12,4 +12,4 @@ class Product(models.Model):
     Pd_URL = models.CharField(max_length=300)
 
     class Meta:
-        db_table = 'Product'
+        db_table = 'product'

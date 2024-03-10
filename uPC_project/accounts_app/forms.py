@@ -178,3 +178,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         self.fields['new_password2'].widget.attrs.update({
             'class': 'form-control',
         })
+
+
+class WishlistForm(forms.Form):
+    Pd_IndexNumber = forms.IntegerField(widget=forms.HiddenInput())

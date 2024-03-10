@@ -44,20 +44,20 @@
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'mypage' %}">마이페이지</a>
+                  <a class="nav-link" href="{% url 'accounts_app:mypage' %}">마이페이지</a>
                 </li>
             </ul>
                 {% else %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'login' %}">로그인</a>
+                  <a class="nav-link" href="{% url 'accounts_app:login' %}">로그인</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'signup' %}">회원가입</a>
+                  <a class="nav-link" href="{% url 'accounts_app:signup' %}">회원가입</a>
                 </li>
                 {% endif %}
             </ul>
             {% if user.is_authenticated %}
-            <form class="form-inline" action="{% url 'logout' %}" method="post">
+            <form class="form-inline" action="{% url 'accounts_app:logout' %}" method="post">
               {% csrf_token %}
               <button class="btn btn-sm btn-outline-secondary" type="submit">Logout</button>
             </form>

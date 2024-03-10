@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 
+app_name = 'accounts_app'
+
 urlpatterns=[
     
     path('login/', views.Login.as_view(), name='login'),
@@ -22,4 +24,5 @@ urlpatterns=[
     path('maypage/editPassword/', views.editPassword, name='edit_password'),
     path('mypage/deleteAccount/', views.deleteAccount , name='delete_account'),
     
+    path('add_to_wishlist/<int:Pd_IndexNumber>/', views.add_to_wishlist, name='add_to_wishlist'),
 ]
