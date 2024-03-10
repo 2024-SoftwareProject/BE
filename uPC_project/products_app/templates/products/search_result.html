@@ -11,6 +11,15 @@
                 <p>Market: {{ product.Pd_Market }}</p>
                 <p>Category: {{ product.Pd_Category }}</p>
                 <p>Price: {{ product.Pd_Price }} 원 </p>
+                <form method="post" action="{% url 'accounts_app:add_to_wishlist' product.Pd_IndexNumber %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if user.is_authenticated %}
+                        <button type="submit">Add to Wishlist</button>
+                    {% else %}
+                        <p>Please <a href="{% url 'accounts_app:login' %}">login</a> to add to your wishlist.</p>
+                    {% endif %}
+                </form>
             </div>
         {% empty %}
             <p>No results found.</p>

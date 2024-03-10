@@ -28,11 +28,14 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.exceptions import PermissionDenied
 from django.core.exceptions import ValidationError
 
-from .models import User
+from .models import User, Wishlist
+from products_app.models import Product
+
 from .forms import SignupForm, LoginForm
 from .forms import CustomUserChangeForm, CheckPasswordForm
 from .forms import RecoveryPwForm
 from .forms import CustomPasswordChangeForm, CustomSetPasswordForm
+from .forms import WishlistForm
 
 from .helper import send_mail, email_auth_num
 from .decorators import login_message_required, admin_required, logout_message_required
@@ -58,7 +61,7 @@ class Agreement(View):
     def post(self, request, *args, **kwarg):
         if request.POST.get('agreement1', False) and request.POST.get('agreement2', False):
             request.session['agreement'] = True
-            return redirect('signup')
+            return redirect('accounts_app:signup')
         else:
             messages.info(request, "약관에 모두 동의해주세요.")
             return render(request, 'accounts/agreement.html')  
@@ -72,11 +75,11 @@ class Signup(CreateView):
 
     def get(self, request, *args, **kwargs):
         if not request.session.get('agreement', False):
-            return redirect('agreement')
+            return redirect('accounts_app:agreement')
         request.session['agreement'] = False
     
         if request.user.is_authenticated:
-            return redirect('home')
+            return redirect('accounts_app:home')
         
         # 조건에 맞지 않을 때 어떤 HttpResponse 객체를 반환할지 지정
         return super().get(request, *args, **kwargs)
@@ -84,7 +87,7 @@ class Signup(CreateView):
     def get_success_url(self):
         self.request.session['signup_auth'] = True
         messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다')
-        return reverse('signup_success')
+        return reverse('accounts_app:signup_success')
     
     def form_valid(self, form):
         self.object = form.save()
@@ -125,11 +128,11 @@ class Login(FormView):
             else:
                 self.send_verification_email(user)
                 messages.error(self.request, '이메일 인증 후 로그인 해 주세요')
-                return redirect('login')
+                return redirect('accounts_app:login')
             # authenticate에서는 이메일인증 안 되면 user = None이라 반환.. 자체 백에드 제작 필요..나중에..시도..
         else:
             messages.error(self.request, '이메일 또는 비밀번호가 올바르지 않거나 이메일 인증이 완료되지 않았습니다')
-            return redirect('login')
+            return redirect('accounts_app:login')
         
         return super().form_valid(form)
     
@@ -157,7 +160,9 @@ def Logout(request):
 @login_message_required
 def Mypage(request):
     if request.method == 'GET':
-        return render(request, 'accounts/mypage.html')    
+        user_wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+        wishlist_products = user_wishlist.products.all()
+        return render(request, 'accounts/mypage.html', {'wishlist_products': wishlist_products})    
 
 
 # 계정 수정
@@ -169,7 +174,7 @@ def editAccount(request):
         if user_change_form.is_valid():
             user_change_form.save()
             messages.success(request, '회원정보가 수정되었습니다')
-            return redirect('mypage')
+            return redirect('accounts_app:mypage')
         
     else:
         user_change_form = CustomUserChangeForm(instance=request.user)
@@ -188,7 +193,7 @@ def editPassword(request):
             user = password_change_form.save()
             update_session_auth_hash(request, user)
             messages.success(request, '비밀번호가 성공적으로 변경되었습니다')
-            return redirect('mypage')
+            return redirect('accounts_app:mypage')
         
     else:
         password_change_form = CustomPasswordChangeForm(request.user)
@@ -296,7 +301,7 @@ def activate(request, uid64, token):
         current_user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist, ValidationError):
         messages.error(request, '메일 인증에 실패했습니다.')
-        return redirect('login')
+        return redirect('accounts_app:login')
 
     if default_token_generator.check_token(current_user, token):
         current_user.email_confirmed = True
@@ -304,8 +309,19 @@ def activate(request, uid64, token):
         current_user.save()
 
         messages.info(request, '메일 인증이 완료 되었습니다. 회원가입을 축하드립니다!')
-        return redirect('login')
+        return redirect('accounts_app:login')
 
     messages.error(request, '메일 인증에 실패했습니다.')
-    return redirect('login')
+    return redirect('accounts_app:login')
+
+
+@login_message_required
+def add_to_wishlist(request, Pd_IndexNumber):
+    # 사용자의 wishlist 가져오기 또는 생성
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+
+    product = Product.objects.get(Pd_IndexNumber=Pd_IndexNumber)
+    wishlist.add_to_wishlist(product)
+    messages.success(request, f'{product.Pd_Name} has been added to your wishlist.')
+    return redirect('accounts_app:mypage')
 

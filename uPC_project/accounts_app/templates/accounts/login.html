@@ -10,7 +10,7 @@
           <div class="row justify-content-center">
             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
               <h1 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">로그인</h1>
-                <form method="post" action="{% url 'login' %}">
+                <form method="post" action="{% url 'accounts_app:login' %}">
                   
                   {% csrf_token %} {{ form.as_p }}
                   <button type="submit" class = "btn btn-primary btn-lg" style="margin-top: 20px; display: inline; float:right; text-align: right;">로그인하기</button>
@@ -24,7 +24,7 @@
                   {% endif %}
                   
                   <div class="text-right p-t-8 p-b-31">
-                    <a style="display:inline;" href="{% url 'recovery_pw' %}">
+                    <a style="display:inline;" href="{% url 'accounts_app:recovery_pw' %}">
                       비밀번호 찾기
                     </a>
 
@@ -39,7 +39,7 @@
                   <div class="flex-col-c p-t-155">
                     <span style="padding-top:20px; text-align: center;" class="row justify-content-md-center">
                       <p style="padding:10px;">계정이 없으신가요?</p>
-                      <a href="{% url 'signup' %}">회원가입</button>
+                      <a href="{% url 'accounts_app:signup' %}">회원가입</button>
                     </span>
                     
                   </div>

@@ -36,7 +36,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=128, verbose_name="비밀번호")
     name = models.CharField(max_length=8, verbose_name="이름", null=True)
     email = models.EmailField(max_length=254, verbose_name="이메일", null=True, unique=True)
-    whishlist = models.ManyToManyField(Product, blank=True, related_name='wishlist')
 
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -61,4 +60,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_table = "회원목록"
         verbose_name = "사용자"
         verbose_name_plural = "사용자"
-    
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, blank=True, related_name='wishlist')
+
+    def add_to_wishlist(self, product):
+        self.products.add(product)
+
+    def remove_from_wishlist(self, product):
+        self.products.remove(product)
+
+    class Meta:
+        db_table = "wishlist"
+        verbose_name = "wishlist"
+        verbose_name_plural = "wishlist"

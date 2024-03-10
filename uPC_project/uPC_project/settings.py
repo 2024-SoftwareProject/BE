@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     # pip install django-bootstrap5
     'django_bootstrap5',
+    # pip install django-wishlist
+    # 'wishlist',
 
     # allauth
     'allauth',
@@ -89,6 +91,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'wishlist.context_processors.wishlist_items',
             ],
         },
     },
@@ -184,6 +187,10 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 LOGIN_URL = 'accounts/login'
 LOGOUT_URL = 'accounts/logout'
+
+
+# wishlist
+WISHLIST_ITEM_MODEL = 'proudcts_app.Product'
 
 
 # session 만료 시간 3시간
