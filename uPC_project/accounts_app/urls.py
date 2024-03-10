@@ -25,4 +25,6 @@ urlpatterns=[
     path('mypage/deleteAccount/', views.deleteAccount , name='delete_account'),
     
     path('add_to_wishlist/<int:Pd_IndexNumber>/', views.add_to_wishlist, name='add_to_wishlist'),
+    path('remove_from_wishlist/<int:Pd_IndexNumber>', views.remove_from_wishlist, name='remove_from_wishlist'),
+    
 ]

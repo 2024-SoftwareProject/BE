@@ -35,6 +35,7 @@
     </div>
 </div>
 
+<!-- wishlist 추가 사항 -->
 <h2>My Wishlist</h2>
   {% if wishlist_products %}
   <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
@@ -46,6 +47,14 @@
         <p>Market: {{ product.Pd_Market }}</p>
         <p>Category: {{ product.Pd_Category }}</p>
         <p>Price: {{ product.Pd_Price }} 원 </p>
+
+        <!-- wishlist 삭제 버튼 -->
+        <form method="post" action="{% url 'accounts_app:remove_from_wishlist' product.Pd_IndexNumber %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">remove_from_Wishlist</button>
+      </form>
+
     </div>
     {% endfor %}
   </div>

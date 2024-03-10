@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login, logout
@@ -127,11 +127,10 @@ class Login(FormView):
                     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
             else:
                 self.send_verification_email(user)
-                messages.error(self.request, '이메일 인증 후 로그인 해 주세요')
+                messages.error(self.request, '새로운 인증 메일이 전송되었습니다. 이메일 인증 후 로그인 해 주세요')
                 return redirect('accounts_app:login')
-            # authenticate에서는 이메일인증 안 되면 user = None이라 반환.. 자체 백에드 제작 필요..나중에..시도..
         else:
-            messages.error(self.request, '이메일 인증이 완료되지 않았습니다')
+            messages.error(self.request, '이메일 인증 후 로그인 해 주세요')
             return redirect('accounts_app:login')
         
         return super().form_valid(form)
@@ -284,7 +283,7 @@ def auth_pw_reset(request):
             current_user.set_password(request.POST['new_password1'])
             current_user.save()
             messages.success(request, "비밀번호 변경완료! 변경된 비밀번호로 로그인하세요")
-            return redirect('login')
+            return redirect('accounts_app:login')
         else:
             logout(request)
             request.session['auth'] = session_user
@@ -322,6 +321,21 @@ def add_to_wishlist(request, Pd_IndexNumber):
 
     product = Product.objects.get(Pd_IndexNumber=Pd_IndexNumber)
     wishlist.add_to_wishlist(product)
-    messages.success(request, f'{product.Pd_Name} has been added to your wishlist.')
+    messages.success(request, f'{product.Pd_Name} 당신의 wishlist에 추가되었습니다')
     return redirect('accounts_app:mypage')
 
+
+@login_message_required
+def remove_from_wishlist(request, Pd_IndexNumber):
+    # 사용자의 wishlist 가져오기 또는 생성
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+
+    product = get_object_or_404(Product, Pd_IndexNumber=Pd_IndexNumber)
+
+    if product in wishlist.products.all():
+        wishlist.remove_from_wishlist(product)
+        messages.success(request, f'{product.Pd_Name} 당신의 wishlist에서 삭제되었습니다')
+    else:
+        messages.success(request, f'{product.Pd_Name} 당신의 wishlist에 존재하지 않습니다')
+
+    return redirect('accounts_app:mypage')
