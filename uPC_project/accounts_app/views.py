@@ -131,7 +131,7 @@ class Login(FormView):
                 return redirect('accounts_app:login')
             # authenticate에서는 이메일인증 안 되면 user = None이라 반환.. 자체 백에드 제작 필요..나중에..시도..
         else:
-            messages.error(self.request, '이메일 또는 비밀번호가 올바르지 않거나 이메일 인증이 완료되지 않았습니다')
+            messages.error(self.request, '이메일 인증이 완료되지 않았습니다')
             return redirect('accounts_app:login')
         
         return super().form_valid(form)
