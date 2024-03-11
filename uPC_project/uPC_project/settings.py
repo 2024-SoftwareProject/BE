@@ -16,7 +16,7 @@ SECRET_KEY = private_settings.SECRET_KEY
 
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'accounts_app',
     'uPC_app',
     'products_app',
+    'board_app',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -188,6 +189,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 LOGIN_URL = 'accounts/login'
 LOGOUT_URL = 'accounts/logout'
 
+#게시판 이미지 저장 경로 설정
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # wishlist
 WISHLIST_ITEM_MODEL = 'proudcts_app.Product'
