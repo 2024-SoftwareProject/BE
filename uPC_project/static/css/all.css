@@ -1,3 +1,32 @@
+/*google font import*/
+.kaisei-decol-regular {
+  font-family: "Kaisei Decol", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.kaisei-decol-bold {
+  font-family: "Kaisei Decol", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.accounts-nav{
+  width: 100%; 
+  display: inline-block;
+  z-index: 9999;
+  background-color: white;
+  text-align: center;
+  padding: 70px;
+}
+.accounts-logo{
+  text-decoration-line: none;
+  color: #26136a;
+}
+.accounts-logo:hover{
+  color: black;
+}
+/*모달창 버튼 나중에 클래스 변경해야 함*/
 button {
   border: 0;
   background-color: none;

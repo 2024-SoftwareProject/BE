@@ -1,16 +1,5 @@
-{% load django_bootstrap5 %}
-<!DOCTYPE html>
-<html lang="kor">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>uPC</title>
-    {% bootstrap_css %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    {% bootstrap_javascript %}
-</head>
-<body>
+{% extends 'user_base.html' %}
+{% block accounts_extra %}
 <div class="container">
     <div class="row justify-content-md-center">
         <div style="position: absolute; top: 45%; height: 504.18px; margin-top: -252.09px;">
@@ -163,4 +152,4 @@
         </div>
     </div>
 </div>
-</body>
+{% endblock %}
