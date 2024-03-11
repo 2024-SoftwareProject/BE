@@ -1,35 +1,47 @@
-#menu{
-    top: 55px;
-    float:left;
-    position:fixed; 
-    background-color: red;
-  }
-  ul.main_category{
-    list-style:none;
-  }
-  ul.main_category li{
-    padding: 10px;
-    background-color: #ADBCA5;
-    color: #514444;
-  }
-  ul.main_category ul.sub_menu{
-    left: 200px;
-  }
-  ul.main_category ul.sub_menu li{
-    list-style: none;
-    display:inline-block;
-    
-  }
-  ul.main_category ul.sub_menu li:hover{
-    background-color: white;
-  }
-
-  .outer {
+button {
+  border: 0;
+  background-color: none;
+}
+.btn-box .btn-open {
+    display: block;
+    width: 200px;
+    height: 50px;
+    margin: 80px auto 0;
+    line-height: 50px;
+    background: #333;
     text-align: center;
-    margin-top: 55px; /* 상단 여백 추가 */
-  }
-  
-  .inner {
-    display: inline-block;
-    text-align: left; /* 내부 텍스트를 왼쪽 정렬로 설정 */
-  }
+}
+
+.btn-box .btn-open span {
+    color: #fff;
+}
+
+/* 팝업 스타일 */
+.modal-bg {
+  display:none;
+  width:100%;
+  height:100%;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index:999;
+  border-radius: 10px;
+}
+.modal-wrap {
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:500px;
+  height:500px;
+  background:#fff;
+  z-index:1000;
+  float: right; 
+  height: 50vh; 
+  overflow-y: auto;
+  padding: 30px 20px 20px 20px;
+  border-radius: 10px;
+}
