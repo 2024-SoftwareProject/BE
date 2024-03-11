@@ -1,8 +1,16 @@
-{% extends 'base.html' %}
-{% comment %} {% load static %} {% endcomment %}
-
-
-{% block content %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>uPC</title>
+    {% bootstrap_css %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% bootstrap_javascript %}
+</head>
+<body>
 <div class="container">
     <div class="row justify-content-md-center">
         <div style="position: absolute; top: 45%; height: 504.18px; margin-top: -252.09px;">
@@ -88,7 +96,7 @@
                                                             $("" + elementName).remove();
                                                             cert_ok = false;
                                                             certificationNum = false;
-                                                            location.href = "{% url 'accounts_app:recovery_pw' %}"
+                                                            location.href = "{% url 'recovery_pw' %}"
                                                         } else {
                                                             time = new Date( msLeft );
                                                             hours = time.getUTCHours();
@@ -119,7 +127,7 @@
                                                                 'csrfmiddlewaretoken': '{{csrf_token}}',
                                                             },
                                                             success: function (response) {
-                                                                location.href = "{% url 'accounts_app:recovery_pw_reset' %}";
+                                                                location.href = "{% url 'recovery_pw_reset' %}";
                                                             },
                                                             error: function () {
                                                                 if ($('#input_auth_num').val()=="") {
@@ -155,4 +163,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
+</body>
