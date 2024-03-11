@@ -27,10 +27,9 @@ def bunke_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd
     )
     product.save()
 
-def bunke_get_products_by_category(query):
-    # 해당 카테고리에 해당하는 ProductTable 모델의 레코드들을 가져옵니다.
-    products = Product.objects.filter(Pd_Category=query)
-    return products
+# def bunke_get_products_by_category(query):
+#     products = Product.objects.filter(Pd_Category=query)
+#     return products
 
 def bunke_search(query):
 
@@ -84,16 +83,13 @@ def bunke_search(query):
 
             Pd_Name = name.get_text()
 
-            if(Pd_Name.find("구매") != -1 ):
-                print("pass")
+            if(Pd_Name.find("삽")!= -1):
                 continue
-
-            if(Pd_Name.find("삽니다") != -1 ):
-                print("pass")
+            if(Pd_Name.find("케이스")!= -1):
                 continue
-
-            if(Pd_Name.find("매입") != -1 ):
-                print("pass")
+            if(Pd_Name.find("매입")!= -1):
+                continue
+            if(Pd_Name.find("구매")!= -1):
                 continue
 
             temp_price = parent_div.find('div', class_='sc-hzNEM bmEaky')  # 이름을 포함한 div 태그 선택하고 즉시 텍스트 추출

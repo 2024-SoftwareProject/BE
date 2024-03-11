@@ -19,6 +19,7 @@ from products_app.models import Product
 from . import bunke
 from . import jungo
 from . import dangeun
+from . import get_data
 
 #테스트용
 def test(request):
@@ -34,10 +35,16 @@ def search_view(request):
     jungo.jungo_search(query)
     dangeun.dangeun_search(query)
     
-    # 검색 결과를 가져오기
-    outputDB = bunke.bunke_get_products_by_category(query)
-    outputDB = jungo.jungo_get_products_by_category(query)
-    outputDB = dangeun.dangeun_get_products_by_category(query)
+    # # 검색 결과를 가져오기
+    # outputDB = bunke.bunke_get_products_by_category(query)
+    # outputDB = jungo.jungo_get_products_by_category(query)
+    # outputDB = dangeun.dangeun_get_products_by_category(query)
+
+    print("여기옴")
+
+    edited_query = query.replace(' ', '')
+
+    outputDB = get_data.get_products_by_price_asc(edited_query)
 
     # # 페이지 분할 과정
     paginator=Paginator(outputDB,48) 
