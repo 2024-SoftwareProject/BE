@@ -7,34 +7,59 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-12 col-xl-11">
         <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
+          <div class="card-body p-md-4">
             <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                <h2 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Welcome to MyPage</h2>
+              <div>
+                <h2 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">마이 페이지</h2>
                 <!-- Display user information or additional content as needed -->
-                <div style="text-align:center; font-size: 30px;">
+                <div style="text-align:left; font-size: 20px;">
                     <p>username: {{ user.username}}</p>
                     <p>Email: {{ user.email }}</p>
                     <p>Name: {{ user.name }}</p>
                 </div>
                 
                 <!-- Add more content as needed -->
-                <div style="margin-top: 30px; display: inline-block; text-align: center;">
-                    <a href="{% url 'edit_account' %}">회원 정보 수정</a>
-                    <a href="{% url 'edit_password' %}">비밀번호 수정</a>
+                <div style="margin-top: 50px">
+                    <a href="{% url 'accounts_app:edit_account' %}" style=" padding: 10px; margin: 5px; color: white;  text-decoration: none; font-weight: bold; border: 1px solid #33415c; border-radius: 10px; background-color: #22223b;">회원 정보 수정</a>
+                    <a href="{% url 'accounts_app:edit_password' %}" style="padding: 10px; margin: 5px; color: white;  text-decoration: none; font-weight: bold; border: 1px solid #33415c; border-radius: 10px; background-color: #22223b;">비밀번호 수정</a>
+                    <form style="float: right; display: inline-block;" action="{% url 'accounts_app:delete_account' %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-grey btn-lg" style="color: grey; font-size: 15px;">회원탈퇴</button>
+                    </form>
                 </div>
-                
-                    
-                <form style="text-align: right; : 10px;" action="{% url 'delete_account' %}" method="POST">
-                    {% csrf_token %}
-                    <button style="margin-top: 50px; color: grey">회원탈퇴</button>
-                </form>
               </div>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
     </div>
 </div>
-    
+
+<!-- wishlist 추가 사항 -->
+<h2>My Wishlist</h2>
+  {% if wishlist_products %}
+  <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
+    {% for product in wishlist_products %}
+      <div style="border: 1px solid #ccc;">
+        <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto;" alt="Product Image">
+        <h6>{{ product.Pd_Name }}</h6>
+        <a href="{{ product.Pd_URL }}"> 링크는 이쪽 !</a>
+        <p>Market: {{ product.Pd_Market }}</p>
+        <p>Category: {{ product.Pd_Category }}</p>
+        <p>Price: {{ product.Pd_Price }} 원 </p>
+
+        <!-- wishlist 삭제 버튼 -->
+        <form method="post" action="{% url 'accounts_app:remove_from_wishlist' product.Pd_IndexNumber %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">remove_from_Wishlist</button>
+      </form>
+
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+<p>Your wishlist is empty.</p>
+{% endif %}
+
 {% endblock %}

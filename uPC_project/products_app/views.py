@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from bs4 import BeautifulSoup
 
 #페이지 나누기
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 #모델 
 from products_app.models import Product
@@ -47,9 +47,23 @@ def search_view(request):
     outputDB = get_data.get_products_by_price_asc(edited_query)
 
     # # 페이지 분할 과정
-    paginator=Paginator(outputDB,48) 
-    page_number=request.GET.get('page') 
-    page_obj=paginator.get_page(page_number) 
+    paginator=Paginator(outputDB,48)
+    page=request.GET.get('page') 
+    try:
+        page_obj=paginator.page(page)
+    except PageNotAnInteger:
+        page=1
+        page_obj=paginator.page(page) 
+    except EmptyPage:
+        page=paginator.num_pages
+        page_obj=paginator.page(page)
+
+    #현재 페이지가 몇번째 블럭인지
+    current_block=int(((int(page)-1)/10)+1)
+    #페이지 시작 번호
+    page_start_number=((current_block-1)*10)+1
+    #페이지 끝 번호
+    page_end_number=page_start_number+10-1
 
     # 결과를 렌더링하여 반환
-    return render(request, 'products/search_result.html', {'page_obj': page_obj})
+    return render(request, 'products/search_result.html', {'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
