@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>uPC</title>
     {% bootstrap_css %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% bootstrap_javascript %}
@@ -83,7 +83,7 @@
       }
 
       .search input {
-      width: 415px;
+      width: 400px;
       border: 1px solid #bbb;
       border-radius: 8px;
       padding: 10px 12px;
@@ -116,7 +116,7 @@
       position : absolute;
       width: 17px;
       top: 7px;
-      right: 15px;
+      right: 1px;
       margin: 0;
       padding: 10px 10px;
       }
@@ -132,8 +132,7 @@
   <nav class="navbar">
     <div class="search">
       <div class="nav_logo">
-        <i class="fa-solid fa-star"></i>
-        <a href="/">uPC</a>
+        <a class="navbar-brand" href="/">uPC</a>
       </div>
       <form action="{% url 'products_app:search' %}" method="GET">
         <input type="text" name="query" value="" placeholder="검색어 입력">
@@ -226,7 +225,7 @@
           </li>
         </ul>
       </div> -->
-      <li><a href="#" style="padding-top: 5px;">판매하기</a></li>
+      <li><a href="#" style="padding-top: 5px;">게시판</a></li>
 
       {% if user.is_authenticated %}
       <li>
