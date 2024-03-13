@@ -4,6 +4,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 
 #주로 나오는 당근 예외 경우
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
+from django.db.utils import OperationalError
 
 import requests
 
@@ -20,15 +21,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from products_app.models import Product
 
 def dangeun_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd_URL):
-    product = Product(
-        Pd_Market=Pd_Market,
-        Pd_Category=Pd_Category,
-        Pd_Name=Pd_Name,
-        Pd_Price=Pd_Price,
-        Pd_IMG=Pd_IMG,
-        Pd_URL=Pd_URL
-    )
-    product.save()
+    # 이미 존재하는지 여부를 확인하여 중복 삽입 방지
+    if not Product.objects.filter(Pd_Name=Pd_Name).exists():
+        product = Product(
+            Pd_Market=Pd_Market,
+            Pd_Category=Pd_Category,
+            Pd_Name=Pd_Name,
+            Pd_Price=Pd_Price,
+            Pd_IMG=Pd_IMG,
+            Pd_URL=Pd_URL
+        )
+        product.save()
 
 # def dangeun_get_products_by_category(query):
 #     products = Product.objects.filter(Pd_Category=query)
@@ -60,7 +63,7 @@ def dangeun_search(query):
 
         for i in range(10):
 
-                element = WebDriverWait(browser, 20).until(
+                element = WebDriverWait(browser, 10).until(
                     EC.element_to_be_clickable((By.CLASS_NAME, 'more-btn'))
                 )
                 element.click() 
@@ -101,6 +104,7 @@ def dangeun_search(query):
 
             Pd_Name = temp_name
 
+            #전체
             if(Pd_Name.find("삽")!= -1):
                 continue
             if(Pd_Name.find("케이스")!= -1):
@@ -109,6 +113,26 @@ def dangeun_search(query):
                 continue
             if(Pd_Name.find("구매")!= -1):
                 continue
+
+            #메모리
+            if(Pd_Name.find("시트")!= -1):
+                continue
+            if(Pd_Name.find("이벤트")!= -1):
+                continue
+            if(Pd_Name.find("포카")!= -1):
+                continue
+            if(Pd_Name.find("어몽어스")!= -1):
+                continue
+            if(Pd_Name.find("스티커")!= -1):
+                continue
+            if(Pd_Name.find("키링")!= -1):
+                continue
+            if(Pd_Name.find("닌텐도")!= -1):
+                continue
+            if(Pd_Name.find("북")!= -1):
+                    continue
+            if(Pd_Name.find("폼")!= -1):
+                    continue
 
             #이미지 url 주소 추출
             a =item.find('img')
@@ -125,8 +149,9 @@ def dangeun_search(query):
 
             dangeun_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd_URL)
 
-    except (StaleElementReferenceException, TimeoutException) as e:
+    except (StaleElementReferenceException, TimeoutException, OperationalError) as e:
         print("예외 발생")
+        print(e)
 
 
 

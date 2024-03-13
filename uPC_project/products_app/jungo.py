@@ -11,15 +11,17 @@ from django.db import connection
 from products_app.models import Product
 
 def jungo_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd_URL):
-    product = Product(
-        Pd_Market=Pd_Market,
-        Pd_Category=Pd_Category,
-        Pd_Name=Pd_Name,
-        Pd_Price=Pd_Price,
-        Pd_IMG=Pd_IMG,
-        Pd_URL=Pd_URL
-    )
-    product.save()
+    # 이미 존재하는지 여부를 확인하여 중복 삽입 방지
+    if not Product.objects.filter(Pd_Name=Pd_Name).exists():
+        product = Product(
+            Pd_Market=Pd_Market,
+            Pd_Category=Pd_Category,
+            Pd_Name=Pd_Name,
+            Pd_Price=Pd_Price,
+            Pd_IMG=Pd_IMG,
+            Pd_URL=Pd_URL
+        )
+        product.save()
 
 # def jungo_get_products_by_category(query):
 #     products = Product.objects.filter(Pd_Category=query)
@@ -51,6 +53,7 @@ def jungo_search(query):
             for name, price, image, url in zip(Name, Price, Image, URL):
                 Pd_Name = name.text.strip()
 
+                #전체
                 if(Pd_Name.find("삽")!= -1):
                     continue
                 if(Pd_Name.find("케이스")!= -1):
@@ -59,7 +62,27 @@ def jungo_search(query):
                     continue
                 if(Pd_Name.find("구매")!= -1):
                     continue
-                
+
+                #메모리
+                if(Pd_Name.find("시트")!= -1):
+                    continue
+                if(Pd_Name.find("이벤트")!= -1):
+                    continue
+                if(Pd_Name.find("포카")!= -1):
+                    continue
+                if(Pd_Name.find("어몽어스")!= -1):
+                    continue
+                if(Pd_Name.find("스티커")!= -1):
+                    continue
+                if(Pd_Name.find("키링")!= -1):
+                    continue
+                if(Pd_Name.find("닌텐도")!= -1):
+                    continue
+                if(Pd_Name.find("메모리북")!= -1):
+                    continue
+                if(Pd_Name.find("폼")!= -1):
+                    continue
+
                 Pd_Price = price.text.strip()[:-1] #원을 빼고 
                 Pd_Price = Pd_Price.replace(',', '') #,을 제거하고 
                 try:

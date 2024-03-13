@@ -29,6 +29,7 @@ def test(request):
 def search_view(request):
     # URL에서 query 가져오기
     query = request.GET.get('query', '')
+    edited_query = query.replace('sort', '')
 
     # 검색 실행
     bunke.bunke_search(query)
@@ -41,12 +42,11 @@ def search_view(request):
     # outputDB = dangeun.dangeun_get_products_by_category(query)
 
     print("여기옴")
+    # get_data.HandlingDuplicates.remove_duplicates()
 
-    edited_query = query.replace(' ', '')
+    outputDB = get_data.get_products_by_latest(query)
 
-    outputDB = get_data.get_products_by_price_asc(edited_query)
-
-    # # 페이지 분할 과정
+    # 페이지 분할 과정
     paginator=Paginator(outputDB,48)
     page=request.GET.get('page') 
     try:
@@ -66,4 +66,59 @@ def search_view(request):
     page_end_number=page_start_number+10-1
 
     # 결과를 렌더링하여 반환
-    return render(request, 'products/search_result.html', {'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
+    return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
+
+def search_report_view(request):
+
+    query = request.GET.get('query', '')
+    edited_query = query.replace(' ', '')
+    sort = request.GET.get('sort', 'latest')
+    min_price = request.GET.get('min', '0')
+    max_price = request.GET.get('max', '3000000')
+    page = request.GET.get('page', '')
+
+    if not min_price:
+        min_price = '0'
+    if not max_price:
+        max_price = '3000000'
+
+    if not sort:
+        sort = 'lastest'
+
+    min_price = int(min_price)
+    max_price = int(max_price)
+
+
+    print("RMfRMF")
+
+    if  sort == 'latest':
+        outputDB = get_data.get_products_by_latest(edited_query, min_price, max_price)
+    elif sort == 'popularity':
+        outputDB = get_data.get_products_by_popularity(edited_query, min_price, max_price)
+    elif sort == 'price_low':
+        outputDB = get_data.get_products_by_price_low(edited_query, min_price, max_price)
+    elif sort == 'price_high':
+        outputDB = get_data.get_products_by_price_high(edited_query, min_price, max_price)
+    else:
+        outputDB = get_data.get_products_by_latest(edited_query, min_price, max_price)
+        print("eooror")
+
+    paginator=Paginator(outputDB,48)
+    page=request.GET.get('page') 
+    try:
+        page_obj=paginator.page(page)
+    except PageNotAnInteger:
+        page=1
+        page_obj=paginator.page(page) 
+    except EmptyPage:
+        page=paginator.num_pages
+        page_obj=paginator.page(page)
+
+    #현재 페이지가 몇번째 블럭인지
+    current_block=int(((int(page)-1)/10)+1)
+    #페이지 시작 번호
+    page_start_number=((current_block-1)*10)+1
+    #페이지 끝 번호
+    page_end_number=page_start_number+10-1
+
+    return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})

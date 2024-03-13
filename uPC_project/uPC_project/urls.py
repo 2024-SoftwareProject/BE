@@ -28,7 +28,7 @@ urlpatterns = [
     path('', include('uPC_app.urls')),
 
     path('accounts/', include('accounts_app.urls')),
-    path('search', include('products_app.urls')),
+    path('search/', include('products_app.urls')),
     path('board/', include('board_app.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
