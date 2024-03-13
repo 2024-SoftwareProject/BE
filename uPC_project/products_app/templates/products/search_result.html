@@ -212,24 +212,25 @@ button {
     
     <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
         {% for product in page_obj %}
-            <div style="border: 1px solid #ccc;">
+            <div class="d-flex flex-column">
                 <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto;" alt="Product Image">
-                <h6>{{ product.Pd_Name }}</h6>
-                <a href="{{ product.Pd_URL }}"> 링크는 이쪽 !</a>
-                <p>Market: {{ product.Pd_Market }}</p>
-                <p>Category: {{ product.Pd_Category }}</p>
-                <p>Price: {{ product.Pd_Price }} 원 </p>
-
+                <p>{{ product.Pd_Name }}</p>
+    
                 <!-- wishlist 추가사항 -->
-                <form method="post" action="{% url 'accounts_app:add_to_wishlist' product.Pd_IndexNumber %}">
                     {% csrf_token %}
                     {{ form.as_p }}
                     {% if user.is_authenticated %}
-                        <button type="submit">Add to Wishlist</button>
+                        <div class="d-flex justify-content-between">
+                            <div style="font-weight: bold;">{{ product.Pd_Price }}원</div>
+                            <!-- Button trigger modal -->
+                            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
+                                <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color: red; cursor: pointer;"></i>
+                            </button>   
+                        </div>
+
                     {% else %}
                         <p>Please <a href="{% url 'accounts_app:login' %}">login</a> to add to your wishlist.</p>
                     {% endif %}
-                </form>
 
             </div>
         {% empty %}
@@ -239,37 +240,54 @@ button {
 
     <div class="container mt-5">
         {% if page_obj.has_other_pages %}
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="#" onclick="goToPage({{ page_obj.previous_page_number }})">&#10094;</a>
-        </li>
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number}}">&#10094;</a>
+                </li>
+                {% endif %}
+
+                {% for page in paginator.page_range %}
+                {% if page_start_number <= page and page_end_number >= page %}
+                    {% if page == page_obj.number %}
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{page}}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{page}}">{{page}}</a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.next_page_number}}">&#10095;</a>
+                </li>
+                {% endif %}
+            </ul>
         {% endif %}
-
-        {% for page in paginator.page_range %}
-        {% if page_start_number <= page and page_end_number >= page %}
-            {% if page == page_obj.number %}
-            <li class="page-item active">
-                <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
-            </li>
-            {% else %}
-            <li class="page-item">
-                <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
-            </li>
-            {% endif %}
-        {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="#" onclick="goToPage({{ page_obj.next_page_number }})">&#10095;</a>
-        </li>
-        {% endif %}
-    </ul>
-{% endif %}
-
-    
-
-
     </div>
+
+    <script>
+        function add(Pd_IndexNumber) {
+            $.ajax({
+                url: "/accounts/add_to_wishlist/" + Pd_IndexNumber,
+                dataType: "json",
+                success: function(response) {
+                    var alreadyWishlist = response.already_wishlist;
+                    // 하트 아이콘의 클래스를 변경
+                    if (alreadyWishlist) {
+                        $('#heart-' + Pd_IndexNumber).attr('class','bi-heart-fill');
+                    } else {
+                        $('#heart-' + Pd_IndexNumber).attr('class','bi-heart');
+                    }
+                    
+                    // 메시지 출력
+                    alert(response.message);
+                }
+            })
+        };
+    </script>
 {% endblock %}
