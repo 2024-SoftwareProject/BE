@@ -50,9 +50,9 @@
           <form method="post" action="{% url 'accounts_app:remove_from_wishlist' product.Pd_IndexNumber %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
-                <i class="bi-heart-fill" style="font-size:16px; color: red; cursor: pointer;"></i>
-            </button>
+            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
+              <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size:16px; color: red; cursor: pointer;"></i>
+          </button>   
           </form>
           
       </div>
@@ -64,16 +64,24 @@
 {% endif %}
 
 <script>
-  var i = 0;
-  $('i').on('click',function(){
-      if(i==0){
-          $(this).attr('class','bi-heart');
-          i++;
-      }else if(i==1){
-          $(this).attr('class','bi-heart-fill');
-          i--;
-      }
-  });
+  function add(Pd_IndexNumber) {
+      $.ajax({
+          url: "/accounts/add_to_wishlist/" + Pd_IndexNumber,
+          dataType: "json",
+          success: function(response) {
+              var alreadyWishlist = response.already_wishlist;
+              // 하트 아이콘의 클래스를 변경
+              if (alreadyWishlist) {
+                  $('#heart-' + Pd_IndexNumber).attr('class','bi-heart-fill');
+              } else {
+                  $('#heart-' + Pd_IndexNumber).attr('class','bi-heart');
+              }
+              
+              // 메시지 출력
+              alert(response.message);
+          }
+      })
+  };
 </script>
 
 {% endblock %}
