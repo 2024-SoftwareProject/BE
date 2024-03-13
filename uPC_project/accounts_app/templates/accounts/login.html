@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block title %} 로그인 {% endblock %}
+<br />
+{% block content %}
+<br />
+<div class="container h-100">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-lg-12 col-xl-11">
+      <div class="card text-black" style="border-radius: 25px;">
+        <div class="card-body p-md-5">
+          <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+              <h1 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">로그인</h1>
+                <form method="post" action="{% url 'accounts_app:login' %}">
+                  
+                  {% csrf_token %} {{ form.as_p }}
+                  <button type="submit" class = "btn btn-primary btn-lg" style="margin-top: 20px; display: inline; float:right; text-align: right;">로그인하기</button>
+                  
+                  {% if messages %}
+                    <div class="alert alert-info" role="alert">
+                      {% for message in messages %}
+                        {{ message }}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  
+                  <div class="text-right p-t-8 p-b-31">
+                    <a style="display:inline;" href="{% url 'accounts_app:recovery_pw' %}">
+                      비밀번호 찾기
+                    </a>
+
+                  </div>
+                  <div id="kakao-login" style="position: relative; padding-top: 100px;text-align: center;">
+                    <a id="kakao-login-btn" href="javascript:loginWithKakao()">
+                      <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+                        alt="카카오 로그인 버튼" />
+                    </a>
+                    <p id="token-result"></p>
+                  </div>
+                  <div class="flex-col-c p-t-155">
+                    <span style="padding-top:20px; text-align: center;" class="row justify-content-md-center">
+                      <p style="padding:10px;">계정이 없으신가요?</p>
+                      <a href="{% url 'accounts_app:signup' %}">회원가입</button>
+                    </span>
+                    
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% block kakao %}
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
+<script>
+    Kakao.init('15cc03417d4672c176798129ce5e78e8');
+    Kakao.isInitialized();
+    console.log(Kakao.isInitialized());
+</script>
+  
+  <script>
+    function loginWithKakao() {
+      Kakao.Auth.authorize({
+        redirect_uri: {redirect_uri},
+      });
+    }
+  
+    displayToken()
+    function displayToken() {
+      var token = getCookie('authorize-access-token');
+  
+      if(token) {
+        Kakao.Auth.setAccessToken(token);
+        Kakao.Auth.getStatusInfo()
+          .then(function(res) {
+            if (res.status === 'connected') {
+              document.getElementById('token-result').innerText
+                = 'login success, token: ' + Kakao.Auth.getAccessToken();
+            }
+          })
+          .catch(function(err) {
+            Kakao.Auth.setAccessToken(null);
+          });
+      }
+    }
+  
+    function getCookie(name) {
+      var parts = document.cookie.split(name + '=');
+      if (parts.length === 2) { return parts[1].split(';')[0]; }
+    }
+    $.ajax({
+      type : "POST"
+      , url : 'https://kauth.kakao.com/oauth/token'
+      , data : {
+          grant_type : 'authorization_code',
+          client_id : {client_id},
+          redirect_uri : {redirect_uri},
+          code : {authorize_code}
+      }
+      , contentType:'application/x-www-form-urlencoded;charset=utf-8'
+      , dataType: null
+      , success : function(response) {
+          Kakao.Auth.setAccessToken(response.access_token);
+          document.querySelector('button.api-btn').style.visibility = 'visible';
+      }
+      ,error : function(jqXHR, error) {
+  
+      }
+  });
+  </script>
+{% endblock %}
+{% endblock %}
