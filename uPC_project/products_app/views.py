@@ -35,14 +35,6 @@ def search_view(request):
     bunke.bunke_search(query)
     jungo.jungo_search(query)
     dangeun.dangeun_search(query)
-    
-    # # 검색 결과를 가져오기
-    # outputDB = bunke.bunke_get_products_by_category(query)
-    # outputDB = jungo.jungo_get_products_by_category(query)
-    # outputDB = dangeun.dangeun_get_products_by_category(query)
-
-    print("여기옴")
-    # get_data.HandlingDuplicates.remove_duplicates()
 
     outputDB = get_data.get_products_by_latest(query)
 
@@ -75,7 +67,6 @@ def search_report_view(request):
     sort = request.GET.get('sort', 'latest')
     min_price = request.GET.get('min', '0')
     max_price = request.GET.get('max', '3000000')
-    page = request.GET.get('page', '')
 
     if not min_price:
         min_price = '0'

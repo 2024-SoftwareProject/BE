@@ -16,7 +16,6 @@ from products_app.models import Product
 def bunke_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd_URL):
     # 이미 존재하는지 여부를 확인하여 중복 삽입 방지
     if not Product.objects.filter(Pd_Name=Pd_Name).exists():
-        print("저장전")
         product = Product(
             Pd_Market=Pd_Market,
             Pd_Category=Pd_Category,
@@ -25,13 +24,8 @@ def bunke_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd
             Pd_IMG=Pd_IMG,
             Pd_URL=Pd_URL
         )
-        
         product.save()
-        print("저장후")
 
-# def bunke_get_products_by_category(query):
-#     products = Product.objects.filter(Pd_Category=query)
-#     return products
 
 def bunke_search(query):
 

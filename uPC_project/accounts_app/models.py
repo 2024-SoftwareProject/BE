@@ -64,13 +64,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, blank=True, related_name='wishlist')
+    product = models.ManyToManyField(Product, blank=True, related_name='wishlist')
 
     def add_to_wishlist(self, product):
         self.products.add(product)
+        Product.increase_popularity_count()
+        
 
     def remove_from_wishlist(self, product):
         self.products.remove(product)
+        Product.decrease_popularity_count()
+
 
     class Meta:
         db_table = "wishlist"
