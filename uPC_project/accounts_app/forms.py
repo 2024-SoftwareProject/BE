@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 
 from django.contrib.auth.hashers import check_password
 
+from django.core.exceptions import ValidationError
 
 # 회원가입 폼
 class SignupForm(UserCreationForm):
@@ -50,6 +51,19 @@ class SignupForm(UserCreationForm):
         user.is_active = False
         user.save()
         return user
+    
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError('이미 사용 중인 사용자 이름입니다')
+        return username
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise ValidationError('이미 가입된 메일입니다')
+        return email
+
 
 
 # 로그인 폼
