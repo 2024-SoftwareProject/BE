@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}My Page{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"> 
+
+<div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-4">
+            <div class="row justify-content-center">
+              <div>
+                <!-- Display user information or additional content as needed -->
+                <div style="text-align:left; font-size: 20px;">
+                    <h10>username: {{ user.username}}</h10>
+                    <br>
+                    <h10>Email: {{ user.email }}</h10>
+                    <br>
+                    <h10>Name: {{ user.name }}</h10>
+                </div>
+                
+                <!-- Add more content as needed -->
+                <div style="margin-top: 20px">
+                    <a href="{% url 'accounts_app:edit_account' %}" style=" padding: 10px; margin: 5px; color: white;  text-decoration: none; font-weight: bold; border: 1px solid #33415c; border-radius: 10px; background-color: #22223b;">회원 정보 수정</a>
+                    <a href="{% url 'accounts_app:edit_password' %}" style="padding: 10px; margin: 5px; color: white;  text-decoration: none; font-weight: bold; border: 1px solid #33415c; border-radius: 10px; background-color: #22223b;">비밀번호 수정</a>
+                    <form style="float: right; display: inline-block;" action="{% url 'accounts_app:delete_account' %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-grey btn-lg" style="color: grey; font-size: 15px;">회원탈퇴</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+</div>
+
+<h2>My Wishlist</h2>
+  {% if wishlist_products %}
+  <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
+    {% for product in wishlist_products %}
+      <div>
+        <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto;" alt="Product Image">
+        <p>{{ product.Pd_Name }}</p>
+        <div class="d-flex justify-content-between">
+          <div style="font-weight: bold;">{{ product.Pd_Price }}원</div>
+          <form method="post" action="{% url 'accounts_app:remove_from_wishlist' product.Pd_IndexNumber %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
+              <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size:16px; color: red; cursor: pointer;"></i>
+          </button>   
+          </form>
+          
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+<p>Your wishlist is empty.</p>
+{% endif %}
+
+<script>
+  function add(Pd_IndexNumber) {
+      $.ajax({
+          url: "/accounts/add_to_wishlist/" + Pd_IndexNumber,
+          dataType: "json",
+          success: function(response) {
+              var alreadyWishlist = response.already_wishlist;
+              // 하트 아이콘의 클래스를 변경
+              if (alreadyWishlist) {
+                  $('#heart-' + Pd_IndexNumber).attr('class','bi-heart-fill');
+              } else {
+                  $('#heart-' + Pd_IndexNumber).attr('class','bi-heart');
+              }
+              
+              // 메시지 출력
+              alert(response.message);
+          }
+      })
+  };
+</script>
+
+{% endblock %}
