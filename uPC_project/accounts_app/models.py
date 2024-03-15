@@ -64,7 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product, blank=True, related_name='wishlist')
+    products = models.ManyToManyField(Product, blank=True, related_name='wishlist')
 
     def add_to_wishlist(self, product):
         self.products.add(product)
