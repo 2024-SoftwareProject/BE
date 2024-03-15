@@ -325,7 +325,6 @@ def add_to_wishlist(request, Pd_IndexNumber):
 
     if product in wishlist.products.all():
         wishlist.remove_from_wishlist(product)
-        Product.decrease_popularity_count(product)
 
         already_wishlist=False
         messages.success(request, f'{product.Pd_Name} 당신의 wishlist에서 삭제되었습니다')
@@ -336,7 +335,6 @@ def add_to_wishlist(request, Pd_IndexNumber):
         return JsonResponse(product_data)
     else:
         wishlist.add_to_wishlist(product)
-        Product.increase_popularity_count(product)
 
         already_wishlist=True
         messages.success(request, f'{product.Pd_Name} 당신의 wishlist에 추가되었습니다')
