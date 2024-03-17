@@ -168,3 +168,4 @@ def delete_comment(request, pk, comment_id):
         return JsonResponse({'message': '댓글이 삭제되었습니다.', 'status': 'success'})
     else:
         return HttpResponseForbidden("You don't have permission to delete this comment.")
+    
