@@ -85,7 +85,7 @@
                                                             $("" + elementName).remove();
                                                             cert_ok = false;
                                                             certificationNum = false;
-                                                            location.href = "{% url 'recovery_pw' %}"
+                                                            location.href = "{% url 'accounts_app:recovery_pw' %}"
                                                         } else {
                                                             time = new Date( msLeft );
                                                             hours = time.getUTCHours();
@@ -116,7 +116,7 @@
                                                                 'csrfmiddlewaretoken': '{{csrf_token}}',
                                                             },
                                                             success: function (response) {
-                                                                location.href = "{% url 'recovery_pw_reset' %}";
+                                                                location.href = "{% url 'accounts_app:recovery_pw_reset' %}";
                                                             },
                                                             error: function () {
                                                                 if ($('#input_auth_num').val()=="") {

@@ -1,161 +1,115 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.http import HttpResponseForbidden
-from django.urls import reverse
-from .models import Post, Photo
-from .forms import PostForm, CommentForm
-import os
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from .models import Comment
-from django.http import JsonResponse
+#기본 장고 veiw 관련 
+from django.http import HttpResponse
+from django.shortcuts import render
 
-def free_board(request):
-    free_posts = Post.objects.filter(board_type="free_board")
-    return render(request, 'main/free_board.html', {'posts': free_posts, 'board_type' : free_board})
-def review_board(request):
-    review_posts = Post.objects.filter(board_type="review_board")
-    return render(request, 'main/review_board.html', {'posts': review_posts, 'board_type' : review_board})
-def question_board(request):
-    question_posts = Post.objects.filter(board_type="question_board")
-    return render(request, 'main/question_board.html', {'posts': question_posts, 'board_type' : question_board})
+#crawling 관련 
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.ui import WebDriverWait
+from bs4 import BeautifulSoup
 
-# board.html 페이지를 부르는 board 함수
-def board(request):
-    postlist = Post.objects.all()
-    return render(request, 'main/board.html',{'postlist':postlist})
+#페이지 나누기
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+#모델 
+from products_app.models import Product
+
+#craling code 다운
+from . import bunke
+from . import jungo
+from . import dangeun
+from . import get_data
+
+#테스트용
+def test(request):
+    return HttpResponse("testtest")
+
+#본격 서치 
+def search_view(request):
+    # URL에서 query 가져오기
+    query = request.GET.get('query', '')
+    edited_query = query.replace('sort', '')
+
+    # 검색 실행
+    bunke.bunke_search(query)
+    jungo.jungo_search(query)
+    dangeun.dangeun_search(query)
+
+    outputDB = get_data.get_products_by_latest(query)
+
+    # 페이지 분할 과정
+    paginator=Paginator(outputDB,48)
+    page=request.GET.get('page') 
+    try:
+        page_obj=paginator.page(page)
+    except PageNotAnInteger:
+        page=1
+        page_obj=paginator.page(page) 
+    except EmptyPage:
+        page=paginator.num_pages
+        page_obj=paginator.page(page)
+
+    #현재 페이지가 몇번째 블럭인지
+    current_block=int(((int(page)-1)/10)+1)
+    #페이지 시작 번호
+    page_start_number=((current_block-1)*10)+1
+    #페이지 끝 번호
+    page_end_number=page_start_number+10-1
+
+    # 결과를 렌더링하여 반환
+    return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
+
+def search_report_view(request):
+
+    query = request.GET.get('query', '')
+    edited_query = query.replace(' ', '')
+    sort = request.GET.get('sort', 'latest')
+    min_price = request.GET.get('min', '0')
+    max_price = request.GET.get('max', '3000000')
+
+    if not min_price:
+        min_price = '0'
+    if not max_price:
+        max_price = '3000000'
+
+    if not sort:
+        sort = 'lastest'
+
+    min_price = int(min_price)
+    max_price = int(max_price)
 
 
-# blog의 게시글(posting)을 부르는 posting 함수
-def posting(request, pk):
-    # 게시글(Post) 중 pk(primary_key)를 이용해 하나의 게시글(post)를 검색
-    post = Post.objects.get(pk=pk)
-    # posting.html 페이지를 열 때, 찾아낸 게시글(post)을 post라는 이름으로 가져옴
-    return render(request, 'main/posting.html', {'post':post}) #board_type 부분 추가 수정 
+    print("RMfRMF")
 
-@login_required
-def new_post(request, board_type=None):
-    #board_type = request.GET.get('board_type')
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES, user=request.user, board_type=board_type)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.board_type = board_type
-            post.save()
-            # 이미지를 업로드한 경우에만 실행
-            if 'mainphotos' in request.FILES:
-                # 이미지를 업로드한 경우에는 이미지를 저장하고 게시물을 저장
-                for img in request.FILES.getlist('mainphotos'):
-                    Photo.objects.create(post=post, image=img)
-            if board_type == 'free_board':
-                return redirect('board_app:free_board')
-            elif board_type == 'review_board':
-                return redirect('board_app:review_board')
-            elif board_type == 'question_board':
-                return redirect('board_app:question_board')
-            #return redirect('/board/')
+    if  sort == 'latest':
+        outputDB = get_data.get_products_by_latest(edited_query, min_price, max_price)
+    elif sort == 'popularity':
+        outputDB = get_data.get_products_by_popularity(edited_query, min_price, max_price)
+    elif sort == 'price_low':
+        outputDB = get_data.get_products_by_price_low(edited_query, min_price, max_price)
+    elif sort == 'price_high':
+        outputDB = get_data.get_products_by_price_high(edited_query, min_price, max_price)
     else:
-        form = PostForm(user=request.user, board_type=board_type)
-    return render(request, 'main/new_post.html', {'form': form,'board_type': board_type})
+        outputDB = get_data.get_products_by_latest(edited_query, min_price, max_price)
+        print("eooror")
 
+    paginator=Paginator(outputDB,48)
+    page=request.GET.get('page') 
+    try:
+        page_obj=paginator.page(page)
+    except PageNotAnInteger:
+        page=1
+        page_obj=paginator.page(page) 
+    except EmptyPage:
+        page=paginator.num_pages
+        page_obj=paginator.page(page)
 
-@login_required
-def remove_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST': 
-        post.delete()
-        return redirect('/board/')
-    return render(request, 'main/remove_post.html', {'Post': post})
+    #현재 페이지가 몇번째 블럭인지
+    current_block=int(((int(page)-1)/10)+1)
+    #페이지 시작 번호
+    page_start_number=((current_block-1)*10)+1
+    #페이지 끝 번호
+    page_end_number=page_start_number+10-1
 
-@login_required
-def edit_post(request, pk, board_type): 
-    post = get_object_or_404(Post, pk=pk)
-    photos = post.photos.all()
-    
-    if request.method == 'POST':
-        # POST 요청이면 폼을 생성하고 유효성을 검사
-        form = PostForm(request.POST, request.FILES, instance=post, user=request.user, board_type=board_type)
-        if form.is_valid():
-            # 폼을 저장하여 게시물을 업데이트
-            updated_post = form.save(commit=False)
-            updated_post.author = request.user
-            updated_post.board_type = board_type
-            updated_post.save()
-
-            # 삭제할 이미지를 가져와서 삭제
-            if 'delete_photos' in request.POST:
-                delete_ids = request.POST.getlist('delete_photos')
-                for photo_id in delete_ids:
-                    photo_to_delete = Photo.objects.get(id=photo_id)
-                    photo_to_delete.delete()
-
-            # 새로운 이미지를 추가
-            for file in request.FILES.getlist('photos'):
-                Photo.objects.create(post=updated_post, image=file)
-
-            # 수정한 게시물의 상세 페이지로 이동
-            if updated_post.board_type == 'free_board':
-                return HttpResponseRedirect(reverse('board_app:free_board_posting', args=(pk,)))
-            elif updated_post.board_type == 'review_board':
-                return HttpResponseRedirect(reverse('board_app:review_board_posting', args=(pk,)))
-            elif updated_post.board_type == 'question_board':
-                return HttpResponseRedirect(reverse('board_app:question_board_posting', args=(pk,)))
-
-    else:
-        form = PostForm(instance=post, user=request.user)
-
-    return render(request, 'main/edit_post.html', {'form': form, 'photos': photos, 'board_type': board_type})
-
-
-@login_required
-def add_comment(request, pk):
-    if request.method == 'POST':
-        content = request.POST.get('content')
-        author = request.user
-        post = get_object_or_404(Post, pk=pk)
-        board_type = request.POST.get('board_type')
-        Comment.objects.create(post=post, author=author, content=content)
-        if board_type == 'free_board':
-            return redirect('board_app:free_board_posting', pk=post.pk)
-        elif board_type == 'review_board':
-            return redirect('board_app:review_board_posting', pk=post.pk)
-        elif board_type == 'question_board':
-            return redirect('board_app:question_board_posting', pk=post.pk)
-        
-
-@login_required
-def edit_comment(request, pk, comment_id, board_type):
-    comment = get_object_or_404(Comment, pk=comment_id)
-    post = comment.post
-    #board_type = post.board_type
-    #redirect_url = reverse('main/posting', kwargs={'board_type':board_type})
-    if comment.author != request.user:
-        return HttpResponseForbidden("You don't have permission to edit this comment.")
-    
-    if request.method == 'POST':
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-            form.save()
-            # 수정된 댓글을 보는 원래 게시물의 페이지로 리다이렉트
-            if board_type == 'free_board':
-                return redirect('board_app:free_board_posting', pk=post.pk)
-            elif board_type == 'review_board':
-                return redirect('board_app:review_board_posting', pk=post.pk)
-            elif board_type == 'question_board':
-                return redirect('board_app:question_board_posting', pk=post.pk)
-    else:
-        form = CommentForm(instance=comment)
-
-    return render(request, 'main/posting.html', {'form': form, 'pk': pk, 'comment_id': comment_id})
-
-
-@login_required
-def delete_comment(request, pk, comment_id):
-    comment = get_object_or_404(Comment, pk=comment_id)
-
-    if comment.author == request.user:
-        comment.delete()
-        return JsonResponse({'message': '댓글이 삭제되었습니다.', 'status': 'success'})
-    else:
-        return HttpResponseForbidden("You don't have permission to delete this comment.")
+    return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})

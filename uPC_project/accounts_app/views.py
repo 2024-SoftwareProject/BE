@@ -285,7 +285,7 @@ def auth_pw_reset(request):
             current_user.set_password(request.POST['new_password1'])
             current_user.save()
             messages.success(request, "비밀번호 변경완료! 변경된 비밀번호로 로그인하세요")
-            return redirect('login')
+            return redirect('accounts_app:login')
         else:
             logout(request)
             request.session['auth'] = session_user
