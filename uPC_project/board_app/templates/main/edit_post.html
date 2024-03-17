@@ -9,6 +9,7 @@
     <h1>Edit Post</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        <input type="hidden" name="board_type" value="{{ board_type }}">
         
         <!-- postname과 contents 필드만 표시 -->
         <label for="id_postname">Post Name:</label>

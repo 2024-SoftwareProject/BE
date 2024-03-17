@@ -1,38 +1,114 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Posting!</title>
+    <style>
+        .edit-form {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>게시글 개별 페이지입니다</h1>
     <p>{{ post.postname }}</p>
     <p>{{ post.contents }}</p>
-    <!-- 이미지 보여주기 -->
+    
     {% for photo in post.photos.all %}
         <img src="{{ photo.image.url }}" alt="" height="300">
         <br>
     {% endfor %}
-
-    <!-- 댓글 표시 -->
+    
     <h2>댓글</h2>
     <ul>
         {% for comment in post.comments.all %}
-            <li>{{ comment.author.username }} - {{ comment.content }}</li>
-        {% empty %}
+            <li id="comment-content-{{ comment.pk }}">{{ comment.author.username }} - {{ comment.content }}
+                {% if comment.author == request.user %}
+                <button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button>
+                <button class="delete-button" data-comment-id="{{ comment.pk }}">댓글 삭제</button>
+                {% endif %}
+            </li>
+            <li class="edit-form" id="edit-form-{{ comment.pk }}">
+                <form method="post" action="{% url 'board_app:edit_comment' pk=post.pk comment_id=comment.pk board_type=post.board_type %}">
+                    {% csrf_token %}
+                    <textarea name="content">{{ comment.content }}</textarea>
+                    <button type="submit">수정 제출</button>
+                </form>
+            </li>
+            {% empty %}
             <li>작성된 댓글이 없습니다.</li>
         {% endfor %}
     </ul>
-
-    <!-- 댓글 작성 폼 -->
+   
     <h3>댓글 작성하기</h3>
-    <form method="post" action="{% url 'board_app:add_comment' post.id %}">
+    <form method="post" action="{% if post.board_type == 'free_board' %}{% url 'board_app:free_board_add_comment' pk=post.pk %}{% elif post.board_type == 'review_board' %}{% url 'board_app:review_board_add_comment' pk=post.pk %}{% elif post.board_type == 'question_board' %}{% url 'board_app:question_board_add_comment' pk=post.pk %}{% endif %}">
+        <input type="hidden" name="board_type" value="{{ post.board_type }}">
         {% csrf_token %}
         <textarea name="content"></textarea>
         <button type="submit">댓글 작성</button>
     </form>
 
     <br>
-    <a href="/board/">목록</a>
-    <a href="/board/{{ post.pk }}/remove">삭제</a>
-    <a href="/board/{{ post.pk }}/edit">수정</a>
+    {% if post.board_type == 'free_board' %}
+        <a href="{% url 'board_app:free_board' %}">목록</a>
+        <a href="{% url 'board_app:free_board_remove_posting' pk=post.pk %}">삭제</a>
+        <a href="{% url 'board_app:edit_post' pk=post.pk board_type=post.board_type %} ">수정</a>
+    {% elif post.board_type == 'question_board' %}
+        <a href="{% url 'board_app:question_board' %}">목록</a>
+        <a href="{% url 'board_app:question_board_remove_posting' pk=post.pk %}">삭제</a>
+        <a href="{% url 'board_app:question_board_edit_post' pk=post.pk %}">수정</a>
+    {% elif post.board_type == 'review_board' %}
+        <a href="{% url 'board_app:review_board' %}">목록</a>
+        <a href="{% url 'board_app:review_board_remove_posting' pk=post.pk %}">삭제</a>
+        <a href="{% url 'board_app:review_board_edit_post' pk=post.pk  %}">수정</a>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var editButtons = document.querySelectorAll('.edit-button');
+            editButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var commentId = this.getAttribute('data-comment-id');
+                    showEditForm(commentId);
+                });
+            });
+            var deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var commentId = this.getAttribute('data-comment-id');
+                    deleteComment(commentId);
+                });
+            });
+        });
+
+        function showEditForm(commentId) {
+            var editForm = document.getElementById('edit-form-' + commentId);
+            editForm.style.display = 'block';
+        }
+        function deleteComment(commentId) {
+            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+                fetch('/board/free_board/{{ post.pk }}/delete_comment/' + commentId + '/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // 삭제된 댓글을 화면에서 제거
+                        var commentElement = document.getElementById('comment-content-' + commentId);
+                        commentElement.parentNode.removeChild(commentElement);
+                    } else {
+                        alert('댓글 삭제 중 오류가 발생했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('댓글 삭제 중 오류 발생:', error);
+                    alert('댓글 삭제 중 오류가 발생했습니다.');
+                });
+            }
+        }
+    </script>
 </body>
 </html>

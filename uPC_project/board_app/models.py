@@ -12,6 +12,7 @@ class Post(models.Model):
     postname = models.CharField(max_length=50)
     contents = models.TextField()
     mainphotos = models.ManyToManyField('Photo',related_name='posts',blank=True)
+    #board_type =models.CharField(max_length=20, null=True, blank=True)
     def __str__(self):
         return self.postname
     
@@ -23,7 +24,14 @@ class Post(models.Model):
             photo.delete()
         # 게시물 삭제
         super().delete(*args, **kwargs)
-    
+
+    BOARD_CHOICES = (
+        ('free_board', '자유 게시판'),
+        ('question_board', '질문 게시판'),
+        ('review_board', '판매 게시판'),
+    )
+    board_type = models.CharField(max_length=20, choices=BOARD_CHOICES, null=True, blank=True)
+
 class Photo(models.Model):
     post = models.ForeignKey(Post, related_name='photos', on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
