@@ -62,6 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "사용자"
 
 
+
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, blank=True, related_name='wishlist')
