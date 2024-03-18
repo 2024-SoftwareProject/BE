@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>리뷰 게시판</title>
+    </head>
+    <body>
+        <h1>리뷰 게시판 페이지입니다</h1>
+
+        <ul>
+            {% for post in posts %}
+                <li><a href="{{post.pk}}/">{{post.postname}}</a></li>
+        {% endfor %}
+        </ul>
+
+
+        <button><a href="new_post/?board_type=review_board">글쓰기</a></button>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Board</title>
+</head>
+<body>
+    <h1>게시판 선택</h1>
+    <ul>
+        <li><a href="{% url 'board_app:free_board' %}">자유 게시판</a></li>
+        <li><a href="{% url 'board_app:review_board' %}">리뷰 게시판</a></li>
+        <li><a href="{% url 'board_app:question_board' %}">질문 게시판</a></li>
+    </ul>
+</body>
+</html>

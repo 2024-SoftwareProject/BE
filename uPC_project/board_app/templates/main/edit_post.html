@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post</title>
+</head>
+<body>
+    <h1>Edit Post</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="board_type" value="{{ board_type }}">
+        
+        <!-- postname과 contents 필드만 표시 -->
+        <label for="id_postname">Post Name:</label>
+        {{ form.postname }}
+        <br>
+        <label for="id_contents">Contents:</label>
+        {{ form.contents }}
+        <br>
+
+        <!-- 기존 사진 표시 -->
+        <h2>Current Photos</h2>
+        <ul>
+            {% for photo in photos %}
+                <li>
+                    <img src="{{ photo.image.url }}" alt="Photo">
+                    <label>
+                        <input type="checkbox" name="delete_photos" value="{{ photo.id }}"> Delete
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- 새로운 사진 업로드 -->
+        <h2>Add New Photos</h2>
+        <input type="file" name="photos" multiple accept="image/*">
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

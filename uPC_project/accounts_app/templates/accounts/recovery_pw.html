@@ -1,5 +1,7 @@
 {% extends 'user_base.html' %}
 {% block accounts_extra %}
+{% extends 'user_base.html' %}
+{% block accounts_extra %}
 <div class="container">
     <div class="row justify-content-md-center">
         <div style="position: absolute; top: 45%; height: 504.18px; margin-top: -252.09px;">
@@ -85,7 +87,7 @@
                                                             $("" + elementName).remove();
                                                             cert_ok = false;
                                                             certificationNum = false;
-                                                            location.href = "{% url 'recovery_pw' %}"
+                                                            location.href = "{% url 'accounts_app:recovery_pw' %}"
                                                         } else {
                                                             time = new Date( msLeft );
                                                             hours = time.getUTCHours();
@@ -116,7 +118,7 @@
                                                                 'csrfmiddlewaretoken': '{{csrf_token}}',
                                                             },
                                                             success: function (response) {
-                                                                location.href = "{% url 'recovery_pw_reset' %}";
+                                                                location.href = "{% url 'accounts_app:recovery_pw_reset' %}";
                                                             },
                                                             error: function () {
                                                                 if ($('#input_auth_num').val()=="") {
@@ -152,4 +154,5 @@
         </div>
     </div>
 </div>
+{% endblock %}
 {% endblock %}

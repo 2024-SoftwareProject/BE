@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login, logout
@@ -21,7 +21,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 
@@ -88,7 +88,8 @@ class Signup(CreateView):
         self.request.session['signup_auth'] = True
         messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다')
         return reverse('accounts_app:signup_success')
-    
+
+
     def form_valid(self, form):
         self.object = form.save()
 
@@ -127,10 +128,11 @@ class Login(FormView):
                     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
             else:
                 self.send_verification_email(user)
-                messages.error(self.request, '새로운 인증 메일이 전송되었습니다. 이메일 인증 후 로그인 해 주세요')
+                messages.error(self.request, '이메일 인증 후 로그인 해 주세요')
                 return redirect('accounts_app:login')
+            # authenticate에서는 이메일인증 안 되면 user = None이라 반환.. 자체 백에드 제작 필요..나중에..시도..
         else:
-            messages.error(self.request, '이메일 인증 후 로그인 해 주세요')
+            messages.error(self.request, '이메일 인증이 완료되지 않았습니다')
             return redirect('accounts_app:login')
         
         return super().form_valid(form)
@@ -320,9 +322,27 @@ def add_to_wishlist(request, Pd_IndexNumber):
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
 
     product = Product.objects.get(Pd_IndexNumber=Pd_IndexNumber)
-    wishlist.add_to_wishlist(product)
-    messages.success(request, f'{product.Pd_Name} 당신의 wishlist에 추가되었습니다')
-    return redirect('accounts_app:mypage')
+
+    if product in wishlist.products.all():
+        wishlist.remove_from_wishlist(product)
+
+        already_wishlist=False
+        messages.success(request, f'{product.Pd_Name} 당신의 wishlist에서 삭제되었습니다')
+        product_data = {
+        "message": f"당신의 wishlist에서 삭제되었습니다",
+        "already_wishlist": already_wishlist
+        }
+        return JsonResponse(product_data)
+    else:
+        wishlist.add_to_wishlist(product)
+
+        already_wishlist=True
+        messages.success(request, f'{product.Pd_Name} 당신의 wishlist에 추가되었습니다')
+        product_data = {
+        "message": f"당신의 wishlist에 추가되었습니다",
+        "already_wishlist": already_wishlist
+        }
+        return JsonResponse(product_data)
 
 
 @login_message_required
@@ -330,12 +350,12 @@ def remove_from_wishlist(request, Pd_IndexNumber):
     # 사용자의 wishlist 가져오기 또는 생성
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
 
-    product = get_object_or_404(Product, Pd_IndexNumber=Pd_IndexNumber)
+    product = Product.objects.get(Pd_IndexNumber=Pd_IndexNumber)
 
     if product in wishlist.products.all():
         wishlist.remove_from_wishlist(product)
+        wishlist.already_wishlist=False
         messages.success(request, f'{product.Pd_Name} 당신의 wishlist에서 삭제되었습니다')
-    else:
-        messages.success(request, f'{product.Pd_Name} 당신의 wishlist에 존재하지 않습니다')
+        return redirect('accounts_app:mypage')
 
-    return redirect('accounts_app:mypage')
+
