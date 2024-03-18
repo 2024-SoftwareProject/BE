@@ -7,7 +7,7 @@ class Product(models.Model):
     Pd_Market = models.CharField(max_length=10)
     Pd_Category = models.CharField(max_length=50)
     Pd_Name = models.CharField(max_length=150, unique=True)
-    Pd_Price = models.IntegerField()
+    Pd_Price = models.BigIntegerField()
     Pd_IMG = models.CharField(max_length=500)
     Pd_URL = models.CharField(max_length=300)
     Pd_Count = models.IntegerField(default=0)
