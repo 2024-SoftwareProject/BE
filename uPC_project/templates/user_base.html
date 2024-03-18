@@ -1,0 +1,28 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>uPC</title>
+    <!--google font import-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    <!--css import-->
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/all.css' %}">
+    <!--javascript import-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% bootstrap_javascript %}
+   
+<head>
+<body class= "nanum-myeongjo-regular"> 
+    <div class = "accounts-nav">
+        <div><h1 class="kaisei-decol-bold" style="font-size: 100px;"><a class="accounts-logo" href="/">u.PC</a></h1>
+    </div>
+</body>
+{% block accounts_extra %}
+{% endblock %}
