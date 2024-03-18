@@ -8,250 +8,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>uPC</title>
     {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% bootstrap_javascript %}
-    <style>
-      :root {
-      --accent-color: #f3ff87;
-      --text-color: #f0f4f5;
-      --background-color: #0b002b;}
-
-      .body {
-      margin: 0;
-      font-family: 'Montserrat';}
-
-      li a {
-      text-decoration: none;
-      color: var(--text-color);}
-
-      .navbar {
-      display: flex;
-      flex-direction: column; /* 컬럼 방향으로 배치 */
-      justify-content: space-between;
-      align-items: center;
-      background-color: var(--background-color);
-      padding: 8px 12px;
-      position: fixed; /* 추가된 부분 */
-      width: 100%; /* 추가된 부분 */
-      top: 0; /* 추가된 부분 */
-      left: 0; /* 추가된 부분 */
-      z-index: 9999; /* 추가된 부분 */
-      }
-
-      .nav_logo a{
-      font-size: 24px;
-      color: var(--text-color);
-      text-decoration: none;}
-
-      .nav_logo i {
-      color: var(--accent-color);}
-
-      .nav_menu {
-      display: flex;
-      list-style: none;
-      padding-left: 0;}
-
-      .nav_menu li {
-      padding: 8px 12px;}
-
-      .nav_menu li:hover {
-      color: var(--background-color);
-      background-color: var(--accent-color);
-      border-radius: 4px;}
-
-      .nav_menu li a:hover {
-      color: var(--background-color);}
-
-      .nav_icons {
-      display: flex;
-      color: #7dc0ff;
-      list-style: none;
-      padding-left: 0;}
-
-      .nav_icons li {
-      padding: 8px 5px;}
-
-      .navbar_toggleBtn {
-      display: none;
-      color:var(--text-color);
-      font-size: 24px;}
-
-      .search {
-      display: flex;
-      align-items: center;
-      padding: 10px 10px;
-      }
-
-      .search input {
-      width: 400px;
-      border: 1px solid #bbb;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 14px;
-      }
-
-      .search button {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      }
-
-      .search {
-      position: relative;
-      width: 450px;
-      }
-
-      input {
-      width: 100%;
-      border: 1px solid #bbb;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 14px;
-      }
-
-      #gogo {
-      background-color: transparent; /* 배경색 제거 */
-      border: none; /* 테두리 제거 */
-      cursor: pointer; /* 커서를 포인터로 변경 */
-      position : absolute;
-      width: 17px;
-      top: 7px;
-      right: 1px;
-      margin: 0;
-      padding: 10px 10px;
-      }
-
-      .nav_logo{
-        margin-right: auto;
-      }
-
-    </style>
 </head>
 
-<body style="margin: 145px 0px">
+<body class="nanum-myeongjo-regular">
   <nav class="navbar">
+    <div class="nav_logo">
+      <a class="kaisei-decol-bold" id="brand-logo" href="/"><h1 style="font-size: 60px; font-weight: 900;">u.PC</h1></a>
+    </div>
     <div class="search">
-      <div class="nav_logo">
-        <a class="navbar-brand" href="/">uPC</a>
-      </div>
       <form action="{% url 'products_app:search' %}" method="GET">
         <input type="text" name="query" value="" placeholder="검색어 입력">
-        <button type="submit" id="gogo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <button type="submit" id="into-search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg>
         </button>
       </form>
     </div>
-    <ul class="nav_menu">
-      <li>
-        <!--세로형 3단 드롭다운 메뉴-->
-        <!-- <div id="menu2">
-          <ul class="M01">
-            <li><a href="#">대메뉴1</a>
-              <ul class="M02">
-                <li><a href="#">소메뉴1</a>
-                  <ul class="M03">
-                    <li><a href="#">2단소메뉴1</a></li>
-                    <li><a href="#">2단소메뉴2</a></li>
-                    <li><a href="#">2단소메뉴3</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">소메뉴2</a>
-                  <ul class="M03">
-                    <li><a href="#">2단소메뉴1</a></li>
-                    <li><a href="#">2단소메뉴2</a></li>
-                    <li><a href="#">2단소메뉴3</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">소메뉴3</a>
-                  <ul class="M03">
-                    <li><a href="#">2단소메뉴1</a></li>
-                    <li><a href="#">2단소메뉴2</a></li>
-                    <li><a href="#">2단소메뉴3</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li><a href="#">대메뉴2</a>
-              <ul class="M02">
-                <li><a href="#">소메뉴1</a>
-                  <ul class="M03">
-                    <li><a href="#">2단소메뉴1</a></li>
-                    <li><a href="#">2단소메뉴2</a></li>
-                    <li><a href="#">2단소메뉴3</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">소메뉴2</a>
-                  <ul class="M03">
-                    <li><a href="#">2단소메뉴1</a></li>
-                    <li><a href="#">2단소메뉴2</a></li>
-                    <li><a href="#">2단소메뉴3</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">소메뉴3</a>
-                  <ul class="M03">
-                    <li><a href="#">2단소메뉴1</a></li>
-                    <li><a href="#">2단소메뉴2</a></li>
-                    <li><a href="#">2단소메뉴3</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          <li><a href="#">대메뉴3</a>
-            <ul class="M02">
-              <li><a href="#">소메뉴1</a>
-                <ul class="M03">
-                  <li><a href="#">2단소메뉴1</a></li>
-                  <li><a href="#">2단소메뉴2</a></li>
-                  <li><a href="#">2단소메뉴3</a></li>
-                </ul>
-              </li>
-              <li><a href="#">소메뉴2</a>
-                <ul class="M03">
-                  <li><a href="#">2단소메뉴1</a></li>
-                  <li><a href="#">2단소메뉴2</a></li>
-                  <li><a href="#">2단소메뉴3</a></li>
-                </ul>
-              </li>
-              <li><a href="#">소메뉴3</a>
-                <ul class="M03">
-                  <li><a href="#">2단소메뉴1</a></li>
-                  <li><a href="#">2단소메뉴2</a></li>
-                  <li><a href="#">2단소메뉴3</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div> -->
-      <li><a href="{% url 'board_app:board' %}" style="padding-top: 5px;">게시판</a></li>
+    <div class="nav_menu">
+      <div id = "nav-hamburger">
+        <!--추후 햄버거로 수정-->
+        <button></button>
+        <p style="display: inline-block; position: relative; left: 10px;">카테고리</p>
+      </div>
+      <a id="nav-note" href="#" style="padding-top: 5px;">게시판</a>
 
       {% if user.is_authenticated %}
-      <li>
-        <a href="{% url 'accounts_app:mypage' %}"  style="padding-top: 5px;">마이페이지</a>
-      </li>
+      <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}"  style="padding-top: 5px;">마이페이지</a>
 
-      {% else %}
-      <li>
-        <a href="{% url 'accounts_app:login' %}" style="padding-top: 5px;">로그인</a>
-      </li>
-      <li>
-        <a href="{% url 'accounts_app:signup' %}"  style="padding-top: 5px;">회원가입</a>
-      </li>
+        {% else %}
+      <a id="nav-login" href="{% url 'accounts_app:login' %}" style="padding-top: 5px;">로그인</a>
+      <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="padding-top: 5px;">회원가입</a>
       {% endif %}
 
       {% if user.is_authenticated %}
+      
       <li>
         <a href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">로그아웃</a>
         <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
         {% csrf_token %}
         </form>       
       </li>
+    </div>
+    
       {% endif %}
-    </ul>
   </nav>
+<!--서브메뉴-->
+<div id="menu-wrap" style="display: block; position: relative; top: 165px;">
+  <div class="submenu1">
+    <div class="M01">
+      <a href="#" class="big">대메뉴1</a>
+      <ul class="M02">
+        <li id = "menu-01"><a href="#">소메뉴1</a></li>
+        <li id = "menu-02"><a href="#">소메뉴2</a></li>
+        <li id = "menu-03"><a href="#">소메뉴3</a></li>
+      </ul>
+    </div>
+    <div class="M01">
+      <a href="#">대메뉴1</a>
+      <ul class="M02">
+        <li id = "menu-03"><a href="#">소메뉴1</a></li>
+        <li id = "menu-04"><a href="#">소메뉴2</a></li>
+        <li id = "menu-05"><a href="#">소메뉴3</a></li>
+      </ul>
+    </div>
+    <div class="M01">
+      <a href="#">대메뉴1</a>
+      <ul class="M02">
+        <li id = "menu-06"><a href="#">소메뉴1</a></li>
+        <li id = "menu-07"><a href="#">소메뉴2</a></li>
+        <li id = "menu-08"><a href="#">소메뉴3</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="submenu2">
+    <ul>
 
+    </ul>
+  </div>
+  
+</div>
+
+<script>
+$( document ).ready(function() {
+  //대메뉴 mouseover
+  $('#menu-wrap').hide();
+  $('#nav-hamburger').on('mouseover',function(){
+    $("#menu-wrap").show();
+  })
+  $('#menu-wrap').on('mouseleave',function(){
+    $("#menu-wrap").slideUp();
+  })
+});
+
+//대메뉴에서 소메뉴
+$(function(){
+  $('.M02').mouseover(function(){
+      $('#menu-wrap .M02').stop(true,true).css("left", "200px");
+    
+      class_str = $(this).attr("class");
+      class_str = class_str.replace('M02 ', '');
+      
+      $('#'+class_str).stop(true,true).animate({left:'260px'},"slow");
+  })
+});
+
+$( document ).ready(function() {
+  $('.M02').hide();
+  
+  $('.M01').click(function(){
+      $(this).children('.M02').stop(true,true).show("fast");
+      $(this).children('a').addClass("on");
+  });
+  $('.M01').mouseleave(function(){
+    $(this).children('.M02').stop(true,true).hide("fast");
+    $(this).children('a').RemoveClass("on");
+  });
+});
+
+
+
+</script>
 {% block content %}
 {% endblock %}
 
