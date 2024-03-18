@@ -38,11 +38,13 @@ def new_post(request, board_type=None):
     #board_type = request.GET.get('board_type')
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, user=request.user, board_type=board_type)
+
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.board_type = board_type
             post.save()
+
             # 이미지를 업로드한 경우에만 실행
             if 'mainphotos' in request.FILES:
                 # 이미지를 업로드한 경우에는 이미지를 저장하고 게시물을 저장
@@ -63,6 +65,9 @@ def new_post(request, board_type=None):
 @login_required
 def remove_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    if post.author != request.user:
+        return HttpResponseForbidden("You don't have permission to remove this comment.")
+    
     if request.method == 'POST': 
         post.delete()
         return redirect('/board/')
@@ -72,6 +77,9 @@ def remove_post(request, pk):
 def edit_post(request, pk, board_type): 
     post = get_object_or_404(Post, pk=pk)
     photos = post.photos.all()
+
+    if post.author != request.user:
+        return HttpResponseForbidden("You don't have permission to edit this post.")
     
     if request.method == 'POST':
         # POST 요청이면 폼을 생성하고 유효성을 검사
@@ -122,6 +130,7 @@ def add_comment(request, pk):
             return redirect('board_app:review_board_posting', pk=post.pk)
         elif board_type == 'question_board':
             return redirect('board_app:question_board_posting', pk=post.pk)
+
         
 
 @login_required
@@ -159,3 +168,4 @@ def delete_comment(request, pk, comment_id):
         return JsonResponse({'message': '댓글이 삭제되었습니다.', 'status': 'success'})
     else:
         return HttpResponseForbidden("You don't have permission to delete this comment.")
+    
