@@ -21,6 +21,9 @@ from . import jungo
 from . import dangeun
 from . import get_data
 
+# 위시리스트 
+from accounts_app.models import Wishlist
+
 #본격 서치 
 def search_view(request):
     # URL에서 query 가져오기
@@ -56,11 +59,13 @@ def search_view(request):
     #페이지 끝 번호
     page_end_number=page_start_number+10-1
 
+    update_wishlist_status(request, page_obj)
+
     # 결과를 렌더링하여 반환
     return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
 
-def search_report_view(request):
 
+def search_report_view(request):
     query = request.GET.get('query', '')
     edited_query = query.replace(' ', '')
     edited_query = edited_query.replace('+', '')
@@ -111,4 +116,23 @@ def search_report_view(request):
     #페이지 끝 번호
     page_end_number=page_start_number+10-1
 
+    # 위시리스트 목록 반영
+    update_wishlist_status(request, page_obj)
+
     return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
+
+
+def update_wishlist_status(request, page_obj):
+    if request.user.is_authenticated:
+        # 사용자의 위시리스트 가져옴
+        wishlist = Wishlist.objects.get(user=request.user)
+        # 위시리스트에 있는 상품의 ID 목록을 가져옴
+        wishlist_product_ids = wishlist.products.values_list('Pd_IndexNumber', flat=True)
+
+        for product in page_obj:
+            product.is_in_wishlist = product.Pd_IndexNumber in wishlist_product_ids
+    
+    else:
+        # 로그인하지 않은 사용자의 경우, 모든 상품을 위시리스트에 없는 것으로 설정
+        for product in page_obj:
+            product.is_in_wishlist = False

@@ -47,11 +47,13 @@
         <p>{{ product.Pd_Name }}</p>
         <div class="d-flex justify-content-between">
           <div style="font-weight: bold;">{{ product.Pd_Price }}원</div>
-          <form method="post" action="{% url 'accounts_app:remove_from_wishlist' product.Pd_IndexNumber %}">
+          <form method="post" action="{% url 'accounts_app:remove_product_from_wishlist' product.Pd_IndexNumber %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
+
+            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-flex; padding: 0; margin-right:12px;">
               <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size:16px; color: red; cursor: pointer;"></i>
+              <span style="color:gray; margin-left:4px;">{{ product.Pd_Count }}</span>
           </button>   
           </form>
           
