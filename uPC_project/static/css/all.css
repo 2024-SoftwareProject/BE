@@ -102,11 +102,13 @@ color: var(--text-color);
 }
 
 .nav_menu #nav-hamburger .submenu{
+  
   top: 5px;
   margin-left: 100px;
 }
 
 #menu-wrap{
+  position: absolute;
   display: inline-block;
   width: 200px;
   height: 500px;
