@@ -7,18 +7,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Range Slider Example</title>
 
 <style>
 .slider-container {
     display: inline-block;
-    margin: 5px;
 }
 
 .slider {
     -webkit-appearance: none;
-    width: 700px;
+    width: 600px;
     height: 10px;
     border-radius: 5px;
     background: #d3d3d3;
@@ -52,44 +49,60 @@
     cursor: pointer;
 }
 
+.display-option{
+    display : inline
+    
+}
+
 button {
-    display: inline-block;
-    margin-left: 10px;
+    display: inline;
     vertical-align: middle;
 }
+
+
+
+
 </style>
 </head>
 <body>
 
+
+<div class="container px-5" style="margin-top: 200px; ">
+    <p> 
+        <span id="queryValueDisplay"></span>을(를) 
+        <span id="minValueDisplay"></span>부터 
+        "<span id="maxValueDisplay"></span>"까지 
+        "<span id="sortValueDisplay"></span>" 방식으로 찾아본 결과입니다.
+    </p>
+
+    <p id="error" style="color: red; display: none;">정확한 범위를 지정해 주세요!</p>
+
+    <div class="slider-container">
+        <input type="range" min="0" max="3000000" value="0" class="slider" step="1000" id="minSlider">
+        <p> 최솟값 : <span id="minValue"></span> </p>
+    </div>
+
+    <div class="slider-container">
+        <input type="range" min="0" max="3000000" value="3000000" class="slider" step="1000" id="maxSlider">
+        <p> 최댓값 : <span id="maxValue"></span> </p>
+    </div>
+
+    <div class="display-option">
+        <input type="checkbox" name="sort" value="latest" onclick="updateSortOption(this)"> 최신순
+        <input type="checkbox" name="sort" value="popularity" onclick="updateSortOption(this)"> 인기순
+        <input type="checkbox" name="sort" value="price_low" onclick="updateSortOption(this)"> 가격 낮은순
+        <input type="checkbox" name="sort" value="price_high" onclick="updateSortOption(this)"> 가격 높은순
+    </div>
     
-<div class="container px-5"></div>
-<p> <span id="queryValueDisplay"></span> 을(를) <span id="minValueDisplay"></span>부터 "<span id="maxValueDisplay"></span>"까지 "<span id="sortValueDisplay"></span>" 방식으로 찾아본 결과입니다.</p>
-</div>
 
-
-<p id="error" style="color: red; display: none;">정확한 범위를 지정해 주세요!</p>
-
-<div class="slider-container">
-    <input type="range" min="0" max="3000000" value="0" class="slider" step="1000" id="minSlider">
-    <p> 최솟값 : <span id="minValue"></span> </p>
-</div>
-
-<div class="slider-container">
-    <input type="range" min="0" max="3000000" value="3000000" class="slider" step="1000" id="maxSlider">
-    <p> 최댓값 : <span id="maxValue"></span> </p>
-</div>
-
-<div style="display: inline-block; padding-right: 130px;">
-    <input type="checkbox" name="sort" value="latest" onclick="updateSortOption(this)"> 최신순
-    <input type="checkbox" name="sort" value="popularity" onclick="updateSortOption(this)"> 인기순
-    <input type="checkbox" name="sort" value="price_low" onclick="updateSortOption(this)"> 가격 낮은순
-    <input type="checkbox" name="sort" value="price_high" onclick="updateSortOption(this)"> 가격 높은순
-
-    <form id="searchForm" onsubmit="make_report(); return false;">
-        <p><input type="submit" value="Submit"></p>
-    </form>
+    <div>
+        <form id="searchForm" onsubmit="make_report(); return false;">
+            <p><input type="submit" value="Submit"></p>
+        </form>
+    </div>
 
 </div>
+    
 
 
 

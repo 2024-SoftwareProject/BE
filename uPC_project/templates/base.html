@@ -31,65 +31,74 @@
         </button>
       </form>
     </div>
+
+
     <div class="nav_menu">
+
       <div id = "nav-hamburger">
         <!--추후 햄버거로 수정-->
         <button></button>
-        <p style="display: inline-block; position: relative; left: 10px;">카테고리</p>
+        <p style="display: inline-block; position: relative; left: 10px;">중고 완제품</p>
       </div>
-      <a id="nav-note" href="{%url 'board_app:board' %}" style="padding-top: 5px;">게시판</a>
+
+      <a id="nav-note" href="{%url 'board_app:board' %}" style="padding-top: 5px; padding-left: 5px;">게시판</a>
 
       {% if user.is_authenticated %}
-      <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}"  style="padding-top: 5px;">마이페이지</a>
+      <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}"  style="padding-top: 5px; padding-left: 5px;">마이페이지</a>
 
         {% else %}
-      <a id="nav-login" href="{% url 'accounts_app:login' %}" style="padding-top: 5px;">로그인</a>
-      <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="padding-top: 5px;">회원가입</a>
+      <a id="nav-login" href="{% url 'accounts_app:login' %}" style="padding-top: 5px; padding-left: 5px;">로그인</a>
+      <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="padding-top: 5px; padding-left: 5px;">회원가입</a>
       {% endif %}
 
       {% if user.is_authenticated %}
       
-      <li>
-        <a href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">로그아웃</a>
+      <!-- <li> -->
+        <a id="nav-note" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="padding-top: 5px; padding-left: 5px;">로그아웃</a>
         <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
         {% csrf_token %}
         </form>       
-      </li>
+      <!-- </li> -->
     </div>
     
       {% endif %}
   </nav>
 <!--서브메뉴-->
-<div id="menu-wrap" style="display: block; position: relative; top: 165px;">
+
+<div id="menu-wrap" style="display: block; position: relative; top: 180px; left: 2%; position: absolute; height: inherit;" >
   <div class="submenu1">
     <div class="M01">
-      <a href="#" class="big">대메뉴1</a>
+      <a href="#" class="big">중고 완제품</a>
       <ul class="M02">
-        <li id = "menu-01"><a href="#">소메뉴1</a></li>
-        <li id = "menu-02"><a href="#">소메뉴2</a></li>
-        <li id = "menu-03"><a href="#">소메뉴3</a></li>
+        <li id = "menu-01"><a href="#">중고 PC</a></li>
+        <li id = "menu-02"><a href="#">중고 노트북</a></li>
       </ul>
     </div>
     <div class="M01">
-      <a href="#">대메뉴1</a>
+      <a href="#">PC 주요제품</a>
       <ul class="M02">
-        <li id = "menu-03"><a href="#">소메뉴1</a></li>
-        <li id = "menu-04"><a href="#">소메뉴2</a></li>
-        <li id = "menu-05"><a href="#">소메뉴3</a></li>
+        <li id = "menu-03"><a href="#">CPU</a></li>
+        <li id = "menu-04"><a href="#">메인보드</a></li>
+        <li id = "menu-05"><a href="#">메모리</a></li>
+        <li id = "menu-06"><a href="#">그래픽카드</a></li>
+        <li id = "menu-07"><a href="#">SSD</a></li>
+        <li id = "menu-08"><a href="#">HHD</a></li>
+        <li id = "menu-09"><a href="#">케이스</a></li>
+        <li id = "menu-10"><a href="#">파워</a></li>
       </ul>
     </div>
     <div class="M01">
-      <a href="#">대메뉴1</a>
+      <a href="#">PC 주변기기</a>
       <ul class="M02">
-        <li id = "menu-06"><a href="#">소메뉴1</a></li>
-        <li id = "menu-07"><a href="#">소메뉴2</a></li>
-        <li id = "menu-08"><a href="#">소메뉴3</a></li>
+        <li id = "menu-11"><a href="#">모니터</a></li>
+        <li id = "menu-12"><a href="#">키보드</a></li>
+        <li id = "menu-13"><a href="#">마우스</a></li>
+        <li id = "menu-14"><a href="#">스피커/헤드셋</a></li>
       </ul>
     </div>
   </div>
   <div class="submenu2">
     <ul>
-
     </ul>
   </div>
   
@@ -105,7 +114,10 @@ $( document ).ready(function() {
   $('#menu-wrap').on('mouseleave',function(){
     $("#menu-wrap").slideUp();
   })
+
+
 });
+
 
 //대메뉴에서 소메뉴
 $(function(){
@@ -122,12 +134,21 @@ $(function(){
 $( document ).ready(function() {
   $('.M02').hide();
   
-  $('.M01').click(function(){
-      $(this).children('.M02').stop(true,true).show("fast");
+  // $('.M01').click(function(){
+  //     $(this).children('.M02').stop(true,true).show("slow");
+  //     $(this).children('a').addClass("on");
+  // });
+
+  $('.M01').mouseover(function(){
+      $(this).children('.M02').stop(true,true).show("slow");
       $(this).children('a').addClass("on");
   });
+
+
+
+
   $('.M01').mouseleave(function(){
-    $(this).children('.M02').stop(true,true).hide("fast");
+    $(this).children('.M02').stop(true,true).hide("slow");
     $(this).children('a').RemoveClass("on");
   });
 });
