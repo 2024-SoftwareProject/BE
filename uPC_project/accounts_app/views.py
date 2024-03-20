@@ -117,12 +117,11 @@ class Login(FormView):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
 
-        user = authenticate(self.request, email=email, password=password)
+        user = authenticate(self.request, email=email, password=password, backend='django.contrib.auth.backends.ModelBackend')
         if user is not None:
             if user.email_confirmed:
                 self.request.session['email'] = email
                 login(self.request, user)
-
                 remember_session = self.request.POST.get('remember_session',False)
                 if remember_session:
                     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
