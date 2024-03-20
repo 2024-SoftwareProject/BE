@@ -241,13 +241,13 @@ button {
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:500px;
+  width:700px;
   height:500px;
   background:#fff;
   z-index:1000;
-  float: right; 
   height: 50vh; 
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 30px 20px 20px 20px;
   border-radius: 10px;
 }
@@ -266,6 +266,8 @@ button {
   color: #514444;
 }
 
+<<<<<<< HEAD
+=======
 .M02 a:hover
 {
   background-color: var(--accent-color);
@@ -276,6 +278,7 @@ button {
   padding: 10px;
 }
 
+>>>>>>> e3e0008c6acfe014411fadb8312175af62ad9e0d
 .M01 .M02 li{
   list-style: none;
 }

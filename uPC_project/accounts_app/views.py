@@ -117,7 +117,7 @@ class Login(FormView):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
 
-        user = authenticate(self.request, email=email, password=password, backend='django.contrib.auth.backends.ModelBackend')
+        user = authenticate(self.request, email=email, password=password)
         if user is not None:
             if user.email_confirmed:
                 self.request.session['email'] = email
@@ -130,7 +130,7 @@ class Login(FormView):
                 self.send_verification_email(user)
                 messages.error(self.request, '이메일 인증 후 로그인 해 주세요')
                 return redirect('accounts_app:login')
-            # authenticate에서는 이메일인증 안 되면 user = None이라 반환.. 자체 백에드 제작 필요..나중에..시도..
+
         else:
             messages.error(self.request, '이메일 인증이 완료되지 않았습니다')
             return redirect('accounts_app:login')
