@@ -23,10 +23,6 @@ def jungo_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd
         )
         product.save()
 
-# def jungo_get_products_by_category(query):
-#     products = Product.objects.filter(Pd_Category=query)
-#     return products
-
 def jungo_search(query):
     with connection.cursor() as cursor:
         pages_to_crawl = 5

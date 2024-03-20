@@ -33,11 +33,6 @@ def dangeun_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, 
         )
         product.save()
 
-# def dangeun_get_products_by_category(query):
-#     products = Product.objects.filter(Pd_Category=query)
-#     return products
-
-
 def dangeun_search(query):
 
     try:
@@ -63,15 +58,15 @@ def dangeun_search(query):
 
         for i in range(10):
 
-                element = WebDriverWait(browser, 10).until(
-                    EC.element_to_be_clickable((By.CLASS_NAME, 'more-btn'))
-                )
-                element.click() 
-                print("버튼이 클릭")
+            element = WebDriverWait(browser, 10).until(
+                EC.element_to_be_clickable((By.CLASS_NAME, 'more-btn'))
+            )
+            element.click() 
+            print("버튼이 클릭")
 
-                html = browser.page_source
-                html_parser = BeautifulSoup(html, features="html.parser")
-                product_list = html_parser.find_all('article', class_='flea-market-article flat-card')
+            html = browser.page_source
+            html_parser = BeautifulSoup(html, features="html.parser")
+            product_list = html_parser.find_all('article', class_='flea-market-article flat-card')
 
             
 
@@ -151,7 +146,6 @@ def dangeun_search(query):
 
     except (StaleElementReferenceException, TimeoutException, OperationalError) as e:
         print("예외 발생")
-        print(e)
 
 
 
