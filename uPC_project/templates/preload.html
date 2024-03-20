@@ -6,40 +6,29 @@
 <title>Loading...</title>
 
 
- <style>
+<style>
   /* 스타일은 필요에 따라 수정할 수 있습니다. */
   .loading-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    height: 100vh; /* 뷰포트 높이를 기준으로 설정 */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-
   }
 
   .loading-image {
-    width: 100px; /* 이미지의 크기를 조정할 수 있습니다. */
-    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 이미지가 비율을 유지하면서 화면을 채우도록 설정 */
   }
 </style> 
 </head>
-<body>
+<body style="height: 100%;">
   <div class="loading-container">
-    <img id="loadingImg" src="{% static 'img/aaa.gif' %}" alt="Loading..." class="loading-image" style="display: none;">
+    <img id="loadingImg" src="{% static 'img/aaa.gif' %}" alt="Loading..." class="loading-image">
   </div>
 
    
    <script src="{% static 'js/search.js' %}"></script>
 
-   <script>
-    // preload 페이지가 로드된 후에 이미지를 보여주도록 설정
-    window.addEventListener('load', function() {
-      document.getElementById('loadingImg').style.display = 'block';
-    });
-  </script>
 </body>
 </html>
-
