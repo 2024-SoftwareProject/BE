@@ -21,22 +21,21 @@ from . import jungo
 from . import dangeun
 from . import get_data
 
-#테스트용
-def test(request):
-    return HttpResponse("testtest")
-
 #본격 서치 
 def search_view(request):
     # URL에서 query 가져오기
     query = request.GET.get('query', '')
     edited_query = query.replace('sort', '')
+    edited_query = edited_query.replace('+', '')
+    edited_query = edited_query.replace(' ', '')
+    edited_query = edited_query.replace('%20', '')
 
     # 검색 실행
-    bunke.bunke_search(query)
-    jungo.jungo_search(query)
-    dangeun.dangeun_search(query)
+    bunke.bunke_search(edited_query)
+    jungo.jungo_search(edited_query)
+    dangeun.dangeun_search(edited_query)
 
-    outputDB = get_data.get_products_by_latest(query)
+    outputDB = get_data.get_products_by_latest(edited_query)
 
     # 페이지 분할 과정
     paginator=Paginator(outputDB,48)
@@ -64,6 +63,9 @@ def search_report_view(request):
 
     query = request.GET.get('query', '')
     edited_query = query.replace(' ', '')
+    edited_query = edited_query.replace('+', '')
+    edited_query = edited_query.replace('%20', '')
+
     sort = request.GET.get('sort', 'latest')
     min_price = request.GET.get('min', '0')
     max_price = request.GET.get('max', '3000000')
@@ -79,9 +81,6 @@ def search_report_view(request):
     min_price = int(min_price)
     max_price = int(max_price)
 
-
-    print("RMfRMF")
-
     if  sort == 'latest':
         outputDB = get_data.get_products_by_latest(edited_query, min_price, max_price)
     elif sort == 'popularity':
@@ -92,7 +91,7 @@ def search_report_view(request):
         outputDB = get_data.get_products_by_price_high(edited_query, min_price, max_price)
     else:
         outputDB = get_data.get_products_by_latest(edited_query, min_price, max_price)
-        print("eooror")
+        print("error")
 
     paginator=Paginator(outputDB,48)
     page=request.GET.get('page') 
