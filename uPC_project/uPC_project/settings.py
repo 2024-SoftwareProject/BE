@@ -65,6 +65,9 @@ AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+
+    # emailbackend
+    'accounts_app.backends.EmailAuthBackend',
 ]
 
 MIDDLEWARE = [
@@ -142,6 +145,8 @@ SITE_ID = 1
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+    BASE_DIR / 'static/img',  # 'loading.gif' 파일이 있는 디렉토리 추가
+    #img부분--> .gif때문에 삽입함. 
 ]
 
 STATIC_URL = 'static/'

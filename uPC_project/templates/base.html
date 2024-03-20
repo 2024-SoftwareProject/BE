@@ -37,7 +37,7 @@
         <button></button>
         <p style="display: inline-block; position: relative; left: 10px;">카테고리</p>
       </div>
-      <a id="nav-note" href="#" style="padding-top: 5px;">게시판</a>
+      <a id="nav-note" href="{%url 'board_app:board' %}" style="padding-top: 5px;">게시판</a>
 
       {% if user.is_authenticated %}
       <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}"  style="padding-top: 5px;">마이페이지</a>
@@ -138,4 +138,6 @@ $( document ).ready(function() {
 {% block content %}
 {% endblock %}
 
+<script src="{% static 'js/search.js' %}"></script>
 </body>
+</html>
