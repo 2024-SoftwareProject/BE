@@ -80,7 +80,7 @@ color: var(--text-color);
   padding: 10px 12px;
   text-decoration: none;
   color: var(--text-color);
-  margin-right: 5px;
+  margin-right: 15px;
   
 }
 
@@ -96,11 +96,14 @@ color: var(--text-color);
 
 .nav_menu #nav-hamburger{
   position: absolute;
-  background-size: 50%;
-  background-repeat: no-repeat;
+  display: flex;
   cursor: pointer;
-  left: 30px;
-  width: 200px;
+  left: 100px;
+}
+
+.nav_menu #nav-hamburger .submenu{
+  top: 5px;
+  margin-left: 100px;
 }
 
 #menu-wrap{
@@ -266,19 +269,8 @@ button {
   color: #514444;
 }
 
-<<<<<<< HEAD
-=======
 .M02 a:hover
 {
   background-color: var(--accent-color);
   color: white;
-}
-
-.M01 .M02 li:hover {
-  padding: 10px;
-}
-
->>>>>>> e3e0008c6acfe014411fadb8312175af62ad9e0d
-.M01 .M02 li{
-  list-style: none;
 }
