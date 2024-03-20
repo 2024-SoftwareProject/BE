@@ -1,274 +1,366 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Range Slider Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"> 
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #e5e5e5;
+        }
+        
+        .middle {
+            position: relative;
+        }
+        
+        .slider {
+            position: relative;
+            z-index: 1;
+            height: 10px;
+            margin: 0 15px;
+        }
+        .slider > .track {
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-radius: 5px;
+            background-color: #ADBCA5;
+        }
+        .slider > .range {
+            position: absolute;
+            z-index: 2;
+            left: 0%;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-radius: 5px;
+            background-color: #566270;
+        }
+        .slider > .thumb {
+            position: absolute;
+            z-index: 3;
+            width: 20px;
+            height: 20px;
+            background-color: #566270;
+            border-radius: 50%;
+            top: 50%; /* range의 높이의 중간에 위치시키기 위한 설정 */
+            transform: translateY(-50%); /* range의 높이의 중간에 위치시키기 위한 설정 */
+        }
+        .slider > .thumb.left {
+            left: 0%;
+            transform: translate(0px, -10px);
+        }
+        .slider > .thumb.right {
+            right: 0;
+            transform: translate(15px, -10px);
+        }
+        
+        input[type="range"] {
+            position: absolute;
+            /* opacity로 가린 것을 이벤트도 비활성화하기 위해 */
+            pointer-events: none;
+            -webkit-appearance: none;
+            z-index: 2;
+            height: 10px;
+            width: 100%;
+            opacity: 0;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            /* 겹쳐진 두 thumb를 모두 활성화 */
+            pointer-events: all;
+            width: 20px;
+            height: 20px;
+            border-radius: 0;
+            border: 0 none;
+            background-color: red;
+            cursor: pointer;
+        
+            /* appearance를 해야 위의 스타일들을 볼 수 있음 */
+            -webkit-appearance: none;
+        }
 
-<style>
-.slider-container {
-    display: inline-block;
-    margin: 5px;
-}
-
-.slider {
-    -webkit-appearance: none;
-    width: 700px;
-    height: 10px;
-    border-radius: 5px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
-
-.slider:hover {
-    opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #000080;
-    cursor: pointer;
-}
-
-.slider::-ha-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #000080;
-    cursor: pointer;
-}
-
-button {
-    display: inline-block;
-    margin-left: 10px;
-    vertical-align: middle;
-}
-</style>
+        button {
+        display: inline-block;
+        margin-left: 10px;
+        vertical-align: middle;
+        }
+    </style>
 </head>
+
 <body>
 
-    
-<div class="container px-5"></div>
-<p> <span id="queryValueDisplay"></span> 을(를) <span id="minValueDisplay"></span>부터 "<span id="maxValueDisplay"></span>"까지 "<span id="sortValueDisplay"></span>" 방식으로 찾아본 결과입니다.</p>
-</div>
-
-
-<p id="error" style="color: red; display: none;">정확한 범위를 지정해 주세요!</p>
-
-<div class="slider-container">
-    <input type="range" min="0" max="3000000" value="0" class="slider" step="1000" id="minSlider">
-    <p> 최솟값 : <span id="minValue"></span> </p>
-</div>
-
-<div class="slider-container">
-    <input type="range" min="0" max="3000000" value="3000000" class="slider" step="1000" id="maxSlider">
-    <p> 최댓값 : <span id="maxValue"></span> </p>
-</div>
-
-<div style="display: inline-block; padding-right: 130px;">
-    <input type="checkbox" name="sort" value="latest" onclick="updateSortOption(this)"> 최신순
-    <input type="checkbox" name="sort" value="popularity" onclick="updateSortOption(this)"> 인기순
-    <input type="checkbox" name="sort" value="price_low" onclick="updateSortOption(this)"> 가격 낮은순
-    <input type="checkbox" name="sort" value="price_high" onclick="updateSortOption(this)"> 가격 높은순
-
-    <form id="searchForm" onsubmit="make_report(); return false;">
-        <p><input type="submit" value="Submit"></p>
-    </form>
-
-</div>
-
-
-
-<script>
-    var query = get_url_parameter('query');
-    var minSlider = document.getElementById("minSlider");
-    var maxSlider = document.getElementById("maxSlider");
-    var minOutput = document.getElementById("minValue");
-    var maxOutput = document.getElementById("maxValue");
-    var errorElement = document.getElementById("error");
-    var min = 0;
-    var max = 3000000;
-    var sort = "latest"; 
-    var page_point = 1;
-    
-    minOutput.innerHTML = addCommas(minSlider.value);
-    maxOutput.innerHTML = addCommas(maxSlider.value);
-
-    window.onload = function() {
-        optionDisplay();
-        updateMinOption();
-        updateMaxOption();
-    };
-    
-    minSlider.oninput = function() {
-      minOutput.innerHTML = addCommas(this.value);
-      checkRange();
-      updateMinOption();
-    }
-    
-    maxSlider.oninput = function() {
-      maxOutput.innerHTML = addCommas(this.value);
-      checkRange();
-      updateMaxOption()
-      
-    }
-    
-    function addCommas(value) {
-      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
-    }
-    
-    function checkRange() {
-      if (parseInt(minSlider.value) >= parseInt(maxSlider.value)) {
-        errorElement.style.display = 'block';
-      } else {
-        errorElement.style.display = 'none';
-      }
-    }
-    
-    function make_report() {
-        query = get_url_parameter('query');
-        var newUrl = '/search/report?query=' + query + '&sort=' + sort + '&min=' + min + '&max=' + max + '&page=' + page_point;
-        optionDisplay();
-        window.location.href = newUrl; 
-    }
-
-    function get_url_parameter(name) {
-      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-      var results = regex.exec(location.search);
-      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
-
-    function updateSortOption(checkbox) {
-      if (checkbox.checked) {
-        sort = checkbox.value;
-
-      } else {
-        sort = 'latest';
-      }
-    }
-
-    function updateMinOption() {
-        min = minSlider.value
-    }
-    function updateMaxOption() {
-        max = maxSlider.value
-      
-    }
-
-    function goToPage(page) 
-    {   
-        query = get_all_url_parameter('query');
-        sort = get_all_url_parameter('sort');
-        min = get_all_url_parameter('min');
-        max = get_all_url_parameter('max');
-
-        page_point = page;
-        make_report();
-
-    }
-    
-    function optionDisplay()
-    {
-        query = get_all_url_parameter('query');
-        min = get_all_url_parameter('min');
-        max = get_all_url_parameter('max')
-        sort = get_all_url_parameter('sort');
-    
-        document.getElementById("queryValueDisplay").innerText = query;
-        document.getElementById("minValueDisplay").innerText = addCommas(min);
-        document.getElementById("maxValueDisplay").innerText = addCommas(max);
-        document.getElementById("sortValueDisplay").innerText = sort;
-    }
-
-    function get_all_url_parameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
-
-</script>
-
-</body>
-
-    <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
-        {% for product in page_obj %}
-            <div class="d-flex flex-column">
-                <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto;" alt="Product Image">
-                <p>{{ product.Pd_Name }}</p>
-
-                <div style="font-weight: bold;"> {{ product.Pd_Price }}원</div>
-
-                <p> </p>
-    
-                <!-- wishlist 추가사항 -->
-                {% csrf_token %}
-                {{ form.as_p }}
-                {% if user.is_authenticated %}
-                    <div class="d-flex justify-content-between">
-                        <!-- Button trigger modal -->
-                        <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
-                            <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color: red; cursor: pointer;"></i>
-                        </button>   
-                    </div>
-
-                {% else %}
-                    <p>Please <a href="{% url 'accounts_app:login' %}">login</a> to add to your wishlist.</p>
-                {% endif %}
-
+        <div class="container px-5" style="display: flex; justify-content: space-between;">
+            <div style="display: flex; margin-bottom: 10px;">
+                <span id="queryValueDisplay"></span> 을(를) "<span id="minValueDisplay"></span>"부터 "<span id="maxValueDisplay"></span>"까지 "<span id="sortValueDisplay"></span>" 방식으로 찾아본 결과입니다.
             </div>
-        {% empty %}
-            <p>No results found.</p>
-        {% endfor %}
-    </div>
 
-    <div class="container mt-5">
-        {% if page_obj.has_other_pages %}
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="#" onclick="goToPage({{ page_obj.previous_page_number }})">&#10094;</a>
-        </li>
-        {% endif %}
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: flex; margin-bottom: 10px;">
+                정렬
+            </button>                        
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
+        
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">필터</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container px-5">
+                                <p>가격 범위</p>
+                                <div class="middle">
+                                    <div class="multi-range-slider">
+                                        <input type="range" min="0" max="3000000" value="0" class="slider" step="1000" id="minSlider">
+                                        <input type="range" min="0" max="3000000" value="3000000" class="slider" step="1000" id="maxSlider">
+                                        <div class="slider">
+                                            <div class="track"></div>
+                                            <div class="range"></div>
+                                            <div class="thumb left"></div>
+                                            <div class="thumb right"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p id="error" style="color: red; display: none;">정확한 범위를 지정해 주세요!</p>
+                            </div>
+                                    
+                            <div class="container px-5 mx-auto mt-20">
+                                <div class="d-flex justify-content-between align-items-center" style="margin-top: 20px;">
+                                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 5px 5px; text-align: center; width: 45%;">
+                                        <p>최소 가격</p>
+                                        <span id="minValue"></span>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p>~</p>
+                                    </div>
+                                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 5px 5px; text-align: center; width: 45%;">
+                                        <p>최대 가격</p>
+                                        <span id="maxValue"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="container px-5">
+                                <div class="display-option">
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" name="sort" value="latest" onclick="updateSortOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label>최신순</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" name="sort" value="popularity" onclick="updateSortOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label>인기순</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" name="sort" value="price_low" onclick="updateSortOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label>가격 낮은순</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" name="sort" value="price_high" onclick="updateSortOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label>가격 높은순</label>
+                                        </div>
+                                    </div>
+                                                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" name="action" value="yes-btn" onclick="make_report();">필터링된 제품 찾기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        {% for page in paginator.page_range %}
-        {% if page_start_number <= page and page_end_number >= page %}
-            {% if page == page_obj.number %}
-            <li class="page-item active">
-                <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
-            </li>
-            {% else %}
+        <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
+            {% for product in page_obj %}
+                <div class="d-flex flex-column">
+                    <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
+                    <p style="margin-top: 10px;">{{ product.Pd_Name }}</p>
+                    <p style="font-weight: bold;"> {{ product.Pd_Price }}원</p>
+                    <!-- wishlist 추가사항 -->
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if user.is_authenticated %}
+                        <div class="d-flex justify-content-between">
+                            <div>출처: <a style="text-decoration-line: none;" href="{{ product.Pd_URL }}">{{ product.Pd_Market }}</a></div>
+                            <!-- Button trigger modal -->
+                            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
+                                <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color: red; cursor: pointer;"></i>
+                            </button>   
+                        </div>
+
+                    {% else %}
+                        <p>Please <a href="{% url 'accounts_app:login' %}">login</a> to add to your wishlist.</p>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No results found.</p>
+            {% endfor %}
+        </div>
+      
+        <div class="container mt-5">
+            {% if page_obj.has_other_pages %}
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
+                <a class="page-link" href="#" onclick="goToPage({{ page_obj.previous_page_number }})">&#10094;</a>
             </li>
             {% endif %}
-        {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="#" onclick="goToPage({{ page_obj.next_page_number }})">&#10095;</a>
-        </li>
-        {% endif %}
-    </ul>
-{% endif %}
+      
+            {% for page in paginator.page_range %}
+            {% if page_start_number <= page and page_end_number >= page %}
+                {% if page == page_obj.number %}
+                <li class="page-item active">
+                    <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
+                </li>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+      
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="goToPage({{ page_obj.next_page_number }})">&#10095;</a>
+            </li>
+            {% endif %}
+        </ul>
+    {% endif %}
 
     <script>
+        var query = get_url_parameter('query');
+        var minSlider = document.getElementById("minSlider");
+        var maxSlider = document.getElementById("maxSlider");
+        var minOutput = document.getElementById("minValue");
+        var maxOutput = document.getElementById("maxValue");
+        var errorElement = document.getElementById("error");
+        var min = 0;
+        var max = 3000000;
+        var sort = "latest"; 
+        var page_point = 1;
+        
+        minOutput.innerHTML = addCommas(minSlider.value);
+        maxOutput.innerHTML = addCommas(maxSlider.value);
+
+        window.onload = function() {
+            optionDisplay();
+            updateMinOption();
+            updateMaxOption();
+        };
+        
+        minSlider.oninput = function() {
+        minOutput.innerHTML = addCommas(this.value);
+        checkRange();
+        updateMinOption();
+        }
+        
+        maxSlider.oninput = function() {
+        maxOutput.innerHTML = addCommas(this.value);
+        checkRange();
+        updateMaxOption()
+        
+        }
+        
+        function addCommas(value) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+        }
+        
+        function checkRange() {
+        if (parseInt(minSlider.value) >= parseInt(maxSlider.value)) {
+            errorElement.style.display = 'block';
+        } else {
+            errorElement.style.display = 'none';
+        }
+        }
+        
+        function make_report() {
+            query = get_url_parameter('query');
+            var newUrl = '/search/report?query=' + query + '&sort=' + sort + '&min=' + min + '&max=' + max + '&page=' + page_point;
+            optionDisplay();
+            window.location.href = newUrl; 
+        }
+
+        function get_url_parameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        function updateSortOption(checkbox) {
+            if (checkbox.checked) {
+                sort = checkbox.value;
+
+            } else {
+                sort = 'latest';
+            }
+        }
+
+        function updateMinOption() {
+            min = minSlider.value
+        }
+        function updateMaxOption() {
+            max = maxSlider.value
+        
+        }
+
+        function goToPage(page) 
+        {   
+            query = get_all_url_parameter('query');
+            sort = get_all_url_parameter('sort');
+            min = get_all_url_parameter('min');
+            max = get_all_url_parameter('max');
+
+            page_point = page;
+            make_report();
+
+        }
+        
+        function optionDisplay() {
+            query = get_all_url_parameter('query');
+            min = get_all_url_parameter('min');
+            max = get_all_url_parameter('max')
+            sort = get_all_url_parameter('sort');
+
+            document.getElementById("queryValueDisplay").innerText = query;
+            document.getElementById("minValueDisplay").innerText = addCommas(min);
+            document.getElementById("maxValueDisplay").innerText = addCommas(max);
+            document.getElementById("sortValueDisplay").innerText = sort;
+        }
+
+        function get_all_url_parameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
         function add(Pd_IndexNumber) {
             $.ajax({
                 url: "/accounts/add_to_wishlist/" + Pd_IndexNumber,
@@ -287,5 +379,40 @@ button {
                 }
             })
         };
-    </script>
+
+        const inputLeft = document.getElementById("minSlider");
+        const inputRight = document.getElementById("maxSlider");
+
+        const thumbLeft = document.querySelector(".slider > .thumb.left");
+        const thumbRight = document.querySelector(".slider > .thumb.right");
+        const range = document.querySelector(".slider > .range");
+
+        const setLeftValue = () => {
+        const _this = inputLeft;
+        const [min, max] = [parseInt(_this.min), parseInt(_this.max)];
+        // 교차되지 않게, 1을 빼준 건 완전히 겹치기보다는 어느 정도 간격을 남겨두기 위해.
+        _this.value = Math.min(parseInt(_this.value), parseInt(inputRight.value) - 1);
+        // input, thumb 같이 움직이도록
+        const percent = ((_this.value - min) / (max - min)) * 100;
+        thumbLeft.style.left = percent + "%";
+        range.style.left = percent + "%";
+        };
+
+        const setRightValue = () => {
+        const _this = inputRight;
+        const [min, max] = [parseInt(_this.min), parseInt(_this.max)];
+        // 교차되지 않게
+        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft.value) + 1);
+        // input, thumb 같이 움직이도록
+        const percent = ((_this.value - min) / (max - min)) * 100;
+        thumbRight.style.right = 100 - percent + "%";
+        range.style.right = 100 - percent + "%";
+        };
+
+        inputLeft.addEventListener("input", setLeftValue);
+        inputRight.addEventListener("input", setRightValue);
+</script>
+</body>
+</html>
+
 {% endblock %}

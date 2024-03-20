@@ -30,6 +30,7 @@ urlpatterns = [
     path('accounts/', include('accounts_app.urls')),
     path('search/', include('products_app.urls')),
     path('board/', include('board_app.urls')),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
