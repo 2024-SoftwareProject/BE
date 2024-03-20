@@ -322,7 +322,7 @@ def add_to_wishlist(request, Pd_IndexNumber):
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
 
     product = Product.objects.get(Pd_IndexNumber=Pd_IndexNumber)
-
+    
     if product in wishlist.products.all():
         wishlist.remove_from_wishlist(product)
 
