@@ -64,6 +64,11 @@ def search_report_view(request):
 
     query = request.GET.get('query', '')
     edited_query = query.replace(' ', '')
+    edited_query = edited_query.replace('+','')
+    edited_query = edited_query.replace('%', '')
+    edited_query = edited_query.replace('2', '')
+    edited_query = edited_query.replace('0', '')
+    print(edited_query)
     sort = request.GET.get('sort', 'latest')
     min_price = request.GET.get('min', '0')
     max_price = request.GET.get('max', '3000000')

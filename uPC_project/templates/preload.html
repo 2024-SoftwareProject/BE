@@ -5,24 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loading...</title>
 
-
- <style>
-  /* 스타일은 필요에 따라 수정할 수 있습니다. */
-  .loading-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-
-  }
-
+<style>
   .loading-image {
-    width: 100px; /* 이미지의 크기를 조정할 수 있습니다. */
-    height: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
 </style> 
 </head>
@@ -34,12 +20,5 @@
    
    <script src="{% static 'js/search.js' %}"></script>
 
-   <script>
-    // preload 페이지가 로드된 후에 이미지를 보여주도록 설정
-    window.addEventListener('load', function() {
-      document.getElementById('loadingImg').style.display = 'block';
-    });
-  </script>
 </body>
 </html>
-
