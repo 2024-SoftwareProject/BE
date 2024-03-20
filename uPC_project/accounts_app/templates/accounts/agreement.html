@@ -10,46 +10,13 @@
                 <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                 <h1 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">약관 동의</h1>
                 {% csrf_token %}
-                <div class="form-check">
+                <div style="margin: 10px;">
                   <input type="checkbox" class="form-check-input" id="agreement1" name="agreement1" required>
                   <label class="form-check-label" for="agreement1"></label>
                   <a class="btn-open" style="font-size: 15px; margin: 10px; text-align: none;" href="#modal01" >약관 1에 동의합니다.</a>
                 </div>
                 {% csrf_token %}
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="agreement2" name="agreement2" required>
-                  <label class="form-check-label" for="agreement2"></label>
-                  <a class="btn-open" style="font-size: 15px; margin: 10px; text-align: none;" href="#modal02">약관 2에 동의합니다.</a>
-                </div>
-                <div style="padding-top:30px;" class="row justify-content-md-center">
-                <button type="submit" name="signup" value="signup" class="btn btn-primary btn-lg">다음</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
-{% extends 'user_base.html' %}
-{% block accounts_extra %}
-  <form method="post" action="{% url 'accounts_app:agreement' %}">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-12 col-xl-11">
-          <div class="card text-black" style="border-radius: 25px;">
-            <div class="card-body p-md-5">
-              <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                <h1 class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">약관 동의</h1>
-                {% csrf_token %}
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="agreement1" name="agreement1" required>
-                  <label class="form-check-label" for="agreement1"></label>
-                  <a class="btn-open" style="font-size: 15px; margin: 10px; text-align: none;" href="#modal01" >약관 1에 동의합니다.</a>
-                </div>
-                {% csrf_token %}
-                <div class="form-check">
+                <div style="margin: 10px;">
                   <input type="checkbox" class="form-check-input" id="agreement2" name="agreement2" required>
                   <label class="form-check-label" for="agreement2"></label>
                   <a class="btn-open" style="font-size: 15px; margin: 10px; text-align: none;" href="#modal02">약관 2에 동의합니다.</a>
@@ -70,22 +37,32 @@
 <div class="modal-bg" onClick="javascript:popClose();" ></div>
 <div class="modal-wrap" id="modal01">
   <div>
-    <button type="button" class="modal-close" style="position: absolute; float: right; left: 475px; top: 0px; background-color: none;">X</button>
-    <p>그냥</p>
+    <button type="button" class="modal-close" style="position: absolute; float: right; left: 650px; top: 0px; background-color: #0309fb; color: white;">X</button>
+    <h5>제 1장 총칙</h5>
+    </h6>제 1조(목적)</h6><br>
+    <p>
+      이 약관은 u.PC가 운영하는 인터넷 사이트를 통해 제공하는 전자상거래 관련 서비스 및 기타 서비스를 이용하는 자간의 권리, 의무를 확정하고 이를 이행함으로써 상호 발전을 도모하는 것을 목적으로 합니다.
+    </p>
+    <h5>제 2장(기타)</h5><br>
+    <p>
+      u.PC는 이 약관의 내용을 회원이 쉽게 알 수 있도록 서비스 초기 화면에 게시합니다.
+    </p>
+    <p>
+      서비스를 이용하고자 하는 자는 u.PC가 온라인으로 제공하는 가입신청양식에 따라 사실대로 기재하여야 합니다.
+    </p>
+    <h5>u.PC의 면책</h5>
+    <p>
+      1. u.PC는 천재지변 또는 이에 준하는 불가항력으로 인하여 일시적 또는 종국적으로 서비스를 제공할 수 없는 경우, 서비스 제공에 관한 책임이 면제됩니다. 이 경우 u.PC는 제공하는 서비스 화면에 게시하거나 기타의 방법으로 회원들에게 통지합니다.<br>
+      2. u.PC는 물품거래 서비스를 통하여 거래되는 물품의 하자, 물품등록정보의 오류, 미비 등으로 인하여 회원이 입는 손해에 대해서는 책임을 지지 않습니다.<br>
+      3. 회원이 자신의 개인정보를 타인에게 유출 또는 제공함으로써 발생하는 피해에 대해서 u.PC는 일체의 책임을 지지 않습니다.
+      4. 본 서비스는 제 3자가 서비스 내 화면 또는 링크된 웹사이트를 통하여 광고한 제품 또는 서비스의 내용과 품질에 대하여 감시할 의무 기타 어떠한 책임도 지지 아니합니다.<br>
+    </p>
   </div>
 </div>
-<div class="modal-bg" onClick="javascript:popClose();" ></div>
-<div class="modal-wrap" id="modal01">
-  <div>
-    <button type="button" class="modal-close" style="position: absolute; float: right; left: 475px; top: 0px; background-color: none;">X</button>
-    <p>그냥</p>
-  </div>
-</div>
-
 <div class="modal-bg" onClick="javascript:popClose();"></div>
 <div class="modal-wrap" id="modal02">
   {% lorem 1 b random %}
-  <button type="button" class="modal-close" style="position: absolute; float: right; left: 475px; top: 0px; background-color: none; z-index:99;">X</button>
+  <button type="button" class="modal-close" style="position: absolute; float: right; left: 650px; top: 0px; background-color: #0309fb; color: white;">X</button>
 </div>
 </div>
 
