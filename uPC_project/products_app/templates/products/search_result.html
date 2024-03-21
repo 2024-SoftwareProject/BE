@@ -239,19 +239,32 @@
                     <!-- wishlist 추가사항 -->
                     {% csrf_token %}
                     {{ form.as_p }}
+
                     {% if user.is_authenticated %}
                         <div class="d-flex justify-content-between">
+                            <!-- 데이터 마켓 정보 -->
                             <div>출처: <a style="text-decoration-line: none;" href="{{ product.Pd_URL }}">{{ product.Pd_Market }}</a></div>
-                            <!-- Button trigger modal -->
-                            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
-                                <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color: red; cursor: pointer;"></i>
+                            
+                            <!-- 위시리스트 -->
+                            <button onclick="ProductWishlist('{{ product.Pd_IndexNumber }}')" style="border: none; background-color: transparent; width:16px; height:16px; display:inline-flex; padding:0; margin-right: 12px;">
+                                {% if product.is_in_wishlist %}
+                                    <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size:16px; color:red; cursor: pointer;"></i>
+                                {% else %}
+                                    <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color:red; cursor: pointer;"></i>
+                                {% endif %}
+
+                                <span id="count-{{product.Pd_IndexNumber}}" style="color:gray; margin-left:4px;"> {{product.Pd_Count}} </span>
                             </button>   
                         </div>
 
                     {% else %}
-                        <p>Please <a href="{% url 'accounts_app:login' %}">login</a> to add to your wishlist.</p>
+                        <button onclick="PromptLogin('{{ product.Pd_IndexNumber }}')" style="border: none; background-color: transparent; width:16px; height:16px; display:inline-flex; padding:0; margin-right:12px ;">
+                            <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color:red; cursor:pointer;"></i>
+                            <span style="color:gray; margin-left:4px;">{{ product.Pd_Count }}</span>
+                        </button>
                     {% endif %}
                 </div>
+
             {% empty %}
                 <p>No results found.</p>
             {% endfor %}
@@ -394,20 +407,35 @@
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
         var results = regex.exec(location.search);
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
+        }
 
-        function add(Pd_IndexNumber) {
+        function PromptLogin(){
+            const userconfirmed = confirm("로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?");
+            if(userconfirmed){
+                window.location.href = '/accounts/login/';
+            }
+        }
+
+        function ProductWishlist(Pd_IndexNumber) {
             $.ajax({
-                url: "/accounts/add_to_wishlist/" + Pd_IndexNumber,
+                url: "/accounts/product_wishlist/" + Pd_IndexNumber,
                 dataType: "json",
+
                 success: function(response) {
                     var alreadyWishlist = response.already_wishlist;
-                    // 하트 아이콘의 클래스를 변경
+                    var countElement = $('#count-' + Pd_IndexNumber);
+                    var currentCount = parseInt(countElement.text()) || 0;
+
+                    // 하트 아이콘의 클래스, Pd_Count 변경
                     if (alreadyWishlist) {
                         $('#heart-' + Pd_IndexNumber).attr('class','bi-heart-fill');
+                        currentCount += 1;
                     } else {
                         $('#heart-' + Pd_IndexNumber).attr('class','bi-heart');
+                        currentCount = Math.max(0, currentCount - 1);
                     }
+
+                    countElement.text(currentCount);
 
                     // 메시지 출력
                     alert(response.message);
