@@ -206,3 +206,12 @@ def remove_from_scrap(request, post_id):
 
     return JsonResponse({'message': message})
 
+def check_post_scrapped(request, post_id):
+    user = request.user
+    post = get_object_or_404(Post, id=post_id)
+
+    # 사용자의 Scrap 객체를 가져와, 없다면 새로 생성
+    scrap, created = Scrap.objects.get_or_create(user=user)
+    is_scrapped = scrap.is_post_scrapped(post)
+    # JSON 응답으로 결과를 반환합니다.
+    return JsonResponse({'is_scrapped': is_scrapped})

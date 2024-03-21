@@ -12,7 +12,7 @@ function search(query) {
 
 
     var loadingImg = document.createElement('img');
-    loadingImg.src = '/static/img/aaa.gif';
+    loadingImg.src = '/static/img/load.gif';
     loadingImg.alt = 'Loading...';
     loadingImg.className = 'loading-image';
     loadingImg.style.position = 'fixed';
@@ -30,6 +30,5 @@ function search(query) {
 // 검색 버튼 클릭 시 search 함수 실행
 document.getElementById('into-search').addEventListener('click', function(event) {
     var query = document.getElementsByName('query')[0].value;
-    console.log(query); // 콘솔에 검색어 출력해보기
     search(query);
 });

@@ -24,7 +24,7 @@
     <!-- 별표 버튼 -->
     {% if request.user.is_authenticated %}
     {% with user_scrap=request.user.scrap %}
-        {% if user_scrap.is_post_scrapped(post) %}
+        {% if scrap.is_post_scrapped %}
             <!-- 게시물이 찜되어 있는 경우 -->
             <button id="scrap-button" data-post-id="{{ post.pk }}" class="scraped"><i class="fas fa-star"></i> 찜하기</button>
         {% else %}
