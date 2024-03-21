@@ -3,6 +3,8 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +14,6 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #e5e5e5;
         }
         
         .middle {
@@ -93,18 +94,52 @@
         margin-left: 10px;
         vertical-align: middle;
         }
+
     </style>
 </head>
 
 <body>
+    <div class="container px-5" style="display: flex; justify-content: center;">
+        <div style="display: flex; margin-top: 40px; margin-bottom: 30px; font-size: 20px; font-weight: bold; ">
+            <p>
+            <span id="queryValueDisplay"></span>을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>&nbsp;순서로 찾아본 결과입니다.
+            </p>
+        </div>
+    </div>
+    
 
-        <div class="container px-5" style="display: flex; justify-content: space-between;">
-            <div style="display: flex; margin-bottom: 10px;">
-                <span id="queryValueDisplay"></span> 을(를) "<span id="minValueDisplay"></span>"부터 "<span id="maxValueDisplay"></span>"까지 "<span id="sortValueDisplay"></span>" 방식으로 찾아본 결과입니다.
+
+        <div class="container px-5" style="display: flex; justify-content: end">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex; margin-bottom: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
+        
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateModalLabel">업데이트</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container px-5">
+                                <p>10초 정도 걸립니다. 업데이트하시겠습니까?</p>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" name="action" value="no-btn" data-bs-dismiss="modal">아니오</button>
+                            <button type="button" class="btn btn-primary" name="action" value="yes-btn" data-bs-dismiss="modal" onclick="update();">예</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: flex; margin-bottom: 10px;">
-                정렬
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: flex; margin-bottom: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="display:block;fill:none;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><path fill="none" d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 1 0 8 0 4 4 0 0 0-8 0zM17 6a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 20a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 0H3"></path></svg>
             </button>                        
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -130,7 +165,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p id="error" style="color: red; display: none;">정확한 범위를 지정해 주세요!</p>
+                                <p id="error" style="color: red; display: none; margin: 10px; margin-top: 18px; margin-left: 80px;">정확한 범위를 지정해 주세요!</p>
                             </div>
                                     
                             <div class="container px-5 mx-auto mt-20">
@@ -195,15 +230,16 @@
             </div>
         </div>
 
-        <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
+        <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 80%;">
             {% for product in page_obj %}
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column" >
                     <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
                     <p style="margin-top: 10px;">{{ product.Pd_Name }}</p>
                     <p style="font-weight: bold;"> {{ product.Pd_Price }}원</p>
+                    <!-- wishlist 추가사항 -->
                     {% csrf_token %}
                     {{ form.as_p }}
-                    
+
                     {% if user.is_authenticated %}
                         <div class="d-flex justify-content-between">
                             <!-- 데이터 마켓 정보 -->
@@ -226,7 +262,6 @@
                             <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color:red; cursor:pointer;"></i>
                             <span style="color:gray; margin-left:4px;">{{ product.Pd_Count }}</span>
                         </button>
-                            <!-- <p>Please <a href="{% url 'accounts_app:login' %}">login</a> to add to your wishlist.</p> -->
                     {% endif %}
                 </div>
 
@@ -439,6 +474,14 @@
 
         inputLeft.addEventListener("input", setLeftValue);
         inputRight.addEventListener("input", setRightValue);
+
+        function update() {
+        var query = get_url_parameter('query'); // 수정: 함수명이 정확해야 합니다.
+        var updateUrl = '/search?query=' + query; // 수정: 변수명이 정확해야 합니다.
+        window.location.href = updateUrl;
+        }
+
+
 </script>
 </body>
 </html>
