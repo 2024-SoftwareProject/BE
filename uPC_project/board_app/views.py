@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseForbidden
 from django.urls import reverse
-from .models import Post, Photo
+from .models import Post, Photo, Scrap
 from .forms import PostForm, CommentForm
 import os
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Comment
 from django.http import JsonResponse
@@ -169,3 +170,39 @@ def delete_comment(request, pk, comment_id):
     else:
         return HttpResponseForbidden("You don't have permission to delete this comment.")
     
+@login_required
+def add_to_scrap(request, post_id):
+    post = Post.objects.get(id=post_id)
+    scrap, created = Scrap.objects.get_or_create(user=request.user)
+    if Scrap.user == request.user:
+        if post in scrap.posts.all():
+            scrap.posts.remove(post)
+            message = f'게시물이 찜 목록에서 제거되었습니다.'
+            is_scraped = False
+        else:
+            scrap.posts.add(post)
+            message = f'게시물이 찜 목록에 추가되었습니다.'
+            is_scraped = True
+    
+    else:
+        return HttpResponseForbidden("You don't have permission to edit this comment.")
+    messages.success(request, message)
+
+    return JsonResponse({'message': message, 'is_scraped': is_scraped})
+
+@login_required
+def remove_from_scrap(request, post_id):
+    post = Post.objects.get(id=post_id)
+    scrap, created = Scrap.objects.get_or_create(user=request.user)
+    if Scrap.user == request.user:
+        if post in scrap.posts.all():
+            scrap.posts.remove(post)
+            message = f'게시물이 찜 목록에서 제거되었습니다.'
+        else:
+            message = f'게시물이 찜 목록에 존재하지 않습니다.'
+    else:
+        return HttpResponseForbidden("You don't have permission to edit this comment.")
+    messages.success(request, message)
+
+    return JsonResponse({'message': message})
+
