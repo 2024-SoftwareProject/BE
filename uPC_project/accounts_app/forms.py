@@ -39,7 +39,7 @@ class SignupForm(UserCreationForm):
         self.fields['name'].label = '이름'
         self.fields['name'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': "아이디, 비밀번호 찾기에 이용됩니다",
+            'placeholder': "비밀번호 찾기에 이용됩니다",
         })
     
     class Meta:
