@@ -75,24 +75,14 @@ class Comment(models.Model):
 class Scrap(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='scrap')
     posts = models.ManyToManyField('Post', related_name='scrapped_by', blank=True)
-
     def __str__(self):
         return f"{self.user}'s Scrap"
 
     def add_to_scrap(self, post):
-        """
-        사용자의 찜 목록에 게시물을 추가합니다.
-        """
         self.posts.add(post)
 
     def remove_from_scrap(self, post):
-        """
-        사용자의 찜 목록에서 게시물을 제거합니다.
-        """
         self.posts.remove(post)
 
-    def is_post_scrapped(self, post):
-        """
-        게시물이 사용자의 찜 목록에 있는지 확인합니다.
-        """
-        return post in self.posts.all()
+    def is_post_scrap(self, post_id):
+        return self.posts.filter(id=post_id).exists()

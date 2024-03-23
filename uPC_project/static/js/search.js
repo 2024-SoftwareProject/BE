@@ -28,7 +28,7 @@ function search(query) {
 }
 
 // 검색 버튼 클릭 시 search 함수 실행
-document.getElementById('into-search').addEventListener('click', function(event) {
+document.getElementById('updateModal').addEventListener('click', function(event) {
     var query = document.getElementsByName('query')[0].value;
     search(query);
 });

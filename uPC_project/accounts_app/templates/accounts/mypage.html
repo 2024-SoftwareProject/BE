@@ -72,13 +72,13 @@
       {% for post in user.post_set.all %}
       <br>
       {% if post.board_type == 'free_board' %}
-        <li><a href="{% url 'board_app:free_board_posting' pk=post.pk %}">{{ post.postname }}</a></li>
+        <li><a href="{% url 'board_app:free_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
         
       {% elif post.board_type == 'question_board' %}
-        <li><a href="{% url 'board_app:question_board_posting' pk=post.pk %}">{{ post.postname }}</a></li>
+        <li><a href="{% url 'board_app:question_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
         
       {% elif post.board_type == 'review_board' %}
-        <li><a href="{% url 'board_app:review_board_posting' pk=post.pk %}">{{ post.postname }}</a></li>
+        <li><a href="{% url 'board_app:review_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
         
       {% endif %}
         
@@ -92,6 +92,29 @@
   <p>Please log in to view your posts.</p>
 {% endif %}
 
+<h2>My Scrap</h2>
+<table>
+    <tbody>
+        {% for post in user.scrap.posts.all %}
+            <tr>
+            {% if post.board_type == 'free_board' %}
+              <li><a href="{% url 'board_app:free_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+              
+            {% elif post.board_type == 'question_board' %}
+              <li><a href="{% url 'board_app:question_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+              
+            {% elif post.board_type == 'review_board' %}
+              <li><a href="{% url 'board_app:review_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+              
+            {% endif %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">찜한 게시물이 없습니다.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 <script>
   function add(Pd_IndexNumber) {
