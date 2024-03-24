@@ -20,6 +20,10 @@ urlpatterns=[
     path('free_board/<int:pk>/add_comment/', add_comment, name='free_board_add_comment'),
     path('<str:board_type>/<int:pk>/edit_comment/<int:comment_id>/', edit_comment, name='edit_comment'),# 수정 <str:board_type>
     path('free_board/<int:pk>/delete_comment/<int:comment_id>/', delete_comment, name='delete_comment'),
+    path('<str:board_type>/<int:pk>/add_to_scrap/', add_to_scrap,name='add_to_scrap'),
+    path('<str:board_type>/<int:pk>/toggle_scrap/', toggle_scrap, name='toggle_scrap'),
+    path('<str:board_type>/<int:pk>/check_post__scrap/', check_post_scrap, name='check_post_scrap'),
+    path('<str:board_type>/<int:pk>/scrap_status/', scrap_status, name='scrap_status'),
 
     path('review_board/', review_board, name='review_board'),
     path('review_board/<int:pk>/remove/', remove_post, name="review_board_remove_posting"),

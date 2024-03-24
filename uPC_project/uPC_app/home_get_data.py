@@ -10,4 +10,3 @@ def get_posts():
     posts = posts = Post.objects.all().order_by('-id')[:5]
 
     return posts
-    

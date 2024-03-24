@@ -8,7 +8,11 @@
         .edit-form {
             display: none;
         }
+        .scraped {
+            color: blue; /* 찜한 게시물의 색깔 지정*/
+        }
     </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!--게시물 스크랩 추가 -->
 </head>
 <body>
     <h1>게시글 개별 페이지입니다</h1>
@@ -20,7 +24,25 @@
         <img src="{{ photo.image.url }}" alt="" height="300">
         <br>
     {% endfor %}
-    
+    <!-- 별표 버튼 -->
+    {% if request.user.is_authenticated %}
+        {% with user_scrap=request.user.scrap %}
+        <!-- {# {% if user.scrap.is_post_scrapped %} #} -->
+            <!-- 게시물이 찜되어 있는 경우 -->
+            <button id="scrap-button" data-post-id="{{ post.pk }}" data-board-type="{{ post.board_type }}"class="{% if is_scrap %}scraped{% endif %}">
+                {% if is_scrap %}
+                    <i class="fas fa-star"></i> 찜하기 취소
+                {% else %}
+                    <i class="far fa-star"></i> 찜하기
+                {% endif %}</button>
+            <!-- {# {% endif %} #} -->
+        {% endwith %}
+    {% else %}
+    <!-- 비로그인 사용자의 경우 -->
+        <button id="scrap-button" disabled><i class="far fa-star"></i> 찜하기</button>
+        <span>로그인이 필요합니다.</span>
+    {% endif %}
+
     <h2>댓글</h2>
     <ul>
         {% for comment in post.comments.all %}
@@ -65,8 +87,73 @@
         <a href="{% url 'board_app:review_board_edit_post' pk=post.pk  %}">수정</a>
     {% endif %}
 
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            var scrapButton = document.getElementById('scrap-button');
+    
+            scrapButton.addEventListener('click', function() {
+                var postId = scrapButton.getAttribute('data-post-id');
+                var boardType = scrapButton.getAttribute('data-board-type');
+                toggleScrap(postId, boardType);
+            });
+            checkScrapStatus();
+            setInterval(checkScrapStatus,5000); //5초마다 찜 상태 갱신 
+
+            function toggleScrap(postId, boardType) {
+                var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                fetch('/board/'+boardType+'/'+postId+'/toggle_scrap/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_scraped) {
+                        scrapButton.classList.add('scraped');
+                        scrapButton.innerHTML = '<i class="fas fa-star"></i> 찜하기 취소';
+                        alert('찜하기 되었습니다.');
+                    } else {
+                        scrapButton.classList.remove('scraped');
+                        scrapButton.innerHTML = '<i class="far fa-star"></i> 찜하기';
+                        alert('찜하기 취소되었습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('찜하기 오류:', error);
+                    alert('찜하기 동작 중 오류가 발생했습니다.');
+                });
+            }
+    
+            function checkScrapStatus() {
+                var scrapButton = document.getElementById('scrap-button');
+                var postId = scrapButton.getAttribute('data-post-id');
+                var boardType = scrapButton.getAttribute('data-board-type');
+                // 찜하기 상태 조회 API 호출
+                fetch('/board/'+boardType+'/'+postId+'/scrap_status/', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // 서버로부터 받은 찜하기 상태에 따라 버튼 상태 초기화
+                    if (data.is_scraped) {
+                        scrapButton.classList.add('scraped');
+                        scrapButton.innerHTML = '<i class="fas fa-star"></i> 찜하기 취소';
+                    } else {
+                        scrapButton.classList.remove('scraped');
+                        scrapButton.innerHTML = '<i class="far fa-star"></i> 찜하기 ';
+                    }
+                })
+                .catch(error => {
+                    console.error('찜하기 상태 조회 오류:', error);
+                });
+            }
+    
             var editButtons = document.querySelectorAll('.edit-button');
             editButtons.forEach(function(button) {
                 button.addEventListener('click', function() {
@@ -74,6 +161,7 @@
                     showEditForm(commentId);
                 });
             });
+    
             var deleteButtons = document.querySelectorAll('.delete-button');
             deleteButtons.forEach(function(button) {
                 button.addEventListener('click', function() {
@@ -81,35 +169,36 @@
                     deleteComment(commentId);
                 });
             });
-        });
-
-        function showEditForm(commentId) {
-            var editForm = document.getElementById('edit-form-' + commentId);
-            editForm.style.display = 'block';
-        }
-        function deleteComment(commentId) {
-            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
-                fetch('/board/free_board/{{ post.pk }}/delete_comment/' + commentId + '/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // 삭제된 댓글을 화면에서 제거
-                        var commentElement = document.getElementById('comment-content-' + commentId);
-                        commentElement.parentNode.removeChild(commentElement);
-                    } else {
-                        alert('댓글 삭제 중 오류가 발생했습니다.');
-                    }
-                })
-                .catch(error => {
-                    console.error('댓글 삭제 중 오류 발생:', error);
-                    alert('댓글 삭제 중 오류가 발생했습니다.');
-                });
+    
+            function showEditForm(commentId) {
+                var editForm = document.getElementById('edit-form-' + commentId);
+                editForm.style.display = 'block';
             }
-        }
+    
+            function deleteComment(commentId) {
+                if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+                    fetch('/board/free_board/{{ post.pk }}/delete_comment/' + commentId + '/', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // 삭제된 댓글을 화면에서 제거
+                            var commentElement = document.getElementById('comment-content-' + commentId);
+                            commentElement.parentNode.removeChild(commentElement);
+                        } else {
+                            alert('댓글 삭제 중 오류가 발생했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('댓글 삭제 중 오류 발생:', error);
+                        alert('댓글 삭제 중 오류가 발생했습니다.');
+                    });
+                }
+            }
+        });
     </script>
 </body>
 </html>
