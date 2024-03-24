@@ -24,6 +24,9 @@ from . import get_data
 # 위시리스트 
 from accounts_app.models import Wishlist
 
+# search_history
+from accounts_app.models import SearchHistory
+
 #본격 서치 
 def search_view(request):
     # URL에서 query 가져오기
@@ -119,6 +122,9 @@ def search_report_view(request):
     # 위시리스트 목록 반영
     update_wishlist_status(request, page_obj)
 
+    # search_history 데이터 저장
+    save_search_history(request, edited_query)
+
     return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
 
 
@@ -136,3 +142,15 @@ def update_wishlist_status(request, page_obj):
         # 로그인하지 않은 사용자의 경우, 모든 상품을 위시리스트에 없는 것으로 설정
         for product in page_obj:
             product.is_in_wishlist = False
+
+
+def save_search_history(request, keyword):
+    if request.user.is_authenticated:
+        # 로그인한 사용자의 경우, 검색 키워드를 SearchHistory 모델에 저장
+        user = request.user
+        search_history = SearchHistory(user=user, keyword=keyword)
+        search_history.save()
+        return "로그인한 사용자의 검색 기록이 저장되었습니다."
+    else:
+        # 로그인하지 않은 사용자
+        return "로그인하지 않은 사용자입니다. 검색 기록이 저장되지 않습니다."
