@@ -2,4 +2,232 @@
 
 {% block content %}
 
+
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      width: 100%;
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .btn-bd-primary {
+      --bd-violet-bg: #712cf9;
+      --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+      --bs-btn-font-weight: 600;
+      --bs-btn-color: var(--bs-white);
+      --bs-btn-bg: var(--bd-violet-bg);
+      --bs-btn-border-color: var(--bd-violet-bg);
+      --bs-btn-hover-color: var(--bs-white);
+      --bs-btn-hover-bg: #6528e0;
+      --bs-btn-hover-border-color: #6528e0;
+      --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+      --bs-btn-active-color: var(--bs-btn-hover-color);
+      --bs-btn-active-bg: #5a23c8;
+      --bs-btn-active-border-color: #5a23c8;
+    }
+
+    .bd-mode-toggle {
+      z-index: 1500;
+    }
+
+  </style>
+
+
+
+</header>
+
+
+
+<main>
+
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container_title" style="width: 80%">
+            누군가 곧 사갈지도 몰라요!
+        </div>
+            <div class="container px-20 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; width: 80%; padding: 10px 20px 10px 20px;">
+                {% for product in popularity_outputDB %}
+                        <div class="d-flex flex-column" >
+                            <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
+                            <p style="margin-top: 10px;">{{ product.Pd_Name }}</p>
+                            <p style="font-weight: bold;"> {{ product.Pd_Price }}원</p>
+
+                            <!-- wishlist 추가사항 -->
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            {% if user.is_authenticated %}
+                                <div class="d-flex justify-content-between">
+                                    <div>출처: <a style="text-decoration-line: none;" href="{{ product.Pd_URL }}">{{ product.Pd_Market }}</a></div>
+                                    <!-- Button trigger modal -->
+                                    <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
+                                        <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color: red; cursor: pointer;"></i>
+                                    </button>   
+                                </div>
+
+                            {% else %}
+                                <p>Please <a href="{% url 'accounts_app:login' %}">login</a> to add to your wishlist.</p>
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        <p>No results found.</p>
+                {% endfor %}
+            </div>
+        
+    </div>
+
+    <section class="py-5 text-center container">
+        여기에 뭐 둘만한게 없나
+        </section>
+
+
+
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container_title" style="width: 80%">
+            다들 어떤 이야기를 하고 있을까요?
+        </div>
+            <div class="container px-20 mx-auto" style=" display: grid;  width: 80%; padding: 10px 20px 10px 20px;">
+    
+                {% for post in post_outputDB %}
+
+                <div class="post_row">
+                    <div class="col-1" style="width: 30px; border-right: 1px solid #000;">
+                        {{ post.id }}
+                    </div>
+                    <div class="col-2" style="margin-left: 10px;width: 150px; border-right: 1px solid #000;">
+                        {{ post.board_type }}
+                    </div>
+                    <div class="col-3" style="margin-left: 20px; width: 200px; border-right: 1px solid #000; margin-right: 20px; ;">
+                        {{ post.postname }}
+                    </div>
+                    <div class="col" style="margin-right: 10px; border-right: 1px solid #000; margin-right: 20px; ">
+                        {{ post.contents }}
+                    </div>
+                    <div class="col-1">
+                        {{ post.author.username }}
+                    </div>
+                </div>
+                
+
+                {% empty %}
+                    <p>No results found.</p>
+                {% endfor %}
+            </div>
+    </div>
+
+
+</main>
+
+<footer class="text-body-secondary py-5" style="margin-top: 200px; border-top: 2px solid #000;">
+<div class="container">
+  <p class="float-end mb-1">
+    <a href="#">위로 올라가기</a>
+  </p>
+  <p class="mb-1">uPC Web is &copy; 일 개 미 ㅋ</p>
+  <p class="mb-0">Resource? <a href=https://github.com/2024-SoftwareProject>github</a> </p>
+</div>
+</footer>
+
+
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+</html>
+
+<style>
+.container_title {
+    align-items: flex-end;
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
+    justify-content: left;
+    font-size: 20px; 
+    font-weight: bold;
+}
+
+.post_row {
+    display: flex;
+    height: 60px;
+    border-bottom: 1px solid #ccc; 
+    align-items: center;
+}
+
+.post_row > div {
+    display: flex;
+    /* justify-content: center;  */
+    align-items: center; 
+}
+
+
+</style>
+
+<script>
+function add(Pd_IndexNumber) {
+    $.ajax({
+        url: "/accounts/add_to_wishlist/" + Pd_IndexNumber,
+        dataType: "json",
+        success: function(response) {
+            var alreadyWishlist = response.already_wishlist;
+            // 하트 아이콘의 클래스를 변경
+            if (alreadyWishlist) {
+                $('#heart-' + Pd_IndexNumber).attr('class','bi-heart-fill');
+            } else {
+                $('#heart-' + Pd_IndexNumber).attr('class','bi-heart');
+            }
+
+            // 메시지 출력
+            alert(response.message);
+        }
+    })
+};
+</script>
+
+
 {% endblock %}

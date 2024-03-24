@@ -46,6 +46,7 @@ color: var(--text-color);
   display: block;
   background-color: var(--background-color);
   position: fixed; 
+  height: 180px;
   width: 96%; /* 추가된 부분 */
   top: 0; /* 추가된 부분 */
   left: 2%; /* 추가된 부분 */
@@ -53,7 +54,7 @@ color: var(--text-color);
   min-width: 1200px;
   padding-top: 40px;
   border: 200px;
-  border-bottom: 1px solid var(--text-color);
+  border-bottom: 2px solid var(--text-color);
 }
 
 .nav_logo{
@@ -70,17 +71,19 @@ color: var(--text-color);
 }
 
 .nav_menu {
-  display: flex;
-  justify-content: flex-end;
+  position: fixed;
+  display: inline-flex;
+  justify-content: right;
   width:99%;
   margin-top: 100px;
 }
 
 .nav_menu a {
-  padding: 10px 12px;
+  padding: 7px 7px;
   text-decoration: none;
   color: var(--text-color);
   margin-right: 15px;
+  left: 800px;
   
 }
 
@@ -97,14 +100,14 @@ color: var(--text-color);
 .nav_menu #nav-hamburger{
   position: absolute;
   display: flex;
+  justify-content: left ;
   cursor: pointer;
-  left: 100px;
+  left: 1px;
 }
 
 .nav_menu #nav-hamburger .submenu{
-  
-  top: 5px;
-  margin-left: 100px;
+  height: 50%;
+  margin-left: 50px;
 }
 
 #menu-wrap{
@@ -276,3 +279,5 @@ button {
   background-color: var(--accent-color);
   color: white;
 }
+
+
