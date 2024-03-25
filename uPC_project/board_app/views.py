@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseForbidden
 from django.urls import reverse
-from .models import Post, Photo
+from .models import Post, Photo, Scrap
 from .forms import PostForm, CommentForm
 import os
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Comment
 from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 
 def free_board(request):
     free_posts = Post.objects.filter(board_type="free_board")
@@ -169,3 +171,61 @@ def delete_comment(request, pk, comment_id):
     else:
         return HttpResponseForbidden("You don't have permission to delete this comment.")
     
+@login_required
+def add_to_scrap(request, pk, board_type):
+    post = Post.objects.get(id=pk)
+    scrap, created = Scrap.objects.get_or_create(user=request.user)
+    board_type =post.board_type
+    if post in scrap.posts.all():
+        scrap.posts.remove(post)
+        message = '게시물이 찜 목록에서 제거되었습니다.'
+        is_scraped = False
+    else:
+        scrap.posts.add(post)
+        message = '게시물이 찜 목록에 추가되었습니다.'
+        is_scraped = True
+    
+    messages.success(request, message)
+
+    return JsonResponse({'message': message, 'is_scraped': is_scraped})
+
+@login_required
+def toggle_scrap(request, board_type, pk):
+    post = get_object_or_404(Post, pk=pk)  # 게시물이 존재하는지 확인
+    try:
+        scrap = request.user.scrap
+    except Scrap.DoesNotExist:
+        scrap = Scrap.objects.create(user=request.user)
+
+    if scrap.is_post_scrap(pk):
+        scrap.remove_from_scrap(post) #remove에서 수정 
+        message = '게시물이 찜 목록에서 제거되었습니다.'
+        is_scraped = False
+    else:
+        scrap.add_to_scrap(post)
+        message = '게시물이 찜 목록에 추가되었습니다.'
+        is_scraped = True
+
+    return JsonResponse({'message': message, 'is_scraped': is_scraped})
+
+
+@login_required
+def check_post_scrap(request, pk, board_type): 
+    post = get_object_or_404(Post, pk=pk)  # 게시물이 존재하는지 확인
+    scrap_exists = request.user.scrap.is_post_scrap(pk) if hasattr(request.user, 'scrap') else False
+    return JsonResponse({'is_post_scrap': scrap_exists})
+
+@login_required
+@require_http_methods(["GET"])  # GET 요청만 허용
+def scrap_status(request, board_type, pk):
+    # 사용자가 해당 게시물을 찜했는지 여부를 확인
+    try:
+        # Scrap 모델에서 현재 사용자와 해당 postId를 가진 데이터를 조회
+        scrap = Scrap.objects.get(user=request.user, posts=pk)
+        is_scraped = True
+    except Scrap.DoesNotExist:
+        # 찜한 내역이 없으면 False
+        is_scraped = False
+
+    # 찜하기 상태를 JSON 형태로 응답
+    return JsonResponse({'is_scraped': is_scraped})

@@ -40,6 +40,20 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='SearchHistory',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('keyword', models.CharField(max_length=255)),
+                ('search_time', models.DateTimeField(auto_now_add=True)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'search_history',
+                'verbose_name_plural': 'search_history',
+                'db_table': 'search_history',
+            },
+        ),
+        migrations.CreateModel(
             name='Wishlist',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

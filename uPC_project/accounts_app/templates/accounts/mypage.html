@@ -6,90 +6,147 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"> 
 
 <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-12 col-xl-11">
-        <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-4">
-            <div class="row justify-content-center">
-              <div>
-                <!-- Display user information or additional content as needed -->
-                <div style="text-align:left; font-size: 20px;">
-                    <h10>username: {{ user.username}}</h10>
-                    <br>
-                    <h10>Email: {{ user.email }}</h10>
-                    <br>
-                    <h10>Name: {{ user.name }}</h10>
-                </div>
-                
-                <!-- Add more content as needed -->
-                <div style="margin-top: 20px">
-                    <a href="{% url 'accounts_app:edit_account' %}" style=" padding: 10px; margin: 5px; color: white;  text-decoration: none; font-weight: bold; border: 1px solid #33415c; border-radius: 10px; background-color: #22223b;">회원 정보 수정</a>
-                    <a href="{% url 'accounts_app:edit_password' %}" style="padding: 10px; margin: 5px; color: white;  text-decoration: none; font-weight: bold; border: 1px solid #33415c; border-radius: 10px; background-color: #22223b;">비밀번호 수정</a>
-                    <form style="float: right; display: inline-block;" action="{% url 'accounts_app:delete_account' %}" method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-grey btn-lg" style="color: grey; font-size: 15px;">회원탈퇴</button>
-                    </form>
-                </div>
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-lg-12 col-xl-11">
+      <div class="card text-black" style="border-radius: 25px;">
+        <div class="card-body p-md-4">
+          <div class="row justify-content-center">
+            <div>
+              <!-- Display user information or additional content as needed -->
+              <div style="text-align:left; font-size: 20px;">
+                  <h10>username: {{ user.username}}</h10>
+                  <br>
+                  <h10>Email: {{ user.email }}</h10>
+                  <br>
+                  <h10>Name: {{ user.name }}</h10>
+              </div>
+              
+              <!-- Add more content as needed -->
+              <div style="margin-top: 20px">
+                  <a href="{% url 'accounts_app:edit_account' %}" style=" padding: 10px; margin: 5px; color: white;  text-decoration: none; font-weight: bold; border: 1px solid #33415c; border-radius: 10px; background-color: #22223b;">회원 정보 수정</a>
+                  <a href="{% url 'accounts_app:edit_password' %}" style="padding: 10px; margin: 5px; color: white;  text-decoration: none; font-weight: bold; border: 1px solid #33415c; border-radius: 10px; background-color: #22223b;">비밀번호 수정</a>
+                  <form style="float: right; display: inline-block;" action="{% url 'accounts_app:delete_account' %}" method="POST">
+                      {% csrf_token %}
+                      <button class="btn btn-grey btn-lg" style="color: grey; font-size: 15px;">회원탈퇴</button>
+                  </form>
               </div>
             </div>
           </div>
-        </div> 
-      </div>
+        </div>
+      </div> 
     </div>
+  </div>
 </div>
 
-<h2>My Wishlist</h2>
-  {% if wishlist_products %}
-  <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; ">
-    {% for product in wishlist_products %}
-      <div>
-        <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto;" alt="Product Image">
-        <p>{{ product.Pd_Name }}</p>
-        <div class="d-flex justify-content-between">
-          <div style="font-weight: bold;">{{ product.Pd_Price }}원</div>
-          <form method="post" action="{% url 'accounts_app:remove_from_wishlist' product.Pd_IndexNumber %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
-              <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size:16px; color: red; cursor: pointer;"></i>
-          </button>   
-          </form>
-          
-      </div>
+<div class="container h-100">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-lg0=-12 col-xl-11" style="margin-top: 10px;">
+      <div class="container">
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active text-dark" id="tab1-tab" data-bs-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">My Wishlist</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-dark" id="tab2-tab" data-bs-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">My Posts</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-dark" id="tab3-tab" data-bs-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">My Scrap</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab" style="margin-top: 20px;">
+              <div class="container px-5 mx-auto mt-20">
+                <h4>My Wishlist</h4>
+              </div>  
+              
+                {% if wishlist_products %}
+                <div class="container px-5 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 50px;">
+                  {% for product in wishlist_products %}
+                    <div>
+                      <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
+                      <p style="margin-top: 10px;">{{ product.Pd_Name }}</p>
+                      <p style="font-weight: bold;"> {{ product.Pd_Price }}원</p>
+                      <div class="d-flex justify-content-between">
+                        <div>출처: <a style="text-decoration-line: none;" href="{{ product.Pd_URL }}">{{ product.Pd_Market }}</a></div>
+                        <form method="post" action="{% url 'accounts_app:remove_product_from_wishlist' product.Pd_IndexNumber %}">
+                          {% csrf_token %}
+                          {{ form.as_p }}
+                          <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-flex; padding: 0; margin-right:12px;">
+                            <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size:16px; color: red; cursor: pointer;"></i>
+                            <span style="color:gray; margin-left:4px;">{{ product.Pd_Count }}</span>
+                        </button>   
+                        </form>    
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                {% else %}
+              <p>Your wishlist is empty.</p>
+              {% endif %}
+            </div>
+            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab" style="margin-top: 20px;">
+                <h4>My Posts</h4>
+                <div>
+                  {% if user.is_authenticated %}
+                    {% if user.post_set.all %}
+                      <ul>
+                        {% for post in user.post_set.all %}
+                        <br>
+                        {% if post.board_type == 'free_board' %}
+                          <li><a href="{% url 'board_app:free_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+                          
+                        {% elif post.board_type == 'question_board' %}
+                          <li><a href="{% url 'board_app:question_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+                          
+                        {% elif post.board_type == 'review_board' %}
+                          <li><a href="{% url 'board_app:review_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+                          
+                        {% endif %}
+                          
+                          <!-- 이하 추가적인 게시물 정보를 표시할 수 있습니다 -->
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      <p>You haven't posted anything yet.</p>
+                    {% endif %}
+                  {% else %}
+                    <p>Please log in to view your posts.</p>
+                  {% endif %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab" style="margin-top: 20px;">
+                <h4>My Scrap</h4>
+                <div>
+                  <table>
+                      <tbody>
+                          {% for post in user.scrap.posts.all %}
+                              <tr>
+                              {% if post.board_type == 'free_board' %}
+                                <li><a href="{% url 'board_app:free_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+                                
+                              {% elif post.board_type == 'question_board' %}
+                                <li><a href="{% url 'board_app:question_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+                                
+                              {% elif post.board_type == 'review_board' %}
+                                <li><a href="{% url 'board_app:review_board_posting' pk=post.pk %}">{{post.board_type}} - {{ post.postname }}</a></li>
+                                
+                              {% endif %}
+                              </tr>
+                          {% empty %}
+                              <tr>
+                                  <td colspan="2">찜한 게시물이 없습니다.</td>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
+    
+    </div>
   </div>
-  {% else %}
-<p>Your wishlist is empty.</p>
-{% endif %}
-
-<h2>My Posts</h2>
-{% if user.is_authenticated %}
-  {% if user.post_set.all %}
-    <ul>
-      {% for post in user.post_set.all %}
-      <br>
-      {% if post.board_type == 'free_board' %}
-        <li><a href="{% url 'board_app:free_board_posting' pk=post.pk %}">{{ post.postname }}</a></li>
-        
-      {% elif post.board_type == 'question_board' %}
-        <li><a href="{% url 'board_app:question_board_posting' pk=post.pk %}">{{ post.postname }}</a></li>
-        
-      {% elif post.board_type == 'review_board' %}
-        <li><a href="{% url 'board_app:review_board_posting' pk=post.pk %}">{{ post.postname }}</a></li>
-        
-      {% endif %}
-        
-        <!-- 이하 추가적인 게시물 정보를 표시할 수 있습니다 -->
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>You haven't posted anything yet.</p>
-  {% endif %}
-{% else %}
-  <p>Please log in to view your posts.</p>
-{% endif %}
-
+</div>
 
 <script>
   function add(Pd_IndexNumber) {

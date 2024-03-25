@@ -24,7 +24,7 @@ urlpatterns=[
     path('maypage/editPassword/', views.editPassword, name='edit_password'),
     path('mypage/deleteAccount/', views.deleteAccount , name='delete_account'),
     
-    path('add_to_wishlist/<int:Pd_IndexNumber>/', views.add_to_wishlist, name='add_to_wishlist'),
-    path('remove_from_wishlist/<int:Pd_IndexNumber>', views.remove_from_wishlist, name='remove_from_wishlist'),
+    path('product_wishlist/<int:Pd_IndexNumber>/', views.product_wishlist, name='product_wishlist'),
+    path('remove_product_from_wishlist/<int:Pd_IndexNumber>', views.remove_product_from_wishlist, name='remove_product_from_wishlist'),
     
 ]

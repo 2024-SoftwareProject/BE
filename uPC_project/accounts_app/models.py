@@ -81,3 +81,18 @@ class Wishlist(models.Model):
         db_table = "wishlist"
         verbose_name = "wishlist"
         verbose_name_plural = "wishlist"
+
+
+
+class SearchHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    keyword = models.CharField(max_length=255)
+    search_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "search_history"
+        verbose_name = "search_history"
+        verbose_name_plural = "search_history"
+    
+    def __str__(self):
+        return self.keyword

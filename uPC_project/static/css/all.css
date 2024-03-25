@@ -110,17 +110,16 @@ color: var(--text-color);
 
 .dropdown-menu{ 
   display: inline-block;
-  position: absolute; 
-  top: 300px;
-  width: 200px;
+  position: fixed; 
+  top: 180px;
+  width: 150px;
   height: 200px;
-  left: 120px;
+  left: 160px;
   z-index: 10;
   border: 1px solid #c9c9c9;
   background-color: var(--background-color);
   text-align: center;
   font-weight: bold;
-  padding: 50px 0px 50px 0px;
   list-style: none;
   visibility: hidden;
 }
@@ -264,6 +263,10 @@ button {
   border-radius: 10px;
 }
 
+.M01{
+  padding: 10px;
+}
+
 .M01 a{
   text-decoration: none;
   color: var(--text-color);
@@ -275,8 +278,13 @@ button {
   color: #514444;
 }
 
-.M02 a:hover
-{
-  background-color: var(--accent-color);
-  color: white;
+#nav-hamburger div{
+  transition: all 1.4s;
+}
+
+#nav-hamburger div:hover:after {
+  animation: fill 1s forwards;
+  -webkit-animation: fill 1s forwards;
+  -moz-animation: fill 1s forwards;
+  opacity: 1;
 }

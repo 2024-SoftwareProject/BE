@@ -47,4 +47,12 @@ class Migration(migrations.Migration):
                 ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='board_app.post')),
             ],
         ),
+        migrations.CreateModel(
+            name='Scrap',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('posts', models.ManyToManyField(blank=True, related_name='scrapped_by', to='board_app.post')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='scrap', to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
     ]
