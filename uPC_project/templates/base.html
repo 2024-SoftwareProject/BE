@@ -21,38 +21,31 @@
     <div class="nav_logo">
       <a class="kaisei-decol-bold" id="brand-logo" href="/"><h1 style="font-size: 60px; font-weight: 900;">u.PC</h1></a>
     </div>
-    
-<div class="search">
-    <form action="{% url 'products_app:search_report' %}" method="GET">
-      <input type="text" name="query" value="" placeholder="검색어 입력">
-      <button type="submit" id="into-search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-          </svg>
-      </button>
-    </form>
-</div>
-
-<div class="search">
-    <form action="{% url 'products_app:search_report' %}" method="GET">
-      <input type="text" name="query" value="" placeholder="검색어 입력">
-      <button type="submit" id="into-search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-          </svg>
-      </button>
-    </form>
-</div>
-
-
-    
-
-    
+    <div class="search">
+        <form action="{% url 'products_app:search_report' %}" method="GET">
+          <input type="text" name="query" value="" placeholder="검색어 입력">
+          <button type="submit" id="into-search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+          </button>
+        </form>
+    </div>
+    <div class="search">
+        <form action="{% url 'products_app:search_report' %}" method="GET">
+          <input type="text" name="query" value="" placeholder="검색어 입력">
+          <button type="submit" id="into-search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+          </button>
+        </form>
+    </div>
     <div class="nav_menu">
       <div id = "nav-hamburger">
         <div class = "submenu" id = "menu_01">중고 완제품</div>
-        <div class = "submenu" id = "menu_02">중고 완제품</div>
-        <div class = "submenu" id = "menu_03">중고 완제품</div>
+        <div class = "submenu" id = "menu_02">컴퓨터예요</div>
+        <div class = "submenu" id = "menu_03">새제품이에요</div>
       </div>
       <a id="nav-note" href="{%url 'board_app:board' %}" style="padding-top: 5px;">게시판</a>
 
@@ -76,81 +69,33 @@
     
       {% endif %}
   </nav>
-<!--서브메뉴-->
-<div id="menu-wrap" style="display: block; position: relative; top: 165px;">
-  <div class="submenu1">
+  <div id="first-wrap" class="dropdown-menu">
     <div class="M01">
-      <a href="#" class="big">대메뉴1</a>
+      <a href="#">대메뉴1</a>
       <ul class="M02">
         <li id = "menu-01"><a href="#">소메뉴1</a></li>
         <li id = "menu-02"><a href="#">소메뉴2</a></li>
         <li id = "menu-03"><a href="#">소메뉴3</a></li>
       </ul>
     </div>
+  </div>
+  <div id="second-wrap" class="dropdown-menu">
     <div class="M01">
       <a href="#">대메뉴1</a>
       <ul class="M02">
-        <li id = "menu-03"><a href="#">소메뉴1</a></li>
-        <li id = "menu-04"><a href="#">소메뉴2</a></li>
-        <li id = "menu-05"><a href="#">소메뉴3</a></li>
-      </ul>
-    </div>
-    <div class="M01">
-      <a href="#">대메뉴1</a>
-      <ul class="M02">
-        <li id = "menu-06"><a href="#">소메뉴1</a></li>
-        <li id = "menu-07"><a href="#">소메뉴2</a></li>
-        <li id = "menu-08"><a href="#">소메뉴3</a></li>
+        <li id = "menu-01"><a href="#">소메뉴1</a></li>
+        <li id = "menu-02"><a href="#">소메뉴2</a></li>
+        <li id = "menu-03"><a href="#">소메뉴3</a></li>
       </ul>
     </div>
   </div>
-  <div class="submenu2">
-    <ul>
-
-    </ul>
-  </div>
-  
-</div>
-
 <script>
-$( document ).ready(function() {
-  //대메뉴 mouseover
-  $('#menu-wrap').hide();
-  $('#nav-hamburger').on('mouseover',function(){
-    $("#menu-wrap").show();
+  $(document).ready(function(){
+    $(".dropdown-menu").hide();
+    $(".submenu").click(function(){
+      $("dropdown-menu",this).slideToggle("fast");
+    })
   })
-  $('#menu-wrap').on('mouseleave',function(){
-    $("#menu-wrap").slideUp();
-  })
-});
-
-//대메뉴에서 소메뉴
-$(function(){
-  $('.M02').mouseover(function(){
-      $('#menu-wrap .M02').stop(true,true).css("left", "200px");
-    
-      class_str = $(this).attr("class");
-      class_str = class_str.replace('M02 ', '');
-      
-      $('#'+class_str).stop(true,true).animate({left:'260px'},"slow");
-  })
-});
-
-$( document ).ready(function() {
-  $('.M02').hide();
-  
-  $('.M01').click(function(){
-      $(this).children('.M02').stop(true,true).show("fast");
-      $(this).children('a').addClass("on");
-  });
-  $('.M01').mouseleave(function(){
-    $(this).children('.M02').stop(true,true).hide("fast");
-    $(this).children('a').RemoveClass("on");
-  });
-});
-
-
-
 </script>
 {% block content %}
 {% endblock %}
