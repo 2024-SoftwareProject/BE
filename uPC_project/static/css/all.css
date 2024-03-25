@@ -138,6 +138,10 @@ ul {
   padding-inline-start: 40px;
 }
 
+li{
+  list-style: none;
+}
+
 .a.on{
   left:600px;
 }
