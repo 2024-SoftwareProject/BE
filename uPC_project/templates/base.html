@@ -55,9 +55,9 @@
     <div class="nav_menu">
 
       <div id = "nav-hamburger">
-        <div class = "submenu" id = "menu_01" >중고 완제품</div>
-        <div class = "submenu" id = "menu_02" >중고 완제품</div>
-        <div class = "submenu" id = "menu_03" >중고 완제품</div>
+        <div class = "submenu">중고 완제품</div>
+        <div class = "submenu">중고 완제품</div>
+        <div class = "submenu">중고 완제품</div>
       </div>
       
       <div style="margin-left: 400px; margin-right: 60px;">
@@ -86,80 +86,42 @@
       {% endif %}
   </nav>
 <!--서브메뉴-->
-<div id="menu-wrap" style="display: block; position: absolute; top: 165px;">
-  <div class="submenu1">
-    <div class="M01">
-      <a href="#" class="big">대메뉴1</a>
-      <ul class="M02">
-        <li id = "menu-01"><a href="#">소메뉴1</a></li>
-        <li id = "menu-02"><a href="#">소메뉴2</a></li>
-        <li id = "menu-03"><a href="#">소메뉴3</a></li>
-      </ul>
-    </div>
-    <div class="M01">
-      <a href="#">대메뉴1</a>
-      <ul class="M02">
-        <li id = "menu-03"><a href="#">소메뉴1</a></li>
-        <li id = "menu-04"><a href="#">소메뉴2</a></li>
-        <li id = "menu-05"><a href="#">소메뉴3</a></li>
-      </ul>
-    </div>
-    <div class="M01">
-      <a href="#">대메뉴1</a>
-      <ul class="M02">
-        <li id = "menu-06"><a href="#">소메뉴1</a></li>
-        <li id = "menu-07"><a href="#">소메뉴2</a></li>
-        <li id = "menu-08"><a href="#">소메뉴3</a></li>
-      </ul>
-    </div>
+  <div class="dropdown-menu">
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
   </div>
-  <div class="submenu2">
-    <ul>
-
-    </ul>
+  <div class="dropdown-menu" style="left: 340px;">
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
   </div>
-  
-</div>
-
+  <div class="dropdown-menu" style="left: 520px;">
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+  </div>
 <script>
-$( document ).ready(function() {
-  //대메뉴 mouseover
-  $('#menu-wrap').hide();
-  $('#nav-hamburger').on('mouseover',function(){
-    $("#menu-wrap").show();
-  })
-  $('#menu-wrap').on('mouseleave',function(){
-    $("#menu-wrap").slideUp();
-  })
-});
+  const dropdownBtns = document.querySelectorAll('.submenu');
+  const dropdownContents = document.querySelectorAll('.dropdown-menu');
 
-//대메뉴에서 소메뉴
-$(function(){
-  $('.M02').mouseover(function(){
-      $('#menu-wrap .M02').stop(true,true).css("left", "200px");
-    
-      class_str = $(this).attr("class");
-      class_str = class_str.replace('M02 ', '');
-      
-      $('#'+class_str).stop(true,true).animate({left:'260px'},"slow");
-  })
-});
-
-$( document ).ready(function() {
-  $('.M02').hide();
+  dropdownBtns.forEach((btn, index) => {
+    const dropdownContent = dropdownContents[index];
   
-  $('.M01').click(function(){
-      $(this).children('.M02').stop(true,true).show("fast");
-      $(this).children('a').addClass("on");
+    btn.addEventListener('click', function() {
+      dropdownContent.classList.toggle('show');
+      //$(dropdownContent).slideDown();
+    });
+  
+    dropdownContent.addEventListener('mouseleave', function() {
+      //$(dropdownContent).slideUp();
+      dropdownContent.classList.remove('show');
+    });
   });
-  $('.M01').mouseleave(function(){
-    $(this).children('.M02').stop(true,true).hide("fast");
-    $(this).children('a').RemoveClass("on");
-  });
-});
-
-
-
+  
 </script>
 {% block content %}
 {% endblock %}
