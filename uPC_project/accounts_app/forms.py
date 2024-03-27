@@ -182,7 +182,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         self.fields['old_password'].widget.attrs.update({
             'class': 'form-control',
             'autofocus': False,
-            'style': 'margin-top:-15px;'
         })
         self.fields['new_password1'].label = '새 비밀번호'
         self.fields['new_password1'].widget.attrs.update({
