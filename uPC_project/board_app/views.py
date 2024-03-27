@@ -31,8 +31,11 @@ def posting(request, pk):
     post = Post.objects.get(pk=pk)
     return render(request, 'main/posting.html', {'post':post}) #board_type 부분 추가 수정 
 
+
 @login_required
 def new_post(request, board_type=None):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("로그인이 필요합니다.")
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, user=request.user, board_type=board_type)
 
@@ -52,7 +55,6 @@ def new_post(request, board_type=None):
                 return redirect('board_app:review_board')
             elif board_type == 'question_board':
                 return redirect('board_app:question_board')
-            #return redirect('/board/')
     else:
         form = PostForm(user=request.user, board_type=board_type)
     return render(request, 'main/new_post.html', {'form': form,'board_type': board_type})

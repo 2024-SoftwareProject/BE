@@ -69,7 +69,12 @@
         <input type="hidden" name="board_type" value="{{ post.board_type }}">
         {% csrf_token %}
         <textarea name="content"></textarea>
-        <button type="submit">댓글 작성</button>
+        {% if request.user.is_authenticated %}
+            <button id="comment_button" button type="submit">댓글 작성</button>
+        {% else %}
+        <button id="comment_button" disabled type="submit">댓글 작성</button>
+        <span>로그인이 필요합니다.</span>
+    {% endif %}
     </form>
 
     <br>
