@@ -8,8 +8,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 # KNN 모델 학습
 from sklearn.neighbors import NearestNeighbors
 
-# Create your views here.
-
 # KNN(K-Nearest Neighbors)
 # user-based Collaborative filtering
 # 가중치 기준
@@ -61,7 +59,7 @@ def transform_features_to_tfidf(df_features):
 
 # KNN 모델 학습
 def train_knn_model(tfidf_matrix):
-    model_knn = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=5, n_jobs=-1)
+    model_knn = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=2, n_jobs=-1)
     model_knn.fit(tfidf_matrix)
     return model_knn
 
@@ -69,11 +67,11 @@ def train_knn_model(tfidf_matrix):
 # 추천함수
 def get_recommendations(user_id, model_knn, tfidf_matrix, df_features):
     user_idx = df_features.index[df_features['user_id']==user_id].tolist()[0]
-    distances, indices = model_knn.kneighbors(tfidf_matrix[user_idx], n_neighbors=5)
+    distances, indices = model_knn.kneighbors(tfidf_matrix[user_idx], n_neighbors=2)
 
     neighbor_indices = indices.flatten()[1:] # 자기 자신을 제외
     neighbor_user_ids = df_features.iloc[neighbor_indices]['user_id'].values
 
     recommended_products = Wishlist.objects.filter(user_id__in=neighbor_user_ids).exclude(user_id=user_id).values_list('products__Pd_IndexNumber', flat=True).distinct()
-    products = Product.objects.filter(Pd_IndexNumber__in = recommended_products)
+    products = Product.objects.filter(Pd_IndexNumber__in = recommended_products)[:5]
     return products
