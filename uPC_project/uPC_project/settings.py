@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'uPC_app',
     'products_app',
     'board_app',
+    'recommend_app',
 ]
 
 AUTHENTICATION_BACKENDS = [

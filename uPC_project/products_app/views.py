@@ -66,6 +66,9 @@ def search_view(request):
 
     update_wishlist_status(request, page_obj)
 
+    # search_history 데이터 저장
+    save_search_history(request, edited_query)
+
     # 결과를 렌더링하여 반환
     return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
 
@@ -132,14 +135,18 @@ def search_report_view(request):
 
 def update_wishlist_status(request, page_obj):
     if request.user.is_authenticated:
-        # 사용자의 위시리스트 가져옴
-        wishlist = Wishlist.objects.get(user=request.user)
-        # 위시리스트에 있는 상품의 ID 목록을 가져옴
-        wishlist_product_ids = wishlist.products.values_list('Pd_IndexNumber', flat=True)
+        try:
+            # 사용자의 위시리스트 가져옴
+            wishlist = Wishlist.objects.get(user=request.user)
+            # 위시리스트에 있는 상품의 ID 목록을 가져옴
+            wishlist_product_ids = wishlist.products.values_list('Pd_IndexNumber', flat=True)
 
-        for product in page_obj:
-            product.is_in_wishlist = product.Pd_IndexNumber in wishlist_product_ids
-    
+            for product in page_obj:
+                product.is_in_wishlist = product.Pd_IndexNumber in wishlist_product_ids
+        except Wishlist.DoesNotExist:
+            # 위시리스트가 없는 경우, 모든 상품을 위시리스트에 없는 것으로 설정
+            for product in page_obj:
+                product.is_in_wishlist = False
     else:
         # 로그인하지 않은 사용자의 경우, 모든 상품을 위시리스트에 없는 것으로 설정
         for product in page_obj:

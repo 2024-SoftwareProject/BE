@@ -163,6 +163,39 @@
             </div>
     </div>
 
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container_title" style="width: 80%">
+            추천 상품
+        </div>
+        <div class="container px-20 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; width: 80%; padding: 10px 20px 10px 20px;">
+            {% if user.is_authenticated %}
+                    {% for product in recommended_products %}
+                        <div class="d-flex flex-column" >
+                            <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
+                            <p style="margin-top: 10px;">{{ product.Pd_Name }}</p>
+                            <p style="font-weight: bold;"> {{ product.Pd_Price }}원</p>
+
+                            <!-- wishlist 추가사항 -->
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                                <div class="d-flex justify-content-between">
+                                    <div>출처: <a style="text-decoration-line: none;" href="{{ product.Pd_URL }}">{{ product.Pd_Market }}</a></div>
+                                    <!-- Button trigger modal -->
+                                    <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
+                                        <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color: red; cursor: pointer;"></i>
+                                    </button>   
+                                </div>
+                        </div>
+                    {% empty %}
+                        <li>추천 상품이 없습니다.</li>
+                    {% endfor %}
+            {% else %}
+                <p><a href="{% url 'accounts_app:login' %}">로그인</a> 하여 맞춤형 상품을 추천받으세요! </p>
+            {% endif %}
+        </div>
+    </div>
+
+
 
 </main>
 
