@@ -39,7 +39,7 @@ class SignupForm(UserCreationForm):
         self.fields['name'].label = '이름'
         self.fields['name'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': "아이디, 비밀번호 찾기에 이용됩니다",
+            'placeholder': "비밀번호 찾기에 이용됩니다",
         })
     
     class Meta:
@@ -182,7 +182,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         self.fields['old_password'].widget.attrs.update({
             'class': 'form-control',
             'autofocus': False,
-            'style': 'margin-top:-15px;'
         })
         self.fields['new_password1'].label = '새 비밀번호'
         self.fields['new_password1'].widget.attrs.update({

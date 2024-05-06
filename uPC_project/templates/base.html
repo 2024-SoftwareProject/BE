@@ -8,157 +8,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>uPC</title>
     {% bootstrap_css %}
+    <link rel="icon" href="{% static 'img/load.gif' %}"/> 
+    <link rel="apple-touch-icon" href="{% static 'img/load.gif' %}"/>
     <link rel="stylesheet" href="{% static 'css/all.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Sans+KR&family=Jua&family=Kaisei+Decol&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nanum+Gothic&family=Nanum+Myeongjo&family=Noto+Serif+KR&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% bootstrap_javascript %}
 </head>
 
-<body class="nanum-myeongjo-regular">
+<body style="margin-top: 200px; font-family: "Jua", sans-serif; font-weight: 400; font-style: normal;">
   <nav class="navbar">
     <div class="nav_logo">
-      <a class="kaisei-decol-bold" id="brand-logo" href="/"><h1 style="font-size: 60px; font-weight: 900;">u.PC</h1></a>
+      <!-- <a class="kaisei-decol-bold" id="brand-logo" href="/"><h1 style="font-size: 60px; font-weight: 900;">u.PC</h1></a> -->
+      <a href="{% url 'home' %}">
+        <img src="{% static 'img/P-2-2.png' %}" alt="My-logo" width="105px" height="55px" style="margin-left: 40px; margin-top: 15px;">
+    </a>
     </div>
-    <div class="search">
-      <form action="{% url 'products_app:search' %}" method="GET">
-        <input type="text" name="query" value="" placeholder="검색어 입력">
-        <button type="submit" id="into-search">
+    
+<div class="search">
+    <form action="{% url 'products_app:search_report' %}" method="GET">
+      <input type="text" name="query" value="" placeholder="검색어 입력">
+      <button type="submit" id="into-search">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg>
-        </button>
-      </form>
-    </div>
+      </button>
+    </form>
+</div>
 
-
+<div class="search">
+  <form action="{% url 'products_app:search_report' %}" method="GET" target="_blank">
+    <input type="text" name="query" value="" placeholder="검색어 입력">
+    <button type="submit" id="into-search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+        </svg>
+    </button>
+  </form>
+</div>
     <div class="nav_menu">
 
       <div id = "nav-hamburger">
-        <div class = "submenu" id = "menu_01">중고 완제품</div>
-        <div class = "submenu" id = "menu_02">중고 완제품</div>
-        <div class = "submenu" id = "menu_03">중고 완제품</div>
+        <div class = "submenu">no way</div>
+        <div class = "submenu">중고 완제품</div>
+        <div class = "submenu">중고 완제품</div>
       </div>
-
-      <a id="nav-note" href="{%url 'board_app:board' %}" style="padding-top: 5px; padding-left: 5px;">게시판</a>
-
-      {% if user.is_authenticated %}
-      <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}"  style="padding-top: 5px; padding-left: 5px;">마이페이지</a>
-
-        {% else %}
-      <a id="nav-login" href="{% url 'accounts_app:login' %}" style="padding-top: 5px; padding-left: 5px;">로그인</a>
-      <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="padding-top: 5px; padding-left: 5px;">회원가입</a>
-      {% endif %}
-
-      {% if user.is_authenticated %}
       
-      <!-- <li> -->
-        <a id="nav-note" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="padding-top: 5px; padding-left: 5px;">로그아웃</a>
+      <div style="margin-left: 400px; margin-right: 60px;">
+        <a id="nav-note" href="{% url 'board_app:board' %}" style="padding-top: 5px;">게시판</a>
+    
+        {% if user.is_authenticated %}
+        <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}" style="padding-top: 5px;">마이페이지</a>
+
+          {% else %}
+        <a id="nav-login" href="{% url 'accounts_app:login' %}" style="padding-top: 5px;">로그인</a>
+        <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="padding-top: 5px;">회원가입</a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        
+
+        <a id="'nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="padding-top: 5px;">로그아웃</a>
         <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
         {% csrf_token %}
-        </form>       
-      <!-- </li> -->
+        </form> 
+      </div>
+
+
     </div>
     
       {% endif %}
   </nav>
 <!--서브메뉴-->
-
-<div id="menu-wrap" style="display: block; position: relative; top: 180px; left: 2%; position: absolute; height: inherit;" >
-  <div class="submenu1">
-    <div class="M01">
-      <a href="#" class="big">중고 완제품</a>
-      <ul class="M02">
-        <li id = "menu-01"><a href="#">중고 PC</a></li>
-        <li id = "menu-02"><a href="#">중고 노트북</a></li>
-      </ul>
-    </div>
-    <div class="M01">
-      <a href="#">PC 주요제품</a>
-      <ul class="M02">
-        <li id = "menu-03"><a href="#">CPU</a></li>
-        <li id = "menu-04"><a href="#">메인보드</a></li>
-        <li id = "menu-05"><a href="#">메모리</a></li>
-        <li id = "menu-06"><a href="#">그래픽카드</a></li>
-        <li id = "menu-07"><a href="#">SSD</a></li>
-        <li id = "menu-08"><a href="#">HHD</a></li>
-        <li id = "menu-09"><a href="#">케이스</a></li>
-        <li id = "menu-10"><a href="#">파워</a></li>
-      </ul>
-    </div>
-    <div class="M01">
-      <a href="#">PC 주변기기</a>
-      <ul class="M02">
-        <li id = "menu-11"><a href="#">모니터</a></li>
-        <li id = "menu-12"><a href="#">키보드</a></li>
-        <li id = "menu-13"><a href="#">마우스</a></li>
-        <li id = "menu-14"><a href="#">스피커/헤드셋</a></li>
-      </ul>
-    </div>
+  <div class="dropdown-menu">
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
   </div>
-  <div class="submenu2">
-    <ul>
-    </ul>
+  <div class="dropdown-menu" style="left: 340px;">
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
   </div>
-  
-</div>
-
+  <div class="dropdown-menu" style="left: 520px;">
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+    <div class="M01"><a href="#">대메뉴1</a></div>
+  </div>
 <script>
-$( document ).ready(function() {
-  //대메뉴 mouseover
-  $('#menu-wrap').hide();
-  $('#nav-hamburger').on('mouseover',function(){
-    $("#menu-wrap").show();
-  })
-  $('#menu-wrap').on('mouseleave',function(){
-    $("#menu-wrap").slideUp();
-  })
+  const dropdownBtns = document.querySelectorAll('.submenu');
+  const dropdownContents = document.querySelectorAll('.dropdown-menu');
 
-
-});
-
-
-//대메뉴에서 소메뉴
-$(function(){
-  $('.M02').mouseover(function(){
-      $('#menu-wrap .M02').stop(true,true).css("left", "200px");
-    
-      class_str = $(this).attr("class");
-      class_str = class_str.replace('M02 ', '');
-      
-      $('#'+class_str).stop(true,true).animate({left:'260px'},"slow");
-  })
-});
-
-$( document ).ready(function() {
-  $('.M02').hide();
+  dropdownBtns.forEach((btn, index) => {
+    const dropdownContent = dropdownContents[index];
   
-  // $('.M01').click(function(){
-  //     $(this).children('.M02').stop(true,true).show("slow");
-  //     $(this).children('a').addClass("on");
-  // });
-
-  $('.M01').mouseover(function(){
-      $(this).children('.M02').stop(true,true).show("slow");
-      $(this).children('a').addClass("on");
+    btn.addEventListener('click', function() {
+      dropdownContent.classList.toggle('show');
+      //$(dropdownContent).slideDown();
+    });
+  
+    dropdownContent.addEventListener('mouseleave', function() {
+      //$(dropdownContent).slideUp();
+      dropdownContent.classList.remove('show');
+    });
   });
-
-
-
-
-  $('.M01').mouseleave(function(){
-    $(this).children('.M02').stop(true,true).hide("slow");
-    $(this).children('a').RemoveClass("on");
-  });
-});
-
-
-
+  
 </script>
 {% block content %}
 {% endblock %}
-
 <script src="{% static 'js/search.js' %}"></script>
 </body>
 </html>

@@ -117,12 +117,11 @@ class Login(FormView):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
 
-        user = authenticate(self.request, email=email, password=password)
+        user = authenticate(self.request, email=email, password=password, backend='django.contrib.auth.backends.ModelBackend')
         if user is not None:
             if user.email_confirmed:
                 self.request.session['email'] = email
                 login(self.request, user)
-
                 remember_session = self.request.POST.get('remember_session',False)
                 if remember_session:
                     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
@@ -317,39 +316,33 @@ def activate(request, uid64, token):
 
 
 @login_message_required
-def add_to_wishlist(request, Pd_IndexNumber):
+def product_wishlist(request, Pd_IndexNumber):
     # 사용자의 wishlist 가져오기 또는 생성
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
-
     product = Product.objects.get(Pd_IndexNumber=Pd_IndexNumber)
-
+    
     if product in wishlist.products.all():
         wishlist.remove_from_wishlist(product)
-
         already_wishlist=False
-        messages.success(request, f'{product.Pd_Name} 당신의 wishlist에서 삭제되었습니다')
+        # messages.success(request, f'{product.Pd_Name} 당신의 wishlist에서 삭제되었습니다')
         product_data = {
-        "message": f"당신의 wishlist에서 삭제되었습니다",
-        "already_wishlist": already_wishlist
-        }
+        "message": f"wishlist에서 삭제되었습니다",
+        "already_wishlist": already_wishlist }
         return JsonResponse(product_data)
     else:
         wishlist.add_to_wishlist(product)
-
         already_wishlist=True
-        messages.success(request, f'{product.Pd_Name} 당신의 wishlist에 추가되었습니다')
+        # messages.success(request, f'{product.Pd_Name} 당신의 wishlist에 추가되었습니다')
         product_data = {
-        "message": f"당신의 wishlist에 추가되었습니다",
-        "already_wishlist": already_wishlist
-        }
+        "message": f"wishlist에 추가되었습니다.\n마이페이지에서 확인하세요",
+        "already_wishlist": already_wishlist }
         return JsonResponse(product_data)
 
 
 @login_message_required
-def remove_from_wishlist(request, Pd_IndexNumber):
+def remove_product_from_wishlist(request, Pd_IndexNumber):
     # 사용자의 wishlist 가져오기 또는 생성
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
-
     product = Product.objects.get(Pd_IndexNumber=Pd_IndexNumber)
 
     if product in wishlist.products.all():
@@ -357,5 +350,3 @@ def remove_from_wishlist(request, Pd_IndexNumber):
         wishlist.already_wishlist=False
         messages.success(request, f'{product.Pd_Name} 당신의 wishlist에서 삭제되었습니다')
         return redirect('accounts_app:mypage')
-
-

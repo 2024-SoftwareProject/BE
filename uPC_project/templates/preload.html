@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loading...</title>
 
-<!--스타일은 필요에 따라 수정할 수 있습니다.-->
  <style>
   .loading-container {
     position: fixed;
@@ -16,30 +15,23 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-
+    z-index: 999;
   }
 
   .loading-image {
-    width: 100px;
-    height: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
 </style> 
-<!--이미지의 크기를 조정할 수 있습니다.-->
+
 </head>
-<body>
+<body style="height: 100%;">
   <div class="loading-container">
-    <img id="loadingImg" src="{% static 'img/aaa.gif' %}" alt="Loading..." class="loading-image" style="display: none;">
+    <img id="loadingImg" src="{% static 'img/load.gif' %}" alt="Loading..." class="loading-image">
   </div>
 
    
    <script src="{% static 'js/search.js' %}"></script>
 
-   <script>
-    // preload 페이지가 로드된 후에 이미지를 보여주도록 설정
-    window.addEventListener('load', function() {
-      document.getElementById('loadingImg').style.display = 'block';
-    });
-  </script>
 </body>
 </html>
-

@@ -1,54 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posting!</title>
-    <style>
-        .edit-form {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <h1>게시글 개별 페이지입니다</h1>
+{% extends 'base.html' %}
+{% block content %}
+<div id="post-wrap">
+    <div class="row d-flex justify-content-center h-100">
+
+    <p id="post-title">{{ post.postname }}</p>
+    <p id="posted-text"><pre style="font-weight: 0px;">{{ post.contents }}</pre><p>
     <p>{{ post.author.username }}</p>
-    <p>{{ post.postname }}</p>
-    <p>{{ post.contents }}</p>
     
     {% for photo in post.photos.all %}
         <img src="{{ photo.image.url }}" alt="" height="300">
         <br>
     {% endfor %}
-    
-    <h2>댓글</h2>
-    <ul>
-        {% for comment in post.comments.all %}
-            <li id="comment-content-{{ comment.pk }}">{{ comment.author.username }} - {{ comment.content }}
-                {% if comment.author == request.user %}
-                <button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button>
-                <button class="delete-button" data-comment-id="{{ comment.pk }}">댓글 삭제</button>
-                {% endif %}
-            </li>
-            <li class="edit-form" id="edit-form-{{ comment.pk }}">
-                <form method="post" action="{% url 'board_app:edit_comment' pk=post.pk comment_id=comment.pk board_type=post.board_type %}">
-                    {% csrf_token %}
-                    <textarea name="content">{{ comment.content }}</textarea>
-                    <button type="submit">수정 제출</button>
-                </form>
-            </li>
-            {% empty %}
-            <li>작성된 댓글이 없습니다.</li>
-        {% endfor %}
-    </ul>
-   
+    <!-- 별표 버튼 -->
+    {% if request.user.is_authenticated %}
+        {% with user_scrap=request.user.scrap %}
+        <!-- {# {% if user.scrap.is_post_scrapped %} #} -->
+            <!-- 게시물이 찜되어 있는 경우 -->
+            <button id="scrap-button" data-post-id="{{ post.pk }}" data-board-type="{{ post.board_type }}"class="{% if is_scrap %}scraped{% endif %}">
+                {% if is_scrap %}
+                    <i class="fas fa-star"></i> 스크랩 취소
+                {% else %}
+                    <i class="far fa-star"></i> 스크랩
+                {% endif %}</button>
+            <!-- {# {% endif %} #} -->
+        {% endwith %}
+    {% else %}
+    <!-- 비로그인 사용자의 경우 -->
+        <button id="scrap-button" disabled><i class="far fa-star"></i> 스크랩</button>
+        <span>로그인이 필요합니다.</span>
+    {% endif %}
+
     <h3>댓글 작성하기</h3>
     <form method="post" action="{% if post.board_type == 'free_board' %}{% url 'board_app:free_board_add_comment' pk=post.pk %}{% elif post.board_type == 'review_board' %}{% url 'board_app:review_board_add_comment' pk=post.pk %}{% elif post.board_type == 'question_board' %}{% url 'board_app:question_board_add_comment' pk=post.pk %}{% endif %}">
         <input type="hidden" name="board_type" value="{{ post.board_type }}">
         {% csrf_token %}
         <textarea name="content"></textarea>
-        <button type="submit">댓글 작성</button>
+        {% if request.user.is_authenticated %}
+            <button id="comment_button" button type="submit">댓글 작성</button>
+        {% else %}
+        <button id="comment_button" disabled type="submit">댓글 작성</button>
+        <span>로그인이 필요합니다.</span>
+    {% endif %}
     </form>
+
+    <ul>
+        {% for comment in post.comments.all %}
+            <li id="comment-content-{{ comment.pk }}">{{ comment.author.username }} - {{ comment.content }}
+                {% if comment.author == request.user %}
+                <!--<button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button>-->
+                <button class="delete-button" data-comment-id="{{ comment.pk }}">댓글 삭제</button>
+                {% endif %}
+            </li>
+            <!--
+            <li class="edit-form" id="edit-form-{{ comment.pk }}">
+                <form method="post" action="{% url 'board_app:edit_comment' pk=post.pk comment_id=comment.pk board_type=post.board_type %}">
+                    <button type="submit">수정 제출</button>
+                </form>
+            </li>
+            -->
+            {% empty %}
+            <li>작성된 댓글이 없습니다.</li>
+        {% endfor %}
+    </ul>
 
     <br>
     {% if post.board_type == 'free_board' %}
@@ -64,22 +77,88 @@
         <a href="{% url 'board_app:review_board_remove_posting' pk=post.pk %}">삭제</a>
         <a href="{% url 'board_app:review_board_edit_post' pk=post.pk  %}">수정</a>
     {% endif %}
+</div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var editButtons = document.querySelectorAll('.edit-button');
-            editButtons.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var commentId = this.getAttribute('data-comment-id');
-                    showEditForm(commentId);
-                });
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var scrapButton = document.getElementById('scrap-button');
+
+        scrapButton.addEventListener('click', function() {
+            var postId = scrapButton.getAttribute('data-post-id');
+            var boardType = scrapButton.getAttribute('data-board-type');
+            toggleScrap(postId, boardType);
+        });
+        checkScrapStatus();
+        setInterval(checkScrapStatus,5000); //5초마다 찜 상태 갱신 
+
+        function toggleScrap(postId, boardType) {
+            var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            fetch('/board/'+boardType+'/'+postId+'/toggle_scrap/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_scraped) {
+                    scrapButton.classList.add('scraped');
+                    scrapButton.innerHTML = '<i class="fas fa-star"></i> 스크랩 취소';
+                    alert('스크랩 되었습니다.');
+                } else {
+                    scrapButton.classList.remove('scraped');
+                    scrapButton.innerHTML = '<i class="far fa-star"></i> 스크랩';
+                    alert('스크랩 취소되었습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('스크랩 오류:', error);
+                alert('스크랩 중 오류가 발생했습니다.');
             });
-            var deleteButtons = document.querySelectorAll('.delete-button');
-            deleteButtons.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var commentId = this.getAttribute('data-comment-id');
-                    deleteComment(commentId);
-                });
+        }
+
+        function checkScrapStatus() {
+            var scrapButton = document.getElementById('scrap-button');
+            var postId = scrapButton.getAttribute('data-post-id');
+            var boardType = scrapButton.getAttribute('data-board-type');
+            // 찜하기 상태 조회 API 호출
+            fetch('/board/'+boardType+'/'+postId+'/scrap_status/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 서버로부터 받은 스크랩 상태에 따라 버튼 상태 초기화
+                if (data.is_scraped) {
+                    scrapButton.classList.add('scraped');
+                    scrapButton.innerHTML = '<i class="fas fa-star"></i> 스크랩 취소';
+                } else {
+                    scrapButton.classList.remove('scraped');
+                    scrapButton.innerHTML = '<i class="far fa-star"></i> 스크랩 ';
+                }
+            })
+            .catch(error => {
+                console.error('스크랩 상태 조회 오류:', error);
+            });
+        }
+
+        var editButtons = document.querySelectorAll('.edit-button');
+        editButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var commentId = this.getAttribute('data-comment-id');
+                showEditForm(commentId);
+            });
+        });
+
+        var deleteButtons = document.querySelectorAll('.delete-button');
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var commentId = this.getAttribute('data-comment-id');
+                deleteComment(commentId);
             });
         });
 
@@ -87,6 +166,7 @@
             var editForm = document.getElementById('edit-form-' + commentId);
             editForm.style.display = 'block';
         }
+
         function deleteComment(commentId) {
             if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
                 fetch('/board/free_board/{{ post.pk }}/delete_comment/' + commentId + '/', {
@@ -110,6 +190,6 @@
                 });
             }
         }
-    </script>
-</body>
-</html>
+    });
+</script>
+{% endblock %}

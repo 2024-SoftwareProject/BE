@@ -1,23 +1,34 @@
 function search(query) {
-    // 로딩 이미지를 보여줌
+    var query = get_url_parameter('query');
+    var darkBackground = document.createElement('div');
+    darkBackground.style.position = 'fixed';
+    darkBackground.style.top = '0';
+    darkBackground.style.left = '0';
+    darkBackground.style.width = '100%';
+    darkBackground.style.height = '100%';
+    darkBackground.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 투명도가 0.5인 검은색 배경
+    darkBackground.style.zIndex = '9999'; // .gif보다 위에 배치되도록 z-index를 설정
+    document.body.appendChild(darkBackground);
+
+
     var loadingImg = document.createElement('img');
-    loadingImg.src = '/static/img/aaa.gif';
+    loadingImg.src = '/static/img/load.gif';
     loadingImg.alt = 'Loading...';
     loadingImg.className = 'loading-image';
-
-    // 로딩 이미지를 검색 폼의 자식으로 추가
-    var searchForm = document.querySelector('.search');
-    searchForm.appendChild(loadingImg);
+    loadingImg.style.position = 'fixed';
+    loadingImg.style.top = '50%';
+    loadingImg.style.left = '50%';
+    loadingImg.style.transform = 'translate(-50%, -50%)';
+    loadingImg.style.zIndex = '10000';
+    
+    document.body.appendChild(loadingImg);
 
     // 검색 결과 페이지로 이동
     window.location.href = '/search/?query=' + query;
 }
 
 // 검색 버튼 클릭 시 search 함수 실행
-document.getElementById('into-search').addEventListener('click', function(event) {
-    event.preventDefault(); // 기본 동작 방지
-    var query = document.getElementsByName('query')[0].value;
+document.getElementById('updateModal').addEventListener('click', function(event) {
+    //var query = document.getElementsByName('query')[0].value;
     search(query);
 });
-
-
