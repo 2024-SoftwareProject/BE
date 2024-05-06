@@ -71,6 +71,7 @@ color: var(--text-color);
   background-color: var(--background-color);
   position: fixed; 
   width: 100%; /* 추가된 부분 */
+  width: 100%; /* 추가된 부분 */
   top: 0; /* 추가된 부분 */
   z-index: 9999; /* 추가된 부분 */
   min-width: 1200px;
@@ -113,6 +114,7 @@ color: var(--text-color);
 
 .nav_menu a:hover {
   color: var(--accent-color);
+  color: var(--accent-color);
   border-radius: 4px;
 }
 
@@ -133,7 +135,17 @@ color: var(--text-color);
 }
 
 .dropdown-menu{ 
+.nav_menu #nav-hamburger .submenu:hover{
+  color: var(--accent-color);
+}
+
+.dropdown-menu{ 
   display: inline-block;
+  position: fixed; 
+  top: 180px;
+  width: 150px;
+  height: 200px;
+  left: 160px;
   position: fixed; 
   top: 180px;
   width: 150px;
@@ -150,6 +162,11 @@ color: var(--text-color);
 
 .dropdown-menu.show {
   visibility: visible;
+  visibility: hidden;
+}
+
+.dropdown-menu.show {
+  visibility: visible;
 }
 
 ul {
@@ -160,6 +177,10 @@ ul {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
   padding-inline-start: 40px;
+}
+
+li{
+  list-style: none;
 }
 
 li{
@@ -305,7 +326,9 @@ button {
 
 .M01{
   padding: 10px;
+  padding: 10px;
 }
+
 
 .M01 a{
   text-decoration: none;
