@@ -1,32 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>글쓰기 페이지</title>
-    <script>
-        function changeFieldName() {
-            var fileInput = document.getElementById("mainphotos");
-            if (fileInput.files.length > 0) {
-                fileInput.name = "mainphotos";
-            } else {
-                fileInput.name = "photos";
-            }
-        }
-    </script>
-</head>
-<body>
-    <h1>글쓰기 페이지</h1>
-    <form method="POST" enctype="multipart/form-data" onsubmit="changeFieldName()">
-        {% csrf_token %}
-        제목<br>
-        <input type="text" name="postname"><br>
-        내용<br>
-        <textarea rows="10" cols="50" name="contents"></textarea><br>
-        사진
-        <input type="file" id="mainphotos" multiple><br>
+{% extends 'base.html' %}
+{% block content %}
+<div id="post-wrap">
+  <div class="row d-flex justify-content-center h-100">
+      <form method="POST" enctype="multipart/form-data" onsubmit="changeFieldName()">
+          {% csrf_token %}
+          <textarea id="post-title" name="postname" placeholder="제목을 입력해주세요" rows="1" maxlength="100" onKeyPress="javascript: if (event.keyCode==13) return false;" style="resize: none; border-bottom: 1px solid #c4c4c4; font-weight: 600;" wrap="soft"></textarea>
+          <textarea id="post-text" name = "contents" placeholder="내용을 입력해주세요" rows="1" style="resize: none; padding-top: 20px;"></textarea>
+          <input type="file" id="mainphotos" multiple style="border: none;">
+          <input type="submit" id="post-btn" value="작성하기">
+      </form> 
+  </div>
+</div>
 
-        
-        <input type="submit" value="작성하기">
-    </form>
-</body>
-</html>
+<script>
+      $(document).ready(function() {
+        var $textarea = $('textarea');
+        $textarea.height($textarea.prop('scrollHeight'));
+        $textarea.on('input', function() {
+          $(this).height(0).height(this.scrollHeight);
+        });
+      });
+    function changeFieldName() {
+        var fileInput = document.getElementById("mainphotos");
+        if (fileInput.files.length > 0) {
+            fileInput.name = "mainphotos";
+        } else {
+            fileInput.name = "photos";
+        }
+    }
+</script>
+{% endblock %}

@@ -1,3 +1,27 @@
+.do-hyeon-regular {
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.noto-serif-kr-regular {
+  font-family: "Noto Serif KR", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.nanum-gothic-regular {
+  font-family: "Nanum Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.jua-regular {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 /*google font import*/
 .kaisei-decol-regular {
   font-family: "Kaisei Decol", serif;
@@ -27,10 +51,10 @@
   --accent-color: #32989a;
   --text-color: #424B54;
   --background-color: white;
+  --border-color: #759378;
 }
 
-.body {
-font-family: 'Montserrat';
+body {
 display: block;
 width: 100%;
 height: 100%;
@@ -46,6 +70,7 @@ color: var(--text-color);
   display: block;
   background-color: var(--background-color);
   position: fixed; 
+  width: 100%; /* 추가된 부분 */
   width: 100%; /* 추가된 부분 */
   top: 0; /* 추가된 부분 */
   z-index: 9999; /* 추가된 부분 */
@@ -89,6 +114,7 @@ color: var(--text-color);
 
 .nav_menu a:hover {
   color: var(--accent-color);
+  color: var(--accent-color);
   border-radius: 4px;
 }
 
@@ -109,7 +135,17 @@ color: var(--text-color);
 }
 
 .dropdown-menu{ 
+.nav_menu #nav-hamburger .submenu:hover{
+  color: var(--accent-color);
+}
+
+.dropdown-menu{ 
   display: inline-block;
+  position: fixed; 
+  top: 180px;
+  width: 150px;
+  height: 200px;
+  left: 160px;
   position: fixed; 
   top: 180px;
   width: 150px;
@@ -126,6 +162,11 @@ color: var(--text-color);
 
 .dropdown-menu.show {
   visibility: visible;
+  visibility: hidden;
+}
+
+.dropdown-menu.show {
+  visibility: visible;
 }
 
 ul {
@@ -136,6 +177,10 @@ ul {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
   padding-inline-start: 40px;
+}
+
+li{
+  list-style: none;
 }
 
 li{
@@ -208,7 +253,6 @@ margin: 0;
   z-index: 9999;
   background-color: var(--background-color);
   text-align: center;
-  padding-top: 80px;
 }
 .accounts-logo{
   text-decoration-line: none;
@@ -267,9 +311,24 @@ button {
   border-radius: 10px;
 }
 
+/*로그인 관련*/
+#recovery-pw-btn{
+  display: flex;
+  text-decoration: none;
+}
+
+#login-btn{
+  display: flex;
+  position: relative;
+  left: 300px;
+  top: -20px;
+}
+
 .M01{
   padding: 10px;
+  padding: 10px;
 }
+
 
 .M01 a{
   text-decoration: none;
@@ -286,9 +345,215 @@ button {
   transition: all 1.4s;
 }
 
-#nav-hamburger div:hover:after {
-  animation: fill 1s forwards;
-  -webkit-animation: fill 1s forwards;
-  -moz-animation: fill 1s forwards;
-  opacity: 1;
+/*게시판 바디*/
+#board-body{
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+}
+
+#board-body:hover{
+  transition: 0.5s;
+}
+
+.board-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.board-select .board-btn{
+  line-height: 100px;
+  height: 100px;
+  text-align: center;
+  width: 500px;
+  cursor: pointer;
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 100;
+}
+
+.board-btn {
+  color: #FFF;
+  transition: all 0.3s;
+  position: relative;
+  margin: 30px;
+}
+.board-btn span {
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  font-size: 40px;
+}
+.board-btn span a{
+  z-index: 20;
+  text-decoration: none;
+  color: black;
+}
+
+.board-btn::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.3s;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-top-color: #759378;
+  border-bottom-color: #759378;
+  transform: scale(0.1, 1);
+}
+.board-btn:hover span,
+.board-btn:hover span a
+{
+  letter-spacing: 5px;
+  color: white;
+}
+.board-btn::before {
+  opacity: 1; 
+  transform: scale(1, 1); 
+}
+.board-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+  background-color: rgba(255,255,255,0.1);
+}
+.board-btn:hover::after {
+  opacity: 0; 
+  transform: scale(0.1, 1);
+}
+
+.board-head{
+  text-align: center; 
+  padding: 50px; 
+  color: white;
+}
+
+.board-write-btn{
+  position: relative;
+  padding: 15px 20px 15px 20px;
+  float: right;
+  right: 150px;
+  top: 10px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.board-table{
+  top: 100px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+table{
+  width: 80%;
+}
+
+tbody tr{
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: var(--border-color);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: var(--border-color);
+  width: 100%;
+}
+tbody tr td{
+  padding: 20px;
+  margin-right: 2rem;
+}
+
+tbody tr:hover,
+tbody tr td:hover
+{
+  background-color: var(--border-color);
+  color: white;
+}
+
+#board-id{
+  width: 1.5rem;
+}
+#board-photo{
+  width: 5rem;
+}
+#board-postname{
+  position:relative;
+  padding-left: 3rem;
+}
+#board-author{
+  width: 5rem;
+}
+#post-wrap{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 30px;
+}
+#post-textarea{
+  width: 1000px;
+  height: 1rem;
+}
+#post-title{
+  overflow: hidden; 
+  overflow-wrap: break-word; 
+  border: none;
+  height: 60px;
+  font-size: 40px;
+  width: 100%;
+  white-space: pre-line;
+}
+#post-text{
+  overflow: hidden; 
+  overflow-wrap: break-word; 
+  height: 60px;
+  font-size: 20px;
+  width: 100%;
+  white-space: pre-wrap;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
+}
+#post-title:focus,
+#post-text:focus{
+  outline: none;
+}
+
+#posted-text{
+  height: 60px;
+  width: 100%;
+  white-space: pre;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
+}
+#post-btn{
+  position: relative;
+  top: 50px;
+  justify-content: center;
+  float: right;
+  font-size: 20px;
+  padding: 20px 30px 20px 30px;
+  background-color: var(--border-color);
+  color: white;
+  border-radius: 0.5rem;
 }
