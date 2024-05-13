@@ -28,7 +28,8 @@ function search(query) {
 }
 
 // 검색 버튼 클릭 시 search 함수 실행
-document.getElementById('updateModal').addEventListener('click', function(event) {
-    //var query = document.getElementsByName('query')[0].value;
-    search(query);
+document.getElementById('yes-btn').addEventListener('click', function(event) {
+    // 이 곳에 예 버튼이 눌렸을 때 실행할 동작을 작성하세요.
+    // 예를 눌렀을 때 모달이 닫히도록 할 수 있습니다.
+    search(query); // update 함수를 호출하는 예시입니다.
 });

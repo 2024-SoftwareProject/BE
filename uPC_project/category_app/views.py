@@ -106,12 +106,12 @@ def search_report_view(request):
 
     sort = request.GET.get('sort', 'latest')
     aOption = request.GET.get('aoption', 'abcdef')
-    bOption = request.GET.get('boption', 'abcdef')
-    cOption = request.GET.get('coption', 'abcdef')
-    dOption = request.GET.get('doption', 'abcdef')
-    eOption = request.GET.get('eoption', 'abcdef')
+    # bOption = request.GET.get('boption', 'abcdef')
+    # cOption = request.GET.get('coption', 'abcdef')
+    # dOption = request.GET.get('doption', 'abcdef')
+    # eOption = request.GET.get('eoption', 'abcdef')
 
-    print(aOption, bOption, cOption, dOption, eOption)
+    print(aOption, "!1dd")
 
 
     min_price = request.GET.get('min', '0')
@@ -137,14 +137,14 @@ def search_report_view(request):
     max_price = int(max_price)
 
     if  sort == 'latest':
-        outputDB = get_data.get_products_by_latest(categoryNumber, min_price, max_price, aOption, bOption, cOption, dOption, eOption)
+        outputDB = get_data.get_products_by_latest(categoryNumber, min_price, max_price, aOption)
     elif sort == 'popularity':
-        outputDB = get_data.get_products_by_popularity(categoryNumber, min_price, max_price, aOption, bOption, cOption, dOption, eOption)
+        outputDB = get_data.get_products_by_popularity(categoryNumber, min_price, max_price, aOption)
     elif sort == 'price_low':
         print("adfafdaf")
-        outputDB = get_data.get_products_by_price_low(categoryNumber, min_price, max_price, aOption, bOption, cOption, dOption, eOption)
+        outputDB = get_data.get_products_by_price_low(categoryNumber, min_price, max_price, aOption)
     elif sort == 'price_high':
-        outputDB = get_data.get_products_by_price_high(categoryNumber, min_price, max_price, aOption, bOption, cOption, dOption, eOption)
+        outputDB = get_data.get_products_by_price_high(categoryNumber, min_price, max_price, aOption)
     else:
         outputDB = get_data.get_all_products(categoryNumber)
         print("카테앱 리포트 뷰 함수 error")

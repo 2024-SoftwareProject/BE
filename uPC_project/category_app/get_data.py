@@ -4,53 +4,35 @@ from django.db import models
 
 from products_app.models import Product
 
-def get_products_by_latest(categoryNumber, min=0, max=3000000, aOption='abcdef9129', bOption='abcdef9129', cOption='abcdef9129', dOption='abcdef9129', eOption='abcdef9129'):
+def get_products_by_latest(categoryNumber, min=0, max=3000000, aOption='abcdef9129'):
     print(aOption)
     print("gaga")
     products = list(CategoryProduct.objects.filter(Pd_Category__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max)))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=bOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=cOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=dOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=eOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
 
     sorted_products = sorted(products, key=lambda x: x.Pd_IndexNumber)
     
     return sorted_products
 
 
-def get_products_by_price_low(categoryNumber, min=0, max=3000000, aOption='abcdef9129', bOption='abcdef9129', cOption='abcdef9129', dOption='abcdef9129', eOption='abcdef9129'):
+def get_products_by_price_low(categoryNumber, min=0, max=3000000, aOption='abcdef9129'):
     products = list(CategoryProduct.objects.filter(Pd_Name__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max)))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=bOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=cOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=dOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=eOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
 
     sorted_products = sorted(products, key=lambda x: x.Pd_Price)
     
     return sorted_products
 
 
-def get_products_by_price_high(categoryNumber, min=0, max=3000000, aOption='abcdef9129', bOption='abcdef9129', cOption='abcdef9129', dOption='abcdef9129', eOption='abcdef9129'):
+def get_products_by_price_high(categoryNumber, min=0, max=3000000, aOption='abcdef9129'):
     print(aOption)
-    products = list(CategoryProduct.objects.filter(Pd_Name__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max)))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=bOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=cOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=dOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=eOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-
-    
+    products = list(CategoryProduct.objects.filter(Pd_Name__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))) 
     print("gaga3")
     sorted_products = sorted(products, key=lambda x: -x.Pd_Price)
     
     return sorted_products
 
 
-def get_products_by_popularity(categoryNumber, min=0, max=3000000, aOption='abcdef9129', bOption='abcdef9129', cOption='abcdef9129', dOption='abcdef9129', eOption='abcdef9129'):
-    products = list(CategoryProduct.objects.filter(PPd_Name__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max)))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=bOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=cOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=dOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
-    products.extend(list(CategoryProduct.objects.filter(Pd_Name__icontains=eOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))))
+def get_products_by_popularity(categoryNumber, min=0, max=3000000, aOption='abcdef9129'):
+    products = list(CategoryProduct.objects.filter(Pd_Name__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max)))
 
     sorted_products = sorted(products, key=lambda x: x.Pd_IndexNumber)
     

@@ -145,9 +145,9 @@
                             </div>
                             <br>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" id="yes-btn">
                             <button type="button" class="btn" name="action" value="no-btn" data-bs-dismiss="modal" onclick="return false;">아니오</button>
-                            <button type="button" class="btn btn-primary" name="action" value="yes-btn" data-bs-dismiss="modal" onclick="update();">예</button>
+                            <button type="button"  class="btn btn-primary" name="action" value="yes-btn" data-bs-dismiss="modal" onclick="update();">예</button>
                         </div>
                     </div>
                 </div>
@@ -253,15 +253,15 @@
                                         </div>
                                         <div class="d-flex">
                                             <div>
-                                                <input type="checkbox" id="b" name="c" value="맥북" onclick="updatebOption(this)">
+                                                <input type="checkbox" id="b" name="c" value="아이맥" onclick="updateaOption(this)">
                                             </div>
                                             <div style="padding-left: 10px;">
-                                                <label for="apple">애플</label>
+                                                <label for="apple">아이맥</label>
                                             </div>
                                         </div>
                                         <div class="d-flex">
                                             <div>
-                                                <input type="checkbox" id="lg" name="lg" value="LG" onclick="updateacption(this)">
+                                                <input type="checkbox" id="lg" name="lg" value="LG" onclick="updateaOcption(this)">
                                             </div>
                                             <div style="padding-left: 10px;">
                                                 <label for="lg">LG</label>
@@ -285,7 +285,7 @@
                                         </div>
                                         <div class="d-flex">
                                             <div>
-                                                <input type="checkbox" id="b" name="b" value="LG" onclick="updatebOption(this)">
+                                                <input type="checkbox" id="b" name="b" value="LG" onclick="updateaOption(this)">
                                             </div>
                                             <div style="padding-left: 10px;">
                                                 <label for="lg2">LG 전자</label>
@@ -293,10 +293,10 @@
                                         </div>
                                         <div class="d-flex">
                                             <div>
-                                                <input type="checkbox" id="c" name="c" value="아이맥" onclick="updatecOption(this)">
+                                                <input type="checkbox" id="c" name="c" value="맥북" onclick="updateaOption(this)">
                                             </div>
                                             <div style="padding-left: 10px;">
-                                                <label for="mac">mac</label>
+                                                <label for="mac">MAC</label>
                                             </div>
                                         </div>
                                     </div>
@@ -316,7 +316,7 @@
                                         </div>
                                         <div class="d-flex">
                                             <div>
-                                                <input type="checkbox" id="b" name="b" value="AMD" onclick="updatebOption(this)">
+                                                <input type="checkbox" id="b" name="b" value="AMD" onclick="updateaOption(this)">
                                             </div>
                                             <div style="padding-left: 10px;">
                                                 <label for="b">AMD</label>
@@ -338,7 +338,7 @@
                                         </div>
                                         <div class="d-flex">
                                             <div>
-                                                <input type="checkbox" id="b" name="b" value="AMD" onclick="updatebOption(this)>
+                                                <input type="checkbox" id="b" name="b" value="AMD" onclick="updateaOption(this)>
                                             </div>
                                             <div style="padding-left: 10px;">
                                                 <label for="amd">기타</label>
@@ -388,7 +388,7 @@
                                             </div>
                                             <div class="d-flex">
                                                 <div>
-                                                    <input type="checkbox" id="b" name="b" value="하이닉스" onclick="updatebOption(this)>
+                                                    <input type="checkbox" id="b" name="b" value="하이닉스" onclick="updateaOption(this)>
                                                 </div>
                                                 <div style="padding-left: 10px;">
                                                     <label for="amd">하이닉스</label>
@@ -476,7 +476,7 @@
                              
                                     <div class="d-flex">
                                         <div>
-                                            <input type="checkbox" id="b" name="b" value="LG" onclick="updatebOption(this)>
+                                            <input type="checkbox" id="b" name="b" value="LG" onclick="updateaOption(this)>
                                         </div>
                                         <div style="padding-left: 10px;">
                                             <label for="b">LG</label>
@@ -499,7 +499,7 @@
                              
                                     <div class="d-flex">
                                         <div>
-                                            <input type="checkbox" id="b" name="b" value="게임용헤드셋" onclick="updatebOption(this)"">
+                                            <input type="checkbox" id="b" name="b" value="게임용헤드셋" onclick="updateaOption(this)">
                                         </div>
                                         <div style="padding-left: 10px;">
                                             <label for="b">게임용 헤드셋</label>
@@ -648,7 +648,7 @@
         function make_report() {
         var currentUrl = window.location.href;;
         var category = get_url_parameter('category=');
-        var newUrl = '/category/report?category=' + {{ categoryNumber }} + '&sort=' + sort + '&min=' + min + '&max=' + max + '&page=' + page_point + '&aoption=' + aOption + '&boption=' + bOption + '&coption=' + cOption + '&doption=' + dOption + '&eoption=' + eOption; 
+        var newUrl = '/category/report?category=' + {{ categoryNumber }} + '&sort=' + sort + '&min=' + min + '&max=' + max + '&page=' + page_point + '&aoption=' + aOption; 
         optionDisplay();
         window.location.href = newUrl; 
         } 
@@ -678,39 +678,39 @@
                 sort = '';
             }
         }
-        function updatebOption(checkbox) {
-            if (checkbox.checked) {
-                bOption = checkbox.value;
+        // function updatebOption(checkbox) {
+        //     if (checkbox.checked) {
+        //         bOption = checkbox.value;
 
-            } else {
-                sort = '';
-            }
-        }
-        function updatecOption(checkbox) {
-            if (checkbox.checked) {
-                cOption = checkbox.value;
+        //     } else {
+        //         sort = '';
+        //     }
+        // }
+        // function updatecOption(checkbox) {
+        //     if (checkbox.checked) {
+        //         cOption = checkbox.value;
 
-            } else {
-                sort = '';
-            }
-        }
-        function updatedOption(checkbox) {
-            if (checkbox.checked) {
-                aOption = checkbox.value;
+        //     } else {
+        //         sort = '';
+        //     }
+        // }
+        // function updatedOption(checkbox) {
+        //     if (checkbox.checked) {
+        //         aOption = checkbox.value;
 
-            } else {
-                sort = '';
-            }
-        }
+        //     } else {
+        //         sort = '';
+        //     }
+        // }
 
-        function updateeOption(checkbox) {
-            if (checkbox.checked) {
-                a = checkbox.value;
+        // function updateeOption(checkbox) {
+        //     if (checkbox.checked) {
+        //         a = checkbox.value;
 
-            } else {
-                sort = '';
-            }
-        }
+        //     } else {
+        //         sort = '';
+        //     }
+        // }
 
         function updateMinOption() {
             min = minSlider.value
