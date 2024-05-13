@@ -75,7 +75,6 @@ color: var(--text-color);
   top: 0; /* 추가된 부분 */
   z-index: 9999; /* 추가된 부분 */
   min-width: 1200px;
-  padding-top: 40px;
   border: 200px;
   border-bottom: 1px solid var(--text-color);
 }
@@ -135,11 +134,6 @@ color: var(--text-color);
 }
 
 .dropdown-menu{ 
-.nav_menu #nav-hamburger .submenu:hover{
-  color: var(--accent-color);
-}
-
-.dropdown-menu{ 
   display: inline-block;
   position: fixed; 
   top: 180px;
@@ -187,7 +181,7 @@ li{
   list-style: none;
 }
 
-.a.on{
+.nav_menu a.on{
   left:600px;
 }
 
@@ -264,7 +258,7 @@ margin: 0;
 /*모달창 버튼 나중에 클래스 변경해야 함*/
 button {
   border: 0;
-  background-color: none;
+  background-color: transparent;
 }
 .btn-box .btn-open {
     display: block;
