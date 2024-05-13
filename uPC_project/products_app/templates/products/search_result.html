@@ -152,8 +152,22 @@
             </p>
         </div>
     </div>
-    
 
+    <div>
+        <table style="margin: 0 auto; border-collapse: collapse; width: 50%;">
+            <tr>
+                <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 23.33%;">최저가</td>
+                <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 23.33%;">평균가격</td>
+                <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 23.33%;">최고가</td>
+            </tr>
+            <tr>
+                <td style="text-align: center; border: 1px solid black; width: 23.33%;">{{ min_price_stat }}</td>
+                <td style="text-align: center; border: 1px solid black; width: 23.33%;">{{ average_price_stat }}</td>
+                <td style="text-align: center; border: 1px solid black; width: 23.33%;">{{ max_price_stat }}</td>
+            </tr>
+        </table>
+    </div>
+    
 
         <div class="container px-5" style="display: flex; justify-content: end">
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex; margin-bottom: 10px;">
@@ -190,7 +204,7 @@
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
-        
+                    
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">필터</h5>
