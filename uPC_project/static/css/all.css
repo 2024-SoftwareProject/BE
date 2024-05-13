@@ -134,7 +134,6 @@ color: var(--text-color);
   color: var(--accent-color);
 }
 
-.dropdown-menu{ 
 .nav_menu #nav-hamburger .submenu:hover{
   color: var(--accent-color);
 }
@@ -384,6 +383,7 @@ button {
   position: relative;
   margin: 30px;
 }
+
 .board-btn span {
   transition: all 0.3s;
   display: flex;
@@ -391,6 +391,7 @@ button {
   z-index: 10;
   font-size: 40px;
 }
+
 .board-btn span a{
   z-index: 20;
   text-decoration: none;
@@ -414,16 +415,19 @@ button {
   border-bottom-color: #759378;
   transform: scale(0.1, 1);
 }
+
 .board-btn:hover span,
 .board-btn:hover span a
 {
   letter-spacing: 5px;
   color: white;
 }
+
 .board-btn::before {
   opacity: 1; 
   transform: scale(1, 1); 
 }
+
 .board-btn::after {
   content: '';
   position: absolute;
@@ -435,6 +439,7 @@ button {
   transition: all 0.3s;
   background-color: rgba(255,255,255,0.1);
 }
+
 .board-btn:hover::after {
   opacity: 0; 
   transform: scale(0.1, 1);
@@ -493,26 +498,32 @@ tbody tr td:hover
 #board-id{
   width: 1.5rem;
 }
+
 #board-photo{
   width: 5rem;
 }
+
 #board-postname{
   position:relative;
   padding-left: 3rem;
 }
+
 #board-author{
   width: 5rem;
 }
+
 #post-wrap{
   display: flex;
   justify-content: center;
   position: relative;
   top: 30px;
 }
+
 #post-textarea{
   width: 1000px;
   height: 1rem;
 }
+
 #post-title{
   overflow: hidden; 
   overflow-wrap: break-word; 
@@ -521,7 +532,9 @@ tbody tr td:hover
   font-size: 40px;
   width: 100%;
   white-space: pre-line;
+  resize: none;
 }
+
 #post-text{
   overflow: hidden; 
   overflow-wrap: break-word; 
@@ -532,7 +545,9 @@ tbody tr td:hover
   border: none;
   border-bottom: 1px solid #333;
   padding-bottom: 20px;
+  resize: none;
 }
+
 #post-title:focus,
 #post-text:focus{
   outline: none;
@@ -546,6 +561,7 @@ tbody tr td:hover
   border-bottom: 1px solid #333;
   padding-bottom: 20px;
 }
+
 #post-btn{
   position: relative;
   top: 50px;
@@ -557,3 +573,34 @@ tbody tr td:hover
   color: white;
   border-radius: 0.5rem;
 }
+  #posting-title{
+    overflow: hidden; 
+    overflow-wrap: break-word; 
+    font-size: 40px;
+    white-space: pre-line;
+    display: flex;
+    justify-content: center;
+  }
+  
+  #posting-comments{
+    overflow: hidden; 
+    overflow-wrap: break-word; 
+    height: 60px;
+    font-size: 20px;
+    width: 100%;
+    white-space: pre-wrap;
+    border: none;
+    border-bottom: 1px solid #d4d4d4;
+    padding-bottom: 20px;
+    resize: none;
+  }
+
+  .posted-comment{
+    font-size: 20px; 
+    padding: 15px;  
+    border-top: 1px solid #d4d4d4; 
+  }
+
+  #posting-comments:focus{
+    outline: none;
+  }

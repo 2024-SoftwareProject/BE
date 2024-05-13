@@ -26,7 +26,7 @@ urlpatterns=[
     path('<str:board_type>/<int:pk>/scrap_status/', scrap_status, name='scrap_status'),
 
     path('review_board/', review_board, name='review_board'),
-    path('review_board/<int:pk>/remove/', remove_post, name="review_board_remove_posting"),
+    #path('review_board/<int:pk>/remove/', remove_post, name="review_board_remove_posting"),
     path('review_board/<int:pk>/', posting, name="review_board_posting"), 
     path('review_board/<int:pk>/edit', edit_post, name="review_board_edit_post"),
     path('review_board/<int:pk>/add_comment/', add_comment, name='review_board_add_comment'),
