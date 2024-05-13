@@ -1,17 +1,50 @@
-<html>
-    <head>
-        <title>질문 게시판</title>
-    </head>
-    <body>
-        <h1>질문 게시판 페이지입니다</h1>
+{% extends 'base.html' %}
+{% block content %}
 
-        <ul>
-            {% for post in posts %}
-                <li><a href="{{post.pk}}/">{{post.postname}}</a></li>
-        {% endfor %}
-        </ul>
+<h1 class="board-head" style="background-color: #4D6A6D;">리뷰 게시판</h1>
+{% if request.user.is_authenticated %}
+    <button type="button" id="writePostButton" class="board-write-btn" onclick = "location.href = 'new_post/?board_type=question_board'">글쓰기</button>
+{% else %}
+    <span class="board-write-btn" onClick="goToLogin('{% url 'accounts_app:login' %}')">로그인이 필요합니다.</span>
+{% endif %}
+<div class="board-table" class="cursor: pointer;">
+    <table>
+    {% for post in posts %}
+    <tbody>
+    <tr onClick="goToBoard('{{post.pk}}/')">
+        <!--<th>{{post.board_type}}</th>-->
+        <td id="board-id">{{ post.id }}</td>
+        <td id="board-photo">{{post.mainphotos}}</td>
+        <td id="board-postname">{{post.postname}}</td>
+        <td id="board-author">{{post.author}}</td>
+    </tr>
+    <tbody>
+    {% endfor %}
+    </table>
+</div>
 
+<script>
+    // 버튼 클릭 시 동작
+    document.getElementById("writePostButton").addEventListener("click", function() {
+        // 서버에 요청 전에 먼저 로그인 상태를 확인
+        fetch('/check_login_status/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.logged_in) {
+                    // 로그인된 경우 글쓰기 페이지로 이동
+                    window.location.href = "/new_post/?board_type=free_board";
+                } else {
+                    // 로그인되지 않은 경우 메시지 표시
+                    alert("로그인이 필요합니다.");
+                }
+            });
+    });
 
-        <button><a href="new_post/?board_type=question_board">글쓰기</a></button>
-    </body>
-</html>
+    function goToBoard(link) {
+        window.location.href = link;
+    }
+    function goToLogin(link){
+        window.location.href = link;
+    }
+</script>
+{% endblock %}

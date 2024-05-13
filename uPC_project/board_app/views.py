@@ -22,22 +22,20 @@ def question_board(request):
     question_posts = Post.objects.filter(board_type="question_board")
     return render(request, 'main/question_board.html', {'posts': question_posts, 'board_type' : question_board})
 
-# board.html 페이지를 부르는 board 함수
 def board(request):
     postlist = Post.objects.all()
     return render(request, 'main/board.html',{'postlist':postlist})
 
 
-# blog의 게시글(posting)을 부르는 posting 함수
 def posting(request, pk):
-    # 게시글(Post) 중 pk(primary_key)를 이용해 하나의 게시글(post)를 검색
     post = Post.objects.get(pk=pk)
-    # posting.html 페이지를 열 때, 찾아낸 게시글(post)을 post라는 이름으로 가져옴
     return render(request, 'main/posting.html', {'post':post}) #board_type 부분 추가 수정 
+
 
 @login_required
 def new_post(request, board_type=None):
-    #board_type = request.GET.get('board_type')
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("로그인이 필요합니다.")
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, user=request.user, board_type=board_type)
 
@@ -49,7 +47,6 @@ def new_post(request, board_type=None):
 
             # 이미지를 업로드한 경우에만 실행
             if 'mainphotos' in request.FILES:
-                # 이미지를 업로드한 경우에는 이미지를 저장하고 게시물을 저장
                 for img in request.FILES.getlist('mainphotos'):
                     Photo.objects.create(post=post, image=img)
             if board_type == 'free_board':
@@ -58,7 +55,6 @@ def new_post(request, board_type=None):
                 return redirect('board_app:review_board')
             elif board_type == 'question_board':
                 return redirect('board_app:question_board')
-            #return redirect('/board/')
     else:
         form = PostForm(user=request.user, board_type=board_type)
     return render(request, 'main/new_post.html', {'form': form,'board_type': board_type})
@@ -139,8 +135,6 @@ def add_comment(request, pk):
 def edit_comment(request, pk, comment_id, board_type):
     comment = get_object_or_404(Comment, pk=comment_id)
     post = comment.post
-    #board_type = post.board_type
-    #redirect_url = reverse('main/posting', kwargs={'board_type':board_type})
     if comment.author != request.user:
         return HttpResponseForbidden("You don't have permission to edit this comment.")
     
@@ -191,14 +185,14 @@ def add_to_scrap(request, pk, board_type):
 
 @login_required
 def toggle_scrap(request, board_type, pk):
-    post = get_object_or_404(Post, pk=pk)  # 게시물이 존재하는지 확인
+    post = get_object_or_404(Post, pk=pk)
     try:
         scrap = request.user.scrap
     except Scrap.DoesNotExist:
         scrap = Scrap.objects.create(user=request.user)
 
     if scrap.is_post_scrap(pk):
-        scrap.remove_from_scrap(post) #remove에서 수정 
+        scrap.remove_from_scrap(post)  
         message = '게시물이 찜 목록에서 제거되었습니다.'
         is_scraped = False
     else:
@@ -211,7 +205,7 @@ def toggle_scrap(request, board_type, pk):
 
 @login_required
 def check_post_scrap(request, pk, board_type): 
-    post = get_object_or_404(Post, pk=pk)  # 게시물이 존재하는지 확인
+    post = get_object_or_404(Post, pk=pk) 
     scrap_exists = request.user.scrap.is_post_scrap(pk) if hasattr(request.user, 'scrap') else False
     return JsonResponse({'is_post_scrap': scrap_exists})
 
@@ -220,12 +214,8 @@ def check_post_scrap(request, pk, board_type):
 def scrap_status(request, board_type, pk):
     # 사용자가 해당 게시물을 찜했는지 여부를 확인
     try:
-        # Scrap 모델에서 현재 사용자와 해당 postId를 가진 데이터를 조회
         scrap = Scrap.objects.get(user=request.user, posts=pk)
         is_scraped = True
     except Scrap.DoesNotExist:
-        # 찜한 내역이 없으면 False
         is_scraped = False
-
-    # 찜하기 상태를 JSON 형태로 응답
     return JsonResponse({'is_scraped': is_scraped})

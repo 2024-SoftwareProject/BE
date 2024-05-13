@@ -350,5 +350,3 @@ def remove_product_from_wishlist(request, Pd_IndexNumber):
         wishlist.already_wishlist=False
         messages.success(request, f'{product.Pd_Name} 당신의 wishlist에서 삭제되었습니다')
         return redirect('accounts_app:mypage')
-
-

@@ -15,6 +15,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 #모델 
 from products_app.models import Product
 
+import statistics
+
 #craling code 다운
 from . import bunke
 from . import jungo
@@ -66,8 +68,13 @@ def search_view(request):
 
     update_wishlist_status(request, page_obj)
 
+    # search_history 데이터 저장
+    save_search_history(request, edited_query)
+
+    #제품의 값 중에서 최저가, 최대가, 평균 값 도출 목적 
+    max_price_stat, min_price_stat, average_price_stat = calculate_price_stats(outputDB)
     # 결과를 렌더링하여 반환
-    return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
+    return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number, 'max_price_stat':max_price_stat, 'min_price_stat':min_price_stat, 'average_price_stat': average_price_stat})
 
 
 def search_report_view(request):
@@ -127,19 +134,25 @@ def search_report_view(request):
     # search_history 데이터 저장
     save_search_history(request, edited_query)
 
-    return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
+    #결과에서 가격 정보 추출 
+    max_price_stat, min_price_stat, average_price_stat = calculate_price_stats(outputDB)
+    return render(request, 'products/search_result.html', {'query': query, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number, 'max_price_stat':max_price_stat, 'min_price_stat':min_price_stat, 'average_price_stat': average_price_stat})
 
 
 def update_wishlist_status(request, page_obj):
     if request.user.is_authenticated:
-        # 사용자의 위시리스트 가져옴
-        wishlist = Wishlist.objects.get(user=request.user)
-        # 위시리스트에 있는 상품의 ID 목록을 가져옴
-        wishlist_product_ids = wishlist.products.values_list('Pd_IndexNumber', flat=True)
+        try:
+            # 사용자의 위시리스트 가져옴
+            wishlist = Wishlist.objects.get(user=request.user)
+            # 위시리스트에 있는 상품의 ID 목록을 가져옴
+            wishlist_product_ids = wishlist.products.values_list('Pd_IndexNumber', flat=True)
 
-        for product in page_obj:
-            product.is_in_wishlist = product.Pd_IndexNumber in wishlist_product_ids
-    
+            for product in page_obj:
+                product.is_in_wishlist = product.Pd_IndexNumber in wishlist_product_ids
+        except Wishlist.DoesNotExist:
+            # 위시리스트가 없는 경우, 모든 상품을 위시리스트에 없는 것으로 설정
+            for product in page_obj:
+                product.is_in_wishlist = False
     else:
         # 로그인하지 않은 사용자의 경우, 모든 상품을 위시리스트에 없는 것으로 설정
         for product in page_obj:
@@ -156,3 +169,16 @@ def save_search_history(request, keyword):
     else:
         # 로그인하지 않은 사용자
         return "로그인하지 않은 사용자입니다. 검색 기록이 저장되지 않습니다."
+
+def calculate_price_stats(products):
+    prices = [product.Pd_Price for product in products]
+    if prices:
+        max_price_stat = max(prices)
+        min_price_stat = min(prices)
+        average_price_stat = round(statistics.mean(prices))
+    else:
+        max_price_stat = None
+        min_price_stat = None
+        average_price_stat = None
+    
+    return max_price_stat, min_price_stat, average_price_stat

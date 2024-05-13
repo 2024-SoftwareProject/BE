@@ -1,5 +1,5 @@
 function search(query) {
-
+    var query = get_url_parameter('query');
     var darkBackground = document.createElement('div');
     darkBackground.style.position = 'fixed';
     darkBackground.style.top = '0';
@@ -29,6 +29,6 @@ function search(query) {
 
 // 검색 버튼 클릭 시 search 함수 실행
 document.getElementById('updateModal').addEventListener('click', function(event) {
-    var query = document.getElementsByName('query')[0].value;
+    //var query = document.getElementsByName('query')[0].value;
     search(query);
 });

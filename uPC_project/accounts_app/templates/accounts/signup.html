@@ -20,9 +20,9 @@
                         {{ form.username.label_tag }} {{ form.username }}
 
                         {% if form.username.errors %}
-                          <div class="error">
+                          <span class="error" style="color: red; position: absolute; top: 10px; left: 30px;">
                             ❗ {{ form.username.errors }}
-                          </div>
+                          </span>
                         {% endif %}
                       
                       </div>
@@ -43,9 +43,9 @@
                         {{ form.email.label_tag }} {{ form.email }}
 
                         {% if form.email.errors %}
-                          <div class="error">
-                            ❗ {{ form.email.errors }}
-                          </div>
+                          <span class="error" style="color: red; display: inline-block; ">
+                           <p style="position: absolute; left: 380px; top: 415px;"> ❗ </p>{{ form.email.errors }}
+                          </span>
                         {% endif %}
 
                       </div>

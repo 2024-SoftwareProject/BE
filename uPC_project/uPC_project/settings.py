@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'products_app',
     'board_app',
     'category_app',
+    'recommend_app',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -147,10 +148,9 @@ SITE_ID = 1
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'static/img',  # 'loading.gif' 파일이 있는 디렉토리 추가
-    #img부분--> .gif때문에 삽입함. 
 ]
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
