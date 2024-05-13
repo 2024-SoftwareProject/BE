@@ -144,6 +144,21 @@
     </style>
 </head>
 
+<script>
+    function get_url_parameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        function update() {
+            var query = get_url_parameter('query'); 
+            var updateUrl = '/search?query=' + query; 
+            window.location.href = updateUrl;
+        }
+</script>
+
+
 <body>
     <div class="container px-5" style="display: flex; justify-content: center;">
         <div style="display: flex; margin-top: 40px; margin-bottom: 30px; font-size: 20px; font-weight: bold; ">
@@ -551,18 +566,6 @@
         var query = get_url_parameter('query'); 
         var updateUrl = '/search?query=' + query; 
         window.location.href = updateUrl;
-        }
-
-        function get_url_parameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-        function update() {
-            var query = get_url_parameter('query'); 
-            var updateUrl = '/search?query=' + query; 
-            window.location.href = updateUrl;
         }
 
 </script>
