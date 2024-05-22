@@ -90,8 +90,6 @@ def bunke_search(query):
             
             if(Pd_Name.find("삽")!= -1):
                 continue
-            if(Pd_Name.find("케이스")!= -1):
-                continue
             if(Pd_Name.find("매입")!= -1):
                 continue
             if(Pd_Name.find("구매")!= -1):
