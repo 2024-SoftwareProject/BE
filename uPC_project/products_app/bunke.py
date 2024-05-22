@@ -67,7 +67,7 @@ def bunke_search(query):
 
         for item in list:
             parent_div = item.parent.parent  # 이미지 태그의 부모 div 태그
-            name = parent_div.find('div', class_='sc-iBEsjs fqRSdX')  # 이름을 포함한 div 태그 선택 sc-hzNEM jbRqjn
+            name = parent_div.find('div', class_='sc-gtfDJT brQSgh')  # 이름을 포함한 div 태그 선택 sc-hzNEM jbRqjn
             
 
             if(parent_div.find('div', class_='sc-etwtAo jCXDZp') or parent_div.find('div', class_='sc-clNaTc cwJWFs') or parent_div.find('div', class_='sc-hzNEM jbRqjn')):
