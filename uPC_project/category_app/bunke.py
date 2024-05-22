@@ -10,14 +10,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 from bs4 import BeautifulSoup
-from products_app.models import Product
-from category_app.models import Category
+
+from .models import CategoryProduct
 
 
 def bunke_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd_URL):
     # 이미 존재하는지 여부를 확인하여 중복 삽입 방지
-    if not Product.objects.filter(Pd_Name=Pd_Name).exists():
-        product = Product(
+    if not CategoryProduct.objects.filter(Pd_Name=Pd_Name).exists():
+        product = CategoryProduct(
             Pd_Market=Pd_Market,
             Pd_Category=Pd_Category,
             Pd_Name=Pd_Name,

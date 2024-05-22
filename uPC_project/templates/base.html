@@ -14,52 +14,677 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Sans+KR&family=Jua&family=Kaisei+Decol&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nanum+Gothic&family=Nanum+Myeongjo&family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">    
+    <style>
+    .do-hyeon-regular {
+      font-family: "Do Hyeon", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .noto-serif-kr-regular {
+      font-family: "Noto Serif KR", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .nanum-gothic-regular {
+      font-family: "Nanum Gothic", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .jua-regular {
+      font-family: "Jua", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    /*google font import*/
+    .kaisei-decol-regular {
+      font-family: "Kaisei Decol", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .kaisei-decol-bold {
+      font-family: "Kaisei Decol", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+    /*나눔 명조*/
+    .nanum-myeongjo-regular {
+      font-family: "Nanum Myeongjo", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .nanum-myeongjo-bold {
+      font-family: "Nanum Myeongjo", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    :root {
+      --accent-color: #32989a;
+      --text-color: #424B54;
+      --background-color: white;
+      --border-color: #759378;
+    }
+
+    body {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 1340px;
+    }
+
+    li a {
+    text-decoration: none;
+    color: var(--text-color);
+    }
+
+    .navbar {
+      display: block;
+      background-color: var(--background-color);
+      position: fixed; 
+      width: 100%; /* 추가된 부분 */
+      top: 0; /* 추가된 부분 */
+      z-index: 9999; /* 추가된 부분 */
+      min-width: 1200px;
+      border: 200px;
+      border-bottom: 1px solid var(--text-color);
+    }
+
+    .nav_logo{
+      position: absolute;
+      display: inline-block;
+      left:50px;
+      top:15px;
+
+    }
+
+    .nav_logo a{
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .nav_menu {
+      display: flex;
+      justify-content: flex-end;
+      width:99%;
+      margin-top: 100px;
+    }
+
+    .nav_menu a {
+      text-decoration: none;
+      color: var(--text-color);
+      
+    }
+
+    .nav_menu a:last-child {
+      margin-right: 0; /* 마지막 요소의 오른쪽 마진을 제거합니다. */
+    }
+
+    .nav_menu a:hover {
+      color: var(--accent-color);
+      color: var(--accent-color);
+      border-radius: 4px;
+    }
+
+    .nav_menu #nav-hamburger{
+      position: absolute;
+      display: flex;
+      cursor: pointer;
+      left: 100px;
+    }
+
+    .nav_menu #nav-hamburger .submenu{
+      top: 5px;
+      margin-left: 100px;
+    }
+
+    .nav_menu #nav-hamburger .submenu:hover{
+      color: var(--accent-color);
+    }
+
+    .dropdown-menu{ 
+      display: inline-block;
+      position: fixed; 
+      top: 180px;
+      width: 150px;
+      height: 200px;
+      left: 160px;
+      position: fixed; 
+      top: 180px;
+      width: 150px;
+      height: 200px;
+      left: 160px;
+      z-index: 10;
+      border: 1px solid #c9c9c9;
+      background-color: var(--background-color);
+      text-align: center;
+      font-weight: bold;
+      list-style: none;
+      visibility: hidden;
+    }
+
+    .dropdown-menu.show {
+      visibility: visible;
+      visibility: hidden;
+    }
+
+    .dropdown-menu.show {
+      visibility: visible;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 40px;
+    }
+
+    li{
+      list-style: none;
+    }
+
+    li{
+      list-style: none;
+    }
+
+    .nav_menu a.on{
+      left:600px;
+    }
+
+    #li-note{
+      margin-left: 300px;
+    }
+
+    .nav_icons {
+    display: flex;
+    color: #7dc0ff;
+    list-style: none;
+    padding-left: 0;
+    }
+
+    .nav_icons li {
+    padding: 8px 5px;
+    }
+
+    .navbar .search {
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-56%);
+    margin-left: 100px;
+
+    }
+
+    .search input {
+    width: 700px;
+    border: 3px solid #566270;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    }
+
+    .search {
+    display: inline;
+    left: 400px;
+    width: 800px;
+    top: 35px;
+    }
+
+    input {
+    width: 100%;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    }
+
+    .search button {
+    position: relative;
+    background-color: white;
+    cursor: pointer; /* 커서를 포인터로 변경 */
+    border-radius: 8px;
+    right: 50px;
+    margin: 0;
+    }
+
+    .accounts-nav{
+      width: 100%; 
+      display: inline-block;
+      z-index: 9999;
+      background-color: var(--background-color);
+      text-align: center;
+    }
+    .accounts-logo{
+      text-decoration-line: none;
+      color: var(--text-color);
+    }
+    .accounts-logo:hover{
+      color: var(--accent-color);
+    }
+    /*모달창 버튼 나중에 클래스 변경해야 함*/
+    button {
+      border: 0;
+      background-color: transparent;
+    }
+    .btn-box .btn-open {
+        display: block;
+        width: 200px;
+        height: 50px;
+        margin: 80px auto 0;
+        line-height: 50px;
+        background: #333;
+        text-align: center;
+    }
+
+    .btn-box .btn-open span {
+        color: #fff;
+    }
+
+    /* 팝업 스타일 */
+    .modal-bg {
+      display:none;
+      width:100%;
+      height:100%;
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index:999;
+      border-radius: 10px;
+    }
+
+    .modal-wrap {
+      display:none;
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      width:700px;
+      height:500px;
+      background:#fff;
+      z-index:1000;
+      height: 50vh; 
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 30px 20px 20px 20px;
+      border-radius: 10px;
+    }
+
+    /*로그인 관련*/
+    #recovery-pw-btn{
+      display: flex;
+      text-decoration: none;
+    }
+
+    #login-btn{
+      display: flex;
+      position: relative;
+      left: 300px;
+      top: -20px;
+    }
+
+    .M01{
+      padding: 10px;
+      padding: 10px;
+    }
+
+
+    .M01 a{
+      text-decoration: none;
+      color: var(--text-color);
+    }
+
+    .M01:hover,
+    .M01:hover a {
+      background-color: #ADBCA5;
+      color: #514444;
+    }
+
+    #nav-hamburger div{
+      transition: all 1.4s;
+    }
+
+    /*게시판 바디*/
+    #board-body{
+      width: 100%;
+      height: 100%;
+      background-color: var(--background-color);
+    }
+
+    #board-body:hover{
+      transition: 0.5s;
+    }
+
+    .board-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: center;
+      font-family: 'Open Sans Condensed', sans-serif;
+    }
+
+    .board-select .board-btn{
+      line-height: 100px;
+      height: 100px;
+      text-align: center;
+      width: 500px;
+      cursor: pointer;
+      font-family: "Gothic A1", sans-serif;
+      font-weight: 100;
+    }
+
+    .board-btn {
+      color: #FFF;
+      transition: all 0.3s;
+      position: relative;
+      margin: 30px;
+    }
+    .board-btn span {
+      transition: all 0.3s;
+      display: flex;
+      justify-content: center;
+      z-index: 10;
+      font-size: 40px;
+    }
+    .board-btn span a{
+      z-index: 20;
+      text-decoration: none;
+      color: black;
+    }
+
+    .board-btn::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: all 0.3s;
+      border-top-width: 1px;
+      border-bottom-width: 1px;
+      border-top-style: solid;
+      border-bottom-style: solid;
+      border-top-color: #759378;
+      border-bottom-color: #759378;
+      transform: scale(0.1, 1);
+    }
+    .board-btn:hover span,
+    .board-btn:hover span a
+    {
+      letter-spacing: 5px;
+      color: white;
+    }
+    .board-btn::before {
+      opacity: 1; 
+      transform: scale(1, 1); 
+    }
+    .board-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      transition: all 0.3s;
+      background-color: rgba(255,255,255,0.1);
+    }
+    .board-btn:hover::after {
+      opacity: 0; 
+      transform: scale(0.1, 1);
+    }
+
+    .board-head{
+      text-align: center; 
+      padding: 50px; 
+      color: white;
+    }
+
+    .board-write-btn{
+      position: relative;
+      padding: 15px 20px 15px 20px;
+      float: right;
+      right: 150px;
+      top: 10px;
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    .board-table{
+      top: 100px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    table{
+      width: 80%;
+    }
+
+    tbody tr{
+      border-top-style: solid;
+      border-top-width: 1px;
+      border-top-color: var(--border-color);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: var(--border-color);
+      width: 100%;
+    }
+    tbody tr td{
+      padding: 20px;
+      margin-right: 2rem;
+    }
+
+    tbody tr:hover,
+    tbody tr td:hover
+    {
+      background-color: var(--border-color);
+      color: white;
+    }
+
+    #board-id{
+      width: 1.5rem;
+    }
+    #board-photo{
+      width: 5rem;
+    }
+    #board-postname{
+      position:relative;
+      padding-left: 3rem;
+    }
+    #board-author{
+      width: 5rem;
+    }
+    #post-wrap{
+      display: flex;
+      justify-content: center;
+      position: relative;
+      top: 30px;
+    }
+    #post-textarea{
+      width: 1000px;
+      height: 1rem;
+    }
+    #post-title{
+      overflow: hidden; 
+      overflow-wrap: break-word; 
+      border: none;
+      height: 60px;
+      font-size: 40px;
+      width: 100%;
+      white-space: pre-line;
+    }
+    #post-text{
+      overflow: hidden; 
+      overflow-wrap: break-word; 
+      height: 60px;
+      font-size: 20px;
+      width: 100%;
+      white-space: pre-wrap;
+      border: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 20px;
+    }
+    #post-title:focus,
+    #post-text:focus{
+      outline: none;
+    }
+
+    #posted-text{
+      height: 60px;
+      width: 100%;
+      white-space: pre;
+      border: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 20px;
+    }
+    #post-btn{
+      position: relative;
+      top: 50px;
+      justify-content: center;
+      float: right;
+      font-size: 20px;
+      padding: 20px 30px 20px 30px;
+      background-color: var(--border-color);
+      color: white;
+      border-radius: 0.5rem;
+    }
+
+        .navbar {
+          background-color: var(--background-color);
+          position: fixed;
+          width: 100%;
+          top: 0;
+          z-index: 9999;
+          padding-bottom: 10px; /* 아래 여백 추가 */
+          border-bottom: 1px solid var(--text-color);
+          transition: all 0.3s;
+        }
+
+        #newNavbar {
+          background-color: var(--background-color);
+          position: fixed;
+          width: 100%;
+          top: 0;
+          z-index: 9999;
+          padding-top: 23px;
+          padding-bottom: 20px; /* 아래 여백 추가 */
+          border-bottom: none;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          transition: all 0.3s;
+          display: none;
+        }
+
+        /* 내비게이션 바가 화면 상단으로 이동할 때 나타나도록 설정 */
+        .navbar.visible {
+            display: block;
+        }
+        
+        /* 내비게이션 바가 화면 상단에서 숨을 때 숨김 */
+        .navbar.hidden {
+            display: none;
+        }
+
+        /* 스크롤 업할 때 새로운 내비게이션 바가 나타나도록 설정 */
+        #newNavbar.visible {
+            display: block;
+        }
+
+        #newNavbar .nav_menu {
+          display: flex;
+          align-items: center;
+          margin-top: 10px; /* 기존에 설정된 값보다 작게 변경 */
+          margin-right: 10px; /* 오른쪽 여백 추가 */
+        }
+
+        #newNavbar .nav-links {
+          display: inline-block;
+          align-items: center;
+        }
+        
+        /* 스크롤 업할 때 기존 내비게이션 바가 숨김 */
+        #newNavbar.hidden {
+            display: none;
+        }
+
+        /* 게시판, 마이 페이지, 로그 아웃 링크 스타일 */
+        .nav-links {
+            display: flex;
+            margin-right: 10px;
+        }
+
+        .search {
+            margin-right: 10px;
+        }
+
+        #newNavbar .search {
+          position: absolute;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          margin-left: 0;
+        }
+
+        #newNavbar .nav_logo {
+          position: absolute;
+          top: 3px;
+          height: 1px;
+          transform: translateX(-50%);
+        }
+
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% bootstrap_javascript %}
 </head>
 
 
-<body class="nanum-myeongjo-regular" style="margin-top: 200px;">
-  <nav class="navbar">
+<body style="margin-top: 140px; font-family: 'Nanum Gothic', sans-serif;
+font-weight: 400;
+font-style: normal;">
+  <nav class="navbar" id="navbar">
     <div class="nav_logo">
       <!-- <a class="kaisei-decol-bold" id="brand-logo" href="/"><h1 style="font-size: 60px; font-weight: 900;">u.PC</h1></a> -->
       <a href="{% url 'home' %}">
-        <img src="{% static 'img/P-2-2.png' %}" alt="My-logo" width="105px" height="55px" style="margin-left: 40px; margin-top: 15px;">
-    </a>
+        <img src="{% static 'img/logo.png' %}" alt="My-logo" width="100px" style="margin-left: 10px; margin-top: 0px;">
+      </a>
     </div>
     
-<div class="search">
-    <form action="{% url 'products_app:search_report' %}" method="GET">
-      <input type="text" name="query" value="" placeholder="검색어 입력">
-      <button type="submit" id="into-search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-          </svg>
-      </button>
-    </form>
-</div>
-
-<div class="search">
-  <form action="{% url 'products_app:search_report' %}" method="GET" target="_blank">
-    <input type="text" name="query" value="" placeholder="검색어 입력">
-    <button type="submit" id="into-search">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-        </svg>
-    </button>
-  </form>
-</div>
-
-
-    
-
+    <div class="search">
+        <form action="{% url 'products_app:search_report' %}" method="GET">
+          <input type="text" name="query" value="" placeholder="검색어 입력">
+          <button type="submit" id="into-search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+          </button>
+        </form>
+    </div>
     
     <div class="nav_menu">
 
       <div id = "nav-hamburger">
         <div class = "submenu">중고 완제품</div>
-        <div class = "submenu">중고 완제품</div>
-        <div class = "submenu">중고 완제품</div>
+        <div class = "submenu" style="margin-left: 58px;">중고 PC 주요부품</div>
+        <div class = "submenu" style="margin-left: 40px;">중고 PC 주변기기</div>
       </div>
       
       <div style="margin-left: 400px; margin-right: 60px;">
@@ -76,7 +701,7 @@
         {% if user.is_authenticated %}
         
 
-        <a id="'nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="padding-top: 5px;">로그아웃</a>
+        <a id="nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">로그아웃</a>
         <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
         {% csrf_token %}
         </form> 
@@ -87,24 +712,78 @@
     
       {% endif %}
   </nav>
+
+  <!-- 새로운 내비게이션 바 -->
+  <nav class="navbar hidden" id="newNavbar">
+
+    <div class="nav_logo">
+      <!-- 로고 -->
+      <a href="{% url 'home' %}">
+          <img src="{% static 'img/logo.png' %}" alt="My-logo" width="50px" style="margin-left: 180px; margin-top: 2px;">
+      </a>
+  </div>
+
+  <div class="search">
+      <form action="{% url 'products_app:search_report' %}" method="GET">
+          <input type="text" name="query" value="" placeholder="검색어 입력">
+          <button type="submit" id="into-search">
+              <!-- 검색 아이콘 -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+          </button>
+      </form>
+  </div>
+    
+    <div class="nav_menu" style="display: inline; margin-left: 1080px; padding-bottom: 3px;">
+        <div class="nav-links">
+          <a id="nav-note" href="{% url 'board_app:board' %}">게시판</a>
+      
+          {% if user.is_authenticated %}
+          <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}">마이페이지</a>
+
+            {% else %}
+          <a id="nav-login" href="{% url 'accounts_app:login' %}">로그인</a>
+          <a id="nav-signup" href="{% url 'accounts_app:signup' %}">회원가입</a>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+          
+
+          <a id="'nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">로그아웃</a>
+          <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post">
+          {% csrf_token %}
+          </form> 
+        </div>
+
+
+    </div>
+    
+      {% endif %}
+  </nav>
 <!--서브메뉴-->
-  <div class="dropdown-menu">
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-  </div>
-  <div class="dropdown-menu" style="left: 340px;">
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-  </div>
-  <div class="dropdown-menu" style="left: 520px;">
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
+<div class="dropdown-menu" style="height: 110px;">
+  <div class="M01"><a href="/category/report?category=1">중고 데스크탑</a></div>
+  <div class="M01"><a href="/category/report?category=2">중고 노트북</a></div>
+</div>
+<div class="dropdown-menu" style="left: 205px; height: 370px;">
+  <div class="M01"><a href="/category/report?category=3">CPU</a></div>
+  <div class="M01"><a href="/category/report?category=4">메인보드</a></div>
+  <div class="M01"><a href="/category/report?category=5">메모리</a></div>
+  <div class="M01"><a href="/category/report?category=6">그래픽 카드</a></div>
+  <div class="M01"><a href="/category/report?category=7">SSD</a></div>
+  <div class="M01"><a href="/category/report?category=8">HHD</a></div>
+  <div class="M01"><a href="/category/report?category=9">케이스</a></div>
+  <div class="M01"><a href="/category/report?category=10">파워</a></div>
+</div>
+<div class="dropdown-menu" style="left: 365px;">
+  <div class="M01"><a href="/category/report?category=11">키보드</a></div>
+  <div class="M01"><a href="/category/report?category=12">마우스</a></div>
+  <div class="M01"><a href="/category/report?category=13">모니터</a></div>
+  <div class="M01"><a href="/category/report?category=14">스피커/헤드셋</a></div>
+</div>
+
+
   </div>
 <script>
   const dropdownBtns = document.querySelectorAll('.submenu');
@@ -123,6 +802,29 @@
       dropdownContent.classList.remove('show');
     });
   });
+
+
+  let prevScrollpos = window.pageYOffset; // 스크롤 이전 위치
+
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    let currentScrollPos = window.pageYOffset; // 현재 스크롤 위치
+
+    if (prevScrollpos > currentScrollPos) {
+      document.getElementById("navbar").classList.remove("hidden");
+      document.getElementById("navbar").classList.add("visible");
+      document.getElementById("newNavbar").classList.remove("visible");
+      document.getElementById("newNavbar").classList.add("hidden");
+    } else {
+      document.getElementById("navbar").classList.remove("visible");
+      document.getElementById("navbar").classList.add("hidden");
+      document.getElementById("newNavbar").classList.remove("hidden");
+      document.getElementById("newNavbar").classList.add("visible");
+    }
+
+    prevScrollpos = currentScrollPos; // 이전 스크롤 위치를 현재 스크롤 위치로 업데이트
+  }
   
 </script>
 {% block content %}
