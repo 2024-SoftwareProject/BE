@@ -41,6 +41,7 @@ def jungo_search(query):
 
         for page in range(1, pages_to_crawl + 1):
             url = f"https://web.joongna.com/search/{search_query}?page={page}"
+            print(url)
             res = requests.get(url, headers=headers)
             soup = BeautifulSoup(res.text, "html.parser")
 

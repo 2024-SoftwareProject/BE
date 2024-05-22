@@ -67,25 +67,21 @@ def bunke_search(query):
 
         for item in list:
             parent_div = item.parent.parent  # 이미지 태그의 부모 div 태그
-            name = parent_div.find('div', class_='sc-gtfDJT brQSgh')  # 이름을 포함한 div 태그 선택 sc-hzNEM jbRqjn
+            name = parent_div.find('div', class_='sc-kZmsYB bwuELN')  # 이름을 포함한 div 태그 선택 sc-hzNEM jbRqjn
             
 
-            if(parent_div.find('div', class_='sc-etwtAo jCXDZp') or parent_div.find('div', class_='sc-clNaTc cwJWFs') or parent_div.find('div', class_='sc-hzNEM jbRqjn')):
+            if(parent_div.find('div', class_='sc-gtfDJT brQSgh') or parent_div.find('div', class_='sc-RcBXQ gUYNYK') or parent_div.find('div', class_='sc-hzNEM jbRqjn')):
                 continue
 
             if name:  # name이 None이 아니라면
                 print("이름 : ", name.get_text())
+                Pd_Name = name.get_text()
 
             if(item.parent.find(attrs={'alt':'판매 완료'}) or item.parent.find(attrs={'alt':'예약중'})):
                 print("a")
                 continue
-
             print("여기")
-
-            Pd_Name = name.get_text()
-
             print("1")
-
 
             
             if(Pd_Name.find("삽")!= -1):
@@ -118,9 +114,10 @@ def bunke_search(query):
                 continue
             
 
-            temp_price = parent_div.find('div', class_='sc-hzNEM bmEaky')  # 이름을 포함한 div 태그 선택하고 즉시 텍스트 추출
+            temp_price = parent_div.find('div', class_='sc-RcBXQ knGFtN')  # 이름을 포함한 div 태그 선택하고 즉시 텍스트 추출
             
             print("2")
+            print(parent_div)
             temp_price = temp_price.get_text()
 
             print("3")
@@ -128,12 +125,10 @@ def bunke_search(query):
             print("4")
 
             Pd_Price = temp_price
+
             print("5")
-            try:
-                price = int(temp_price)  # 정수로 변환
-                print("가격 : ", price)
-            except ValueError:
-                print("가격 형식이 올바르지 않습니다.")
+
+            print("가격 : ", Pd_Price )
 
             
             # 이미지 URL 출력

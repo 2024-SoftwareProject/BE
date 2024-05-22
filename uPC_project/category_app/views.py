@@ -20,6 +20,8 @@ from accounts_app.models import Wishlist
 # search_history
 from accounts_app.models import SearchHistory
 
+import statistics
+
 #본격 서치 
 def search_view(request):
     # URL에서 query 가져오기
@@ -37,6 +39,7 @@ def search_view(request):
         get_data.plus_products_from_product_model(1, "데스크탑")
     elif categoryNumber == 2:
         get_data.plus_products_from_product_model(2, "맥북")
+        get_data.plus_products_from_product_model(2, "노트북")
         print("22")
         get_data.plus_products_from_product_model(2, "삼성노트북")
         get_data.plus_products_from_product_model(2, "LG노트북")
@@ -95,8 +98,9 @@ def search_view(request):
     update_wishlist_status(request, page_obj)
 
     # 결과를 렌더링하여 반환
-    return render(request, 'category/search_result.html', {'categoryName': categoryName, 'categoryNumber': categoryNumber, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
+    max_price_stat, min_price_stat, average_price_stat = calculate_price_stats(outputDB)
 
+    return render(request, 'category/search_result.html', {'categoryName': categoryName, 'categoryNumber': categoryNumber, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,'max_price_stat':max_price_stat, 'min_price_stat':min_price_stat, 'average_price_stat': average_price_stat})
 
 def search_report_view(request):
     categoryNumber = request.GET.get('category', '')
@@ -106,10 +110,6 @@ def search_report_view(request):
 
     sort = request.GET.get('sort', 'latest')
     aOption = request.GET.get('aoption', 'abcdef')
-    # bOption = request.GET.get('boption', 'abcdef')
-    # cOption = request.GET.get('coption', 'abcdef')
-    # dOption = request.GET.get('doption', 'abcdef')
-    # eOption = request.GET.get('eoption', 'abcdef')
 
     print(aOption, "!1dd")
 
@@ -174,8 +174,9 @@ def search_report_view(request):
 
     # search_history 데이터 저장
     save_search_history(request, categoryName)
-
-    return render(request, 'category/search_result.html', {'categoryName': categoryName, 'categoryNumber': categoryNumber, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,})
+    
+    max_price_stat, min_price_stat, average_price_stat = calculate_price_stats(outputDB)
+    return render(request, 'category/search_result.html', {'categoryName': categoryName, 'categoryNumber': categoryNumber, 'outputDB':outputDB, 'page_obj': page_obj, 'paginator':paginator, 'page_start_number':page_start_number,'page_end_number':page_end_number,'max_price_stat':max_price_stat, 'min_price_stat':min_price_stat, 'average_price_stat': average_price_stat})
 
 
 def update_wishlist_status(request, page_obj):
@@ -204,3 +205,17 @@ def save_search_history(request, keyword):
     else:
         # 로그인하지 않은 사용자
         return "로그인하지 않은 사용자입니다. 검색 기록이 저장되지 않습니다."
+    
+
+def calculate_price_stats(products):
+    prices = [product.Pd_Price for product in products]
+    if prices:
+        max_price_stat = max(prices)
+        min_price_stat = min(prices)
+        average_price_stat = round(statistics.mean(prices))
+    else:
+        max_price_stat = None
+        min_price_stat = None
+        average_price_stat = None
+    
+    return max_price_stat, min_price_stat, average_price_stat
