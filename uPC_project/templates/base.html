@@ -14,38 +14,156 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Sans+KR&family=Jua&family=Kaisei+Decol&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nanum+Gothic&family=Nanum+Myeongjo&family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">    
+    <style>
+      .navbar {
+        background-color: var(--background-color);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 9999;
+        padding-bottom: 10px; /* 아래 여백 추가 */
+        border-bottom: 1px solid var(--text-color);
+        transition: all 0.3s;
+      }
+    
+      #newNavbar {
+        background-color: var(--background-color);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 9999;
+        padding-top: 23px;
+        padding-bottom: 20px; /* 아래 여백 추가 */
+        border-bottom: none;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: all 0.3s;
+        display: none;
+      }
+    
+      /* 내비게이션 바가 화면 상단으로 이동할 때 나타나도록 설정 */
+      .navbar.visible {
+          display: block;
+      }
+      
+      /* 내비게이션 바가 화면 상단에서 숨을 때 숨김 */
+      .navbar.hidden {
+          display: none;
+      }
+    
+      /* 스크롤 업할 때 새로운 내비게이션 바가 나타나도록 설정 */
+      #newNavbar.visible {
+          display: block;
+      }
+    
+      #newNavbar .nav_menu {
+        display: flex;
+        align-items: center;
+        margin-top: 10px; /* 기존에 설정된 값보다 작게 변경 */
+        margin-right: 10px; /* 오른쪽 여백 추가 */
+      }
+    
+      #newNavbar .nav-links {
+        display: inline-block;
+        align-items: center;
+      }
+      
+      /* 스크롤 업할 때 기존 내비게이션 바가 숨김 */
+      #newNavbar.hidden {
+          display: none;
+      }
+    
+      /* 게시판, 마이 페이지, 로그 아웃 링크 스타일 */
+      .nav-links {
+          display: flex;
+          margin-right: 10px;
+      }
+    
+      .search {
+          margin-right: 10px;
+      }
+    
+      #newNavbar .search {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-left: 0;
+      }
+    
+      #newNavbar .nav_logo {
+        position: absolute;
+        top: 3px;
+        height: 1px;
+        transform: translateX(-50%);
+      }
+      #delete-post{
+        float: right;
+        background-color: var(--border-color);
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        margin-right: 10px;
+        position: relative;
+        top: 20px;
+      }
+      .comment-layout{
+        position: relative;
+        top: 60px;
+      }
+      .comment-post-layout{
+        border: 1px solid grey;
+      }
+
+      #scrap-button{
+        background-color: var(--border-color);
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        margin-right: 10px;
+        position: relative;
+      }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/all.css' %}">
 </head>
 
 
-<body class="nanum-gothic-regular" style="margin-top: 200px;">
-  <nav class="navbar">
+<body style="margin-top: 140px; font-family: 'Nanum Gothic', sans-serif;
+font-weight: 400;
+font-style: normal;">
+  <nav class="navbar" id="navbar">
     <div class="nav_logo">
       <!-- <a class="kaisei-decol-bold" id="brand-logo" href="/"><h1 style="font-size: 60px; font-weight: 900;">u.PC</h1></a> -->
       <a href="{% url 'home' %}">
-        <img src="{% static 'img/uPC.png' %}" alt="My-logo" width="100px" height="100px" style="margin-left: 40px; ">
-    </a>
+        <img src="{% static 'img/logo.png' %}" alt="My-logo" width="100px" style="margin-left: 10px; margin-top: 0px;">
+      </a>
     </div>
     
-<div class="search">
-    <form action="{% url 'products_app:search_report' %}" method="GET">
-      <input type="text" name="query" value="" placeholder="검색어 입력">
-      <button type="submit" id="into-search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-          </svg>
-      </button>
-    </form>
-</div>
-
+    <div class="search">
+        <form action="{% url 'products_app:search_report' %}" method="GET">
+          <input type="text" name="query" value="" placeholder="검색어 입력">
+          <button type="submit" id="into-search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+          </button>
+        </form>
+    </div>
+    
     <div class="nav_menu">
-
-      <div id = "nav-hamburger">
-        <div class = "submenu">중고 완제품</div>
-        <div class = "submenu">중고 완제품</div>
-        <div class = "submenu">중고 완제품</div>
-      </div>
+      <div id = "nav-hamburger" style="
+        position: relative;
+        display: flex;
+        cursor: pointer;
+        left: 100px;
+      ">중고 완제품</div>
       
       <div style="margin-left: 400px; margin-right: 60px;">
         <a id="nav-note" href="{% url 'board_app:board' %}" style="padding-top: 5px;">게시판</a>
@@ -61,7 +179,7 @@
         {% if user.is_authenticated %}
         
 
-        <a id="'nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="padding-top: 5px;">로그아웃</a>
+        <a id="nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">로그아웃</a>
         <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
         {% csrf_token %}
         </form> 
@@ -72,27 +190,77 @@
     
       {% endif %}
   </nav>
+
+  <!-- 새로운 내비게이션 바 -->
+  <nav class="navbar hidden" id="newNavbar">
+
+    <div class="nav_logo">
+      <!-- 로고 -->
+      <a href="{% url 'home' %}">
+          <img src="{% static 'img/logo.png' %}" alt="My-logo" width="50px" style="margin-left: 180px; margin-top: 2px;">
+      </a>
+  </div>
+
+  <div class="search">
+      <form action="{% url 'products_app:search_report' %}" method="GET">
+          <input type="text" name="query" value="" placeholder="검색어 입력">
+          <button type="submit" id="into-search">
+              <!-- 검색 아이콘 -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="background-color: white;">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+          </button>
+      </form>
+  </div>
+    
+    <div class="nav_menu" style="display: inline; margin-left: 1080px; padding-bottom: 3px;">
+        <div class="nav-links">
+          <a id="nav-note" href="{% url 'board_app:board' %}">게시판</a>
+      
+          {% if user.is_authenticated %}
+          <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}">마이페이지</a>
+
+            {% else %}
+          <a id="nav-login" href="{% url 'accounts_app:login' %}">로그인</a>
+          <a id="nav-signup" href="{% url 'accounts_app:signup' %}">회원가입</a>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+          
+
+          <a id="'nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">로그아웃</a>
+          <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post">
+          {% csrf_token %}
+          </form> 
+        </div>
+
+
+    </div>
+    
+      {% endif %}
+  </nav>
 <!--서브메뉴-->
-  <div class="dropdown-menu">
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-  </div>
-  <div class="dropdown-menu" style="left: 340px;">
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-  </div>
-  <div class="dropdown-menu" style="left: 520px;">
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
-    <div class="M01"><a href="#">대메뉴1</a></div>
+<div class="dropdown-menu" style="height: 110px;">
+  <div class="M01"><a href="/category/report?category=1">중고 데스크탑</a></div>
+  <div class="M01"><a href="/category/report?category=2">중고 노트북</a></div>
+  <div class="M01"><a href="/category/report?category=3">CPU</a></div>
+  <div class="M01"><a href="/category/report?category=4">메인보드</a></div>
+  <div class="M01"><a href="/category/report?category=5">메모리</a></div>
+  <div class="M01"><a href="/category/report?category=6">그래픽 카드</a></div>
+  <div class="M01"><a href="/category/report?category=7">SSD</a></div>
+  <div class="M01"><a href="/category/report?category=8">HHD</a></div>
+  <div class="M01"><a href="/category/report?category=9">케이스</a></div>
+  <div class="M01"><a href="/category/report?category=10">파워</a></div>
+  <div class="M01"><a href="/category/report?category=11">키보드</a></div>
+  <div class="M01"><a href="/category/report?category=12">마우스</a></div>
+  <div class="M01"><a href="/category/report?category=13">모니터</a></div>
+  <div class="M01"><a href="/category/report?category=14">스피커/헤드셋</a></div>
+</div>
+
+
   </div>
 <script>
-  const dropdownBtns = document.querySelectorAll('.submenu');
+  const dropdownBtns = document.querySelectorAll('#nav-hamburger');
   const dropdownContents = document.querySelectorAll('.dropdown-menu');
 
   dropdownBtns.forEach((btn, index) => {
@@ -108,6 +276,29 @@
       dropdownContent.classList.remove('show');
     });
   });
+
+
+  let prevScrollpos = window.pageYOffset; // 스크롤 이전 위치
+
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    let currentScrollPos = window.pageYOffset; // 현재 스크롤 위치
+
+    if (prevScrollpos > currentScrollPos) {
+      document.getElementById("navbar").classList.remove("hidden");
+      document.getElementById("navbar").classList.add("visible");
+      document.getElementById("newNavbar").classList.remove("visible");
+      document.getElementById("newNavbar").classList.add("hidden");
+    } else {
+      document.getElementById("navbar").classList.remove("visible");
+      document.getElementById("navbar").classList.add("hidden");
+      document.getElementById("newNavbar").classList.remove("hidden");
+      document.getElementById("newNavbar").classList.add("visible");
+    }
+
+    prevScrollpos = currentScrollPos; // 이전 스크롤 위치를 현재 스크롤 위치로 업데이트
+  }
   
 </script>
 {% block content %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<div id="post-wrap">
-  <div class="row d-flex justify-content-center h-100">
+<div style="display: flex; justify-content: center; position: relative; top: 70px;">
+  <div style="width: 70%;">
       <form method="POST" enctype="multipart/form-data" onsubmit="changeFieldName()">
           {% csrf_token %}
           <textarea id="post-title" name="postname" placeholder="제목을 입력해주세요" rows="1" maxlength="100" onKeyPress="javascript: if (event.keyCode==13) return false;" style="resize: none; border-bottom: 1px solid #c4c4c4; font-weight: 600;" wrap="soft"></textarea>

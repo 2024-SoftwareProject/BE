@@ -1,52 +1,71 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="d-flex justify-content-center">
-<div style=" flex-direction: column; align-items: center; width: 60%; display: flex; justify-content: center;">
-    <div class="row d-flex justify-content-center">
+<div style="display: flex; justify-content: center; position: relative; top: 70px;">
+<div style="width: 70%;">
+        {% if post.board_type == 'free_board' %}
+            <div style="position: relative; top: -30px;"><a href="{% url 'board_app:free_board' %}" style="text-decoration: none; color: #A0A083; font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
+        {% elif post.board_type == 'question_board' %}
+        <div style="position: relative; top: -30px;"><a href="{% url 'board_app:question_board' %}" style="text-decoration: none; color: #798478; font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
+        {% elif post.board_type == 'review_board' %}
+        <div style="position: relative; top: -30px;"><a href="{% url 'board_app:review_board' %}" style="text-decoration: none; color: #4D6A6D; font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
+        {% endif %}
         <p id="post-title">{{ post.postname }}</p>
         <p>{{ post.author.username }}</p>
         <p style="border-bottom: 1px solid #d4d4d4; width: 100%;"></p>
-        <pre id = "posting-contents" class="nanum-gothic-regular" style="height: 100px; font-size: 20px;">{{ post.contents }}</pre>
+        <pre id = "posting-contents" class="nanum-gothic-regular" style="margin-bottom: 50px; font-size: 20px;">{{ post.contents }}</pre>
         
         {% for photo in post.photos.all %}
-            <img src="{{ photo.image.url }}" alt="" height="300">
+            <img src="{{ photo.image.url }}" alt="" height="300" width="300">
             <br>
         {% endfor %}
-        <!-- 별표 버튼 -->
-        {% if request.user.is_authenticated %}
-            {% with user_scrap=request.user.scrap %}
-            <!-- {# {% if user.scrap.is_post_scrapped %} #} -->
-                <!-- 게시물이 찜되어 있는 경우 -->
-                <button id="scrap-button" data-post-id="{{ post.pk }}" data-board-type="{{ post.board_type }}"class="{% if is_scrap %}scraped{% endif %}">
-                    {% if is_scrap %}
-                        <i class="fas fa-star"></i> 스크랩 취소
-                    {% else %}
-                        <i class="far fa-star"></i> 스크랩
-                    {% endif %}</button>
-                <!-- {# {% endif %} #} -->
-            {% endwith %}
-            <p style="margin-bottom: 50px;"></p>
-        {% else %}
-        <!-- 비로그인 사용자의 경우 -->
+            <!-- 별표 버튼 -->
+    {% if request.user.is_authenticated %}
+    {% with user_scrap=request.user.scrap %}
+    <!-- {# {% if user.scrap.is_post_scrapped %} #} -->
+        <!-- 게시물이 찜되어 있는 경우 -->
+        <button id="scrap-button" data-post-id="{{ post.pk }}" data-board-type="{{ post.board_type }}"class="{% if is_scrap %}scraped{% endif %}" 
+        style="float: left; position: relative; top: 70px;">
+            {% if is_scrap %}
+                <i class="fas fa-star"></i> 스크랩 취소
+            {% else %}
+                <i class="far fa-star"></i> 스크랩
+            {% endif %}</button>
+        <!-- {# {% endif %} #} -->
+    {% endwith %}
+    <p style="margin-bottom: 50px;"></p>
+{% else %}
+<!-- 비로그인 사용자의 경우 -->
+    <button id="scrap-button" disabled><i class="far fa-star"></i> 스크랩</button>
+    <span>로그인이 필요합니다.</span>
+{% endif %}
+
+
+        {% if post.board_type == 'free_board' %}
+            <a id="delete-post" href="{% url 'board_app:free_board_remove_posting' pk=post.pk %}">삭제</a>
+        {% elif post.board_type == 'question_board' %}
+            <a id="delete-post" href="{% url 'board_app:question_board_remove_posting' pk=post.pk %}" >삭제</a>
+        {% elif post.board_type == 'review_board' %}
+            <a id="delete-post" href="{% url 'board_app:review_board_remove_posting' pk=post.pk %}" >삭제</a>
         {% endif %}
+        <a href="{% url 'board_app:edit_post' pk=post.pk board_type=post.board_type %} " id="delete-post" style="margin-right: 10px;">수정</a>
+        <div class="comment-layout">
         <form method="post" action="{% if post.board_type == 'free_board' %}{% url 'board_app:free_board_add_comment' pk=post.pk %}{% elif post.board_type == 'review_board' %}{% url 'board_app:review_board_add_comment' pk=post.pk %}{% elif post.board_type == 'question_board' %}{% url 'board_app:question_board_add_comment' pk=post.pk %}{% endif %}">
+
             <input type="hidden" name="board_type" value="{{ post.board_type }}">
             {% csrf_token %}
-            
             {% if request.user.is_authenticated %}
-                <textarea name="content" id="post-text" style="color: grey; border: 1px solid #d4d4d4; border-radius: 10px; resize: none;"></textarea>
-                <button id="comment_button" button type="submit">댓글 작성</button>
+                <textarea name="content" id="post-text" style="color: grey; border: 1px solid #d4d4d4; border-radius: 10px 0px 0px 10px; resize: none; display: inline; width: 890px; overflow: auto;"></textarea>
+                <button type="submit" style="position: relative; float:right; left: 0px; border: 1px solid grey; padding: 18px 30px 16px 30px; background-color: #759378; color: white; border-radius: 0px 10px 10px 0px; font-weight: bold;">등록</button>
             {% else %}
-            <p id="post-text" style="color: grey; border: #d4d4d4; ">로그인 후 이용해주세요.</p>
+                <p id="post-text" style="color: grey; border: #d4d4d4; ">로그인 후 이용해주세요.</p>
         {% endif %}
         </form>
-
-        <ul style="margin-top: 100px;">
+        <ul class="comment-table" style="padding-left: 0px;">
             {% for comment in post.comments.all %}
                 <li style="font-size: 20px; padding: 15px; border-top: 1px solid #d4d4d4; " id="comment-content-{{ comment.pk }}">{{ comment.author.username }} - {{ comment.content }}
                     {% if comment.author == request.user %}
                     <!--<button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button>-->
-                    <button class="delete-button" data-comment-id="{{ comment.pk }}">댓글 삭제</button>
+                    <button class="delete-button" id="delete-btn" data-comment-id="{{ comment.pk }}">댓글 삭제</button>
                     {% endif %}
                 </li>
                 <!--
@@ -59,26 +78,12 @@
                 {% empty %}
                 <li>작성된 댓글이 없습니다.</li>
             {% endfor %}
-            <li style=" border-bottom: 1px solid #d4d4d4; margin-top:15px;"></li>
+            <li style=" border-bottom: 1px solid #d4d4d4;"></li>
         </ul>
+        </div>
+    </div>
+</div>
 
-        <br>
-        {% if post.board_type == 'free_board' %}
-            <a href="{% url 'board_app:free_board' %}">목록</a>
-            <form method="POST">{% csrf_token %}<button>삭제</button></form>
-            <a href="{% url 'board_app:edit_post' pk=post.pk board_type=post.board_type %} ">수정</a>
-        {% elif post.board_type == 'question_board' %}
-            <a href="{% url 'board_app:question_board' %}">목록</a>
-            <a href="{% url 'board_app:question_board_remove_posting' pk=post.pk %}">삭제</a>
-            <a href="{% url 'board_app:question_board_edit_post' pk=post.pk %}">수정</a>
-        {% elif post.board_type == 'review_board' %}
-            <a href="{% url 'board_app:review_board' %}">목록</a>
-            <a href="{% url 'board_app:review_board_remove_posting' pk=post.pk %}">삭제</a>
-            <a href="{% url 'board_app:review_board_edit_post' pk=post.pk  %}">수정</a>
-        {% endif %}
-</div>
-</div>
-</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

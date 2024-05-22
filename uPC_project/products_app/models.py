@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from category_app.models import Category
 
 class Product(models.Model):
     Pd_IndexNumber = models.AutoField(primary_key=True)
@@ -23,6 +22,6 @@ class Product(models.Model):
         if self.Pd_Count > 0:
             self.Pd_Count -= 1
             self.save()
-
         else:
             self.Pd_count = 0
+

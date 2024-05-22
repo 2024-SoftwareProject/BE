@@ -17,8 +17,567 @@
     <!--javascript import-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% bootstrap_javascript %}
+    <style>
+        .do-hyeon-regular {
+      font-family: "Do Hyeon", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .noto-serif-kr-regular {
+      font-family: "Noto Serif KR", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .nanum-gothic-regular {
+      font-family: "Nanum Gothic", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .jua-regular {
+      font-family: "Jua", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    /*google font import*/
+    .kaisei-decol-regular {
+      font-family: "Kaisei Decol", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .kaisei-decol-bold {
+      font-family: "Kaisei Decol", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+    /*나눔 명조*/
+    .nanum-myeongjo-regular {
+      font-family: "Nanum Myeongjo", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .nanum-myeongjo-bold {
+      font-family: "Nanum Myeongjo", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    :root {
+      --accent-color: #32989a;
+      --text-color: #424B54;
+      --background-color: white;
+      --border-color: #759378;
+    }
+
+    body {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 1340px;
+    }
+
+    li a {
+    text-decoration: none;
+    color: var(--text-color);
+    }
+
+    .navbar {
+      display: block;
+      background-color: var(--background-color);
+      position: fixed; 
+      width: 100%; /* 추가된 부분 */
+      width: 100%; /* 추가된 부분 */
+      top: 0; /* 추가된 부분 */
+      z-index: 9999; /* 추가된 부분 */
+      min-width: 1200px;
+      padding-top: 40px;
+      border: 200px;
+      border-bottom: 1px solid var(--text-color);
+    }
+
+    .nav_logo{
+      position: absolute;
+      display: inline-block;
+      left:50px;
+      top:30px;
+
+    }
+
+    .nav_logo a{
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .nav_menu {
+      display: flex;
+      justify-content: flex-end;
+      width:99%;
+      margin-top: 100px;
+    }
+
+    .nav_menu a {
+      padding: 10px 12px;
+      text-decoration: none;
+      color: var(--text-color);
+      margin-right: 15px;
+      
+    }
+
+    .nav_menu a:last-child {
+      margin-right: 0; /* 마지막 요소의 오른쪽 마진을 제거합니다. */
+    }
+
+    .nav_menu a:hover {
+      color: var(--accent-color);
+      color: var(--accent-color);
+      border-radius: 4px;
+    }
+
+    .nav_menu #nav-hamburger{
+      position: absolute;
+      display: flex;
+      cursor: pointer;
+      left: 100px;
+    }
+
+    .nav_menu #nav-hamburger .submenu{
+      top: 5px;
+      margin-left: 100px;
+    }
+
+    .nav_menu #nav-hamburger .submenu:hover{
+      color: var(--accent-color);
+    }
+
+    .dropdown-menu{ 
+      display: inline-block;
+      position: fixed; 
+      top: 180px;
+      width: 150px;
+      height: 200px;
+      left: 160px;
+      position: fixed; 
+      top: 180px;
+      width: 150px;
+      height: 200px;
+      left: 160px;
+      z-index: 10;
+      border: 1px solid #c9c9c9;
+      background-color: var(--background-color);
+      text-align: center;
+      font-weight: bold;
+      list-style: none;
+      visibility: hidden;
+    }
+
+    .dropdown-menu.show {
+      visibility: visible;
+      visibility: hidden;
+    }
+
+    .dropdown-menu.show {
+      visibility: visible;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 40px;
+    }
+
+    li{
+      list-style: none;
+    }
+
+    li{
+      list-style: none;
+    }
+
+    .nav_menu a.on{
+      left:600px;
+    }
+
+    #li-note{
+      margin-left: 300px;
+    }
+
+    .nav_icons {
+    display: flex;
+    color: #7dc0ff;
+    list-style: none;
+    padding-left: 0;
+    }
+
+    .nav_icons li {
+    padding: 8px 5px;
+    }
+
+    .navbar .search {
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-56%);
+    margin-left: 100px;
+
+    }
+
+    .search input {
+    width: 700px;
+    border: 3px solid #566270;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    }
+
+    .search {
+    display: inline;
+    left: 400px;
+    width: 800px;
+    top: 50px;
+    }
+
+    input {
+    width: 100%;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    }
+
+    .search button {
+    position: relative;
+    background-color: white;
+    cursor: pointer; /* 커서를 포인터로 변경 */
+    border-radius: 8px;
+    right: 50px;
+    margin: 0;
+    }
+
+    .accounts-nav{
+      width: 100%; 
+      display: inline-block;
+      z-index: 9999;
+      background-color: var(--background-color);
+      text-align: center;
+    }
+    .accounts-logo{
+      text-decoration-line: none;
+      color: var(--text-color);
+    }
+    .accounts-logo:hover{
+      color: var(--accent-color);
+    }
+    /*모달창 버튼 나중에 클래스 변경해야 함*/
+    button {
+      border: 0;
+      background-color: transparent;
+    }
+    .btn-box .btn-open {
+        display: block;
+        width: 200px;
+        height: 50px;
+        margin: 80px auto 0;
+        line-height: 50px;
+        background: #333;
+        text-align: center;
+    }
+
+    .btn-box .btn-open span {
+        color: #fff;
+    }
+
+    /* 팝업 스타일 */
+    .modal-bg {
+      display:none;
+      width:100%;
+      height:100%;
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index:999;
+      border-radius: 10px;
+    }
+
+    .modal-wrap {
+      display:none;
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      width:700px;
+      height:500px;
+      background:#fff;
+      z-index:1000;
+      height: 50vh; 
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 30px 20px 20px 20px;
+      border-radius: 10px;
+    }
+
+    /*로그인 관련*/
+    #recovery-pw-btn{
+      display: flex;
+      text-decoration: none;
+    }
+
+    #login-btn{
+      display: flex;
+      position: relative;
+      left: 300px;
+      top: -20px;
+    }
+
+    .M01{
+      padding: 10px;
+      padding: 10px;
+    }
+
+
+    .M01 a{
+      text-decoration: none;
+      color: var(--text-color);
+    }
+
+    .M01:hover,
+    .M01:hover a {
+      background-color: #ADBCA5;
+      color: #514444;
+    }
+
+    #nav-hamburger div{
+      transition: all 1.4s;
+    }
+
+    /*게시판 바디*/
+    #board-body{
+      width: 100%;
+      height: 100%;
+      background-color: var(--background-color);
+    }
+
+    #board-body:hover{
+      transition: 0.5s;
+    }
+
+    .board-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: center;
+      font-family: 'Open Sans Condensed', sans-serif;
+    }
+
+    .board-select .board-btn{
+      line-height: 100px;
+      height: 100px;
+      text-align: center;
+      width: 500px;
+      cursor: pointer;
+      font-family: "Gothic A1", sans-serif;
+      font-weight: 100;
+    }
+
+    .board-btn {
+      color: #FFF;
+      transition: all 0.3s;
+      position: relative;
+      margin: 30px;
+    }
+    .board-btn span {
+      transition: all 0.3s;
+      display: flex;
+      justify-content: center;
+      z-index: 10;
+      font-size: 40px;
+    }
+    .board-btn span a{
+      z-index: 20;
+      text-decoration: none;
+      color: black;
+    }
+
+    .board-btn::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: all 0.3s;
+      border-top-width: 1px;
+      border-bottom-width: 1px;
+      border-top-style: solid;
+      border-bottom-style: solid;
+      border-top-color: #759378;
+      border-bottom-color: #759378;
+      transform: scale(0.1, 1);
+    }
+    .board-btn:hover span,
+    .board-btn:hover span a
+    {
+      letter-spacing: 5px;
+      color: white;
+    }
+    .board-btn::before {
+      opacity: 1; 
+      transform: scale(1, 1); 
+    }
+    .board-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      transition: all 0.3s;
+      background-color: rgba(255,255,255,0.1);
+    }
+    .board-btn:hover::after {
+      opacity: 0; 
+      transform: scale(0.1, 1);
+    }
+
+    .board-head{
+      text-align: center; 
+      padding: 50px; 
+      color: white;
+    }
+
+    .board-write-btn{
+      position: relative;
+      padding: 15px 20px 15px 20px;
+      float: right;
+      right: 150px;
+      top: 10px;
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    .board-table{
+      top: 100px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    table{
+      width: 80%;
+    }
+
+    tbody tr{
+      border-top-style: solid;
+      border-top-width: 1px;
+      border-top-color: var(--border-color);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: var(--border-color);
+      width: 100%;
+    }
+    tbody tr td{
+      padding: 20px;
+      margin-right: 2rem;
+    }
+
+    tbody tr:hover,
+    tbody tr td:hover
+    {
+      background-color: var(--border-color);
+      color: white;
+    }
+
+    #board-id{
+      width: 1.5rem;
+    }
+    #board-photo{
+      width: 5rem;
+    }
+    #board-postname{
+      position:relative;
+      padding-left: 3rem;
+    }
+    #board-author{
+      width: 5rem;
+    }
+    #post-wrap{
+      display: flex;
+      justify-content: center;
+      position: relative;
+      top: 30px;
+    }
+    #post-textarea{
+      width: 1000px;
+      height: 1rem;
+    }
+    #post-title{
+      overflow: hidden; 
+      overflow-wrap: break-word; 
+      border: none;
+      height: 60px;
+      font-size: 40px;
+      width: 100%;
+      white-space: pre-line;
+    }
+    #post-text{
+      overflow: hidden; 
+      overflow-wrap: break-word; 
+      height: 60px;
+      font-size: 20px;
+      width: 100%;
+      white-space: pre-wrap;
+      border: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 20px;
+    }
+    #post-title:focus,
+    #post-text:focus{
+      outline: none;
+    }
+
+    #posted-text{
+      height: 60px;
+      width: 100%;
+      white-space: pre;
+      border: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 20px;
+    }
+    #post-btn{
+      position: relative;
+      top: 50px;
+      justify-content: center;
+      float: right;
+      font-size: 20px;
+      padding: 20px 30px 20px 30px;
+      background-color: var(--border-color);
+      color: white;
+      border-radius: 0.5rem;
+}
+    </style>
    
 <head>
+<body class = "jua-regular" style="font-family: 'Nanum Gothic', sans-serif;
+font-weight: 400;
+font-style: normal;"> 
 <body class = "nanum-gothic-regular"> 
     <div class = "accounts-nav">
         <div><h1 class="kaisei-decol-bold" style="font-size: 80px;"><a class="accounts-logo" href="/">u.PC</a></h1>

@@ -8,14 +8,12 @@ django.setup()
 from bs4 import BeautifulSoup
 from django.db import connection
 
-from products_app.models import Product
-from category_app.models import Category
+from .models import CategoryProduct
 
+def jungo_save_to_database(Pd_Market, Pd_Category , Pd_Name, Pd_Price, Pd_IMG, Pd_URL):
 
-def jungo_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd_URL):
-    # 이미 존재하는지 여부를 확인하여 중복 삽입 방지
-    if not Product.objects.filter(Pd_Name=Pd_Name).exists():
-        product = Product(
+    if not CategoryProduct.objects.filter(Pd_Name=Pd_Name).exists():
+        product = CategoryProduct(
             Pd_Market=Pd_Market,
             Pd_Category=Pd_Category,
             Pd_Name=Pd_Name,
@@ -31,8 +29,6 @@ def jungo_search(query):
         Pd_Market='중고나라'
         item_name = query
         search_query = item_name.replace(" ", "")
-
-
         Pd_Category= search_query
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36',
@@ -94,5 +90,5 @@ def jungo_search(query):
                 
                 Pd_IMG = image['src']
                 Pd_URL = "https://web.joongna.com" + url['href']
-                jungo_save_to_database(Pd_Market, Pd_Category, Pd_Name, Pd_Price, Pd_IMG, Pd_URL)
+                jungo_save_to_database(Pd_Market, Pd_Category , Pd_Name, Pd_Price, Pd_IMG, Pd_URL)
         connection.close()

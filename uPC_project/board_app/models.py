@@ -28,7 +28,7 @@ class Post(models.Model):
     BOARD_CHOICES = (
         ('free_board', '자유 게시판'),
         ('question_board', '질문 게시판'),
-        ('review_board', '판매 게시판'),
+        ('review_board', '리뷰 게시판'),
     )
     board_type = models.CharField(max_length=20, choices=BOARD_CHOICES, null=True, blank=True)
 

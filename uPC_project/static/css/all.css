@@ -75,7 +75,6 @@ color: var(--text-color);
   top: 0; /* 추가된 부분 */
   z-index: 9999; /* 추가된 부분 */
   min-width: 1200px;
-  padding-top: 40px;
   border: 200px;
   border-bottom: 1px solid var(--text-color);
 }
@@ -119,37 +118,19 @@ color: var(--text-color);
 }
 
 .nav_menu #nav-hamburger{
-  position: absolute;
+  position: relative;
   display: flex;
   cursor: pointer;
   left: 100px;
 }
 
-.nav_menu #nav-hamburger .submenu{
-  top: 5px;
-  margin-left: 100px;
-}
-
-.nav_menu #nav-hamburger .submenu:hover{
-  color: var(--accent-color);
-}
-
-.nav_menu #nav-hamburger .submenu:hover{
-  color: var(--accent-color);
-}
-
 .dropdown-menu{ 
-  display: inline-block;
+  display: none;
   position: fixed; 
-  top: 180px;
-  width: 150px;
-  height: 200px;
-  left: 160px;
-  position: fixed; 
-  top: 180px;
-  width: 150px;
-  height: 200px;
-  left: 160px;
+  top: 172px;
+  width: 110px;
+  height: 195px;
+  left: 45px;
   z-index: 10;
   border: 1px solid #c9c9c9;
   background-color: var(--background-color);
@@ -159,15 +140,9 @@ color: var(--text-color);
   visibility: hidden;
 }
 
-.dropdown-menu.show {
-  visibility: visible;
-  visibility: hidden;
+.nav-hamburger:hover, .dropdown-menu:hover{
+  display: inline-block;
 }
-
-.dropdown-menu.show {
-  visibility: visible;
-}
-
 ul {
   display: block;
   list-style-type: disc;
@@ -186,7 +161,7 @@ li{
   list-style: none;
 }
 
-.a.on{
+.nav_menu a.on{
   left:600px;
 }
 
@@ -263,7 +238,7 @@ margin: 0;
 /*모달창 버튼 나중에 클래스 변경해야 함*/
 button {
   border: 0;
-  background-color: none;
+  background-color: transparent;
 }
 .btn-box .btn-open {
     display: block;
@@ -447,7 +422,7 @@ button {
 
 .board-head{
   text-align: center; 
-  padding: 50px; 
+  padding: 70px;
   color: white;
 }
 
@@ -493,6 +468,7 @@ tbody tr td:hover
 {
   background-color: var(--border-color);
   color: white;
+  cursor: pointer;
 }
 
 #board-id{
@@ -603,4 +579,13 @@ tbody tr td:hover
 
   #posting-comments:focus{
     outline: none;
+  }
+
+  #delete-btn{
+    left: 600px;
+    float: right;
+  }
+
+  .comment-table li:hover{
+    text-decoration: dashed;
   }
