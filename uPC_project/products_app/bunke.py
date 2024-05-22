@@ -81,7 +81,12 @@ def bunke_search(query):
                 print("a")
                 continue
             print("여기")
+<<<<<<< HEAD
             print("1")
+=======
+
+            Pd_Name = name.get_text() 
+>>>>>>> bbbbdb048c450c61215832b92fa4fb951eb54d80
 
             
             if(Pd_Name.find("삽")!= -1):

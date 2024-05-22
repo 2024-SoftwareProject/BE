@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div id="post-wrap">
-    <div class="row d-flex justify-content-center h-100">
+<div style="display: flex; justify-content: center; position: relative; top: 70px;">
+    <div style="width: 70%;">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="board_type" value="{{ board_type }}">
@@ -26,8 +26,7 @@
   </div>
 
   <script>
-
-    $(document).ready(function() {
+        $(document).ready(function() {
         var $textarea = $('textarea');
         $textarea.height($textarea.prop('scrollHeight'));
         $textarea.on('input', function() {
