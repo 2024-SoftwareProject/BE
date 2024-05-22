@@ -82,10 +82,7 @@ def bunke_search(query):
 
             print("여기")
 
-            Pd_Name = name.get_text()
-
-            print("1")
-
+            Pd_Name = name.get_text() 
 
             
             if(Pd_Name.find("삽")!= -1):
