@@ -108,8 +108,8 @@
         function update() {
         var currentUrl = window.location.href;
         var category = get_url_parameter('category'); 
-        var updateUrl = currentUrl.split('report')[0] + '?category=' + category; 
-        window.location.href = updateUrl;
+        var newUrl = '/category/?category=' + category; 
+        window.location.href = newUrl;
         }
 
     </script>
@@ -556,6 +556,7 @@
             {% empty %}
             <script>
                 alert("최신 정보로 갱신합니다. \n 15초정도 소요됩니다.")
+                update();
                 
             </script>
             {% endfor %}
@@ -819,8 +820,8 @@
         function update() {
         var currentUrl = window.location.href;
         var category = get_url_parameter('category'); 
-        var updateUrl = currentUrl.split('?')[0] + '?category=' + category; 
-        window.location.href = updateUrl;
+        var newUrl = '/category/?category=' + category; 
+        window.location.href = newUrl;
 
     }
 
