@@ -111,20 +111,7 @@ color: var(--text-color);
   margin-right: 0; /* 마지막 요소의 오른쪽 마진을 제거합니다. */
 }
 
-.nav_menu a:hover {
-  color: var(--accent-color);
-  color: var(--accent-color);
-  border-radius: 4px;
-}
-
-.nav_menu #nav-hamburger{
-  position: relative;
-  display: flex;
-  cursor: pointer;
-  left: 100px;
-}
-
-.dropdown-menu{ 
+#dropdown-menu{ 
   display: none;
   position: fixed; 
   top: 172px;
@@ -137,12 +124,19 @@ color: var(--text-color);
   text-align: center;
   font-weight: bold;
   list-style: none;
-  visibility: hidden;
 }
 
-.nav-hamburger:hover, .dropdown-menu:hover{
-  display: inline-block;
+#nav-hamburger{
+  color:red;
+  position: relative;
+  left: -100px;
 }
+
+#nav-hamburger:hover,#nav-hamburger:hover #dropdown-menu{
+  display: inline-block;
+  background-color: green;
+}
+
 ul {
   display: block;
   list-style-type: disc;

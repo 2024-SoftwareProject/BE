@@ -64,17 +64,22 @@
             {% for comment in post.comments.all %}
                 <li style="font-size: 20px; padding: 15px; border-top: 1px solid #d4d4d4; " id="comment-content-{{ comment.pk }}">{{ comment.author.username }} - {{ comment.content }}
                     {% if comment.author == request.user %}
-                    <!--<button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button>-->
+                    {% csrf_token %}
+                    <button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button>
                     <button class="delete-button" id="delete-btn" data-comment-id="{{ comment.pk }}">댓글 삭제</button>
                     {% endif %}
                 </li>
-                <!--
+                li id="comment-content-{{ comment.pk }}">{{ comment.author.username }} - {{ comment.content }}
+                {% if comment.author == request.user %}
+                <!--<button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button>-->
+                <button class="delete-button" data-comment-id="{{ comment.pk }}">댓글 삭제</button>
+                {% endif %}
+            </li>
                 <li class="edit-form" id="edit-form-{{ comment.pk }}">
                     <form method="post" action="{% url 'board_app:edit_comment' pk=post.pk comment_id=comment.pk board_type=post.board_type %}">
                         <button type="submit">수정 제출</button>
                     </form>
                 </li>
-                -->
                 {% empty %}
                 <li>작성된 댓글이 없습니다.</li>
             {% endfor %}
