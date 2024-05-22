@@ -47,17 +47,17 @@
         {% for comment in post.comments.all %}
             <li id="comment-content-{{ comment.pk }}">{{ comment.author.username }} - {{ comment.content }}
                 {% if comment.author == request.user %}
-                <!--<button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button>-->
+                <!-- <button class="edit-button" data-comment-id="{{ comment.pk }}">댓글 수정</button> -->
                 <button class="delete-button" data-comment-id="{{ comment.pk }}">댓글 삭제</button>
                 {% endif %}
             </li>
-            <!--
-            <li class="edit-form" id="edit-form-{{ comment.pk }}">
+            
+            <!-- <li class="edit-form" id="edit-form-{{ comment.pk }}">
                 <form method="post" action="{% url 'board_app:edit_comment' pk=post.pk comment_id=comment.pk board_type=post.board_type %}">
                     <button type="submit">수정 제출</button>
                 </form>
-            </li>
-            -->
+            </li> -->
+           
             {% empty %}
             <li>작성된 댓글이 없습니다.</li>
         {% endfor %}
@@ -66,15 +66,28 @@
     <br>
     {% if post.board_type == 'free_board' %}
         <a href="{% url 'board_app:free_board' %}">목록</a>
-        <a href="{% url 'board_app:free_board_remove_posting' pk=post.pk %}">삭제</a>
+        
+        <form id="delete-post-form" action="{% url 'board_app:free_board_remove_posting' pk=post.pk %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <a href="#" onclick="document.getElementById('delete-post-form').submit(); return false;">삭제</a>
+        </form>
         <a href="{% url 'board_app:edit_post' pk=post.pk board_type=post.board_type %} ">수정</a>
     {% elif post.board_type == 'question_board' %}
         <a href="{% url 'board_app:question_board' %}">목록</a>
-        <a href="{% url 'board_app:question_board_remove_posting' pk=post.pk %}">삭제</a>
+
+        <form id="delete-post-form" action="{% url 'board_app:question_board_remove_posting' pk=post.pk %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <a href="#" onclick="document.getElementById('delete-post-form').submit(); return false;">삭제</a>
+        </form>
+        <!-- <a href="{% url 'board_app:question_board_remove_posting' pk=post.pk %}">삭제</a> -->
         <a href="{% url 'board_app:question_board_edit_post' pk=post.pk %}">수정</a>
     {% elif post.board_type == 'review_board' %}
         <a href="{% url 'board_app:review_board' %}">목록</a>
-        <a href="{% url 'board_app:review_board_remove_posting' pk=post.pk %}">삭제</a>
+        <form id="delete-post-form" action="{% url 'board_app:review_board_remove_posting' pk=post.pk %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <a href="#" onclick="document.getElementById('delete-post-form').submit(); return false;">삭제</a>
+        </form>
+        <!-- <a href="{% url 'board_app:review_board_remove_posting' pk=post.pk %}">삭제</a> -->
         <a href="{% url 'board_app:review_board_edit_post' pk=post.pk  %}">수정</a>
     {% endif %}
 </div>
