@@ -41,7 +41,7 @@ def search_view(request):
     print(1)
 
     # 검색 실행
-    #bunke.bunke_search(edited_query)
+    # bunke.bunke_search(edited_query)
     jungo.jungo_search(edited_query)
     dangeun.dangeun_search(edited_query)
 
