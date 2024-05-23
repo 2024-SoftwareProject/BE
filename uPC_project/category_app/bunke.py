@@ -79,9 +79,7 @@ def bunke_search(query):
             if(item.parent.find(attrs={'alt':'판매 완료'}) or item.parent.find(attrs={'alt':'예약중'})):
                 print("a")
                 continue
-
-            print("여기")
-
+            
             Pd_Name = name.get_text()
 
             print("1")
@@ -89,8 +87,6 @@ def bunke_search(query):
 
             
             if(Pd_Name.find("삽")!= -1):
-                continue
-            if(Pd_Name.find("케이스")!= -1):
                 continue
             if(Pd_Name.find("매입")!= -1):
                 continue

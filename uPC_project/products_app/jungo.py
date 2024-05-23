@@ -41,6 +41,7 @@ def jungo_search(query):
 
         for page in range(1, pages_to_crawl + 1):
             url = f"https://web.joongna.com/search/{search_query}?page={page}"
+            print(url)
             res = requests.get(url, headers=headers)
             soup = BeautifulSoup(res.text, "html.parser")
 
@@ -56,11 +57,11 @@ def jungo_search(query):
                 #전체
                 if(Pd_Name.find("삽")!= -1):
                     continue
-                if(Pd_Name.find("케이스")!= -1):
-                    continue
                 if(Pd_Name.find("매입")!= -1):
                     continue
                 if(Pd_Name.find("구매")!= -1):
+                    continue
+                if(Pd_Name.find("에어팟")!= -1):
                     continue
 
                 #메모리
