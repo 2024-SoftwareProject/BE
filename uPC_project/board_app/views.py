@@ -61,15 +61,20 @@ def new_post(request, board_type=None):
 
 
 @login_required
-def remove_post(request, pk):
+def remove_post(request, pk, board_type=None):
     post = get_object_or_404(Post, pk=pk)
     if post.author != request.user:
         return HttpResponseForbidden("You don't have permission to remove this comment.")
     
     if request.method == 'POST': 
         post.delete()
-        return redirect('/board/')
-    return render(request, 'main/remove_post.html', {'Post': post})
+        return redirect(f'/board/{post.board_type}/')
+    if board_type == 'free_board':
+        return redirect('board_app:free_board')
+    elif board_type == 'review_board':
+        return redirect('board_app:review_board')
+    elif board_type == 'question_board':
+        return redirect('board_app:question_board') 
 
 @login_required
 def edit_post(request, pk, board_type): 

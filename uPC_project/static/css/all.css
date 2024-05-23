@@ -66,6 +66,20 @@ text-decoration: none;
 color: var(--text-color);
 }
 
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+li{
+  list-style: none;
+}
+
 .navbar {
   display: block;
   background-color: var(--background-color);
@@ -109,50 +123,6 @@ color: var(--text-color);
 
 .nav_menu a:last-child {
   margin-right: 0; /* 마지막 요소의 오른쪽 마진을 제거합니다. */
-}
-
-#dropdown-menu{ 
-  display: none;
-  position: fixed; 
-  top: 172px;
-  width: 110px;
-  height: 195px;
-  left: 45px;
-  z-index: 10;
-  border: 1px solid #c9c9c9;
-  background-color: var(--background-color);
-  text-align: center;
-  font-weight: bold;
-  list-style: none;
-}
-
-#nav-hamburger{
-  color:red;
-  position: relative;
-  left: -100px;
-}
-
-#nav-hamburger:hover,#nav-hamburger:hover #dropdown-menu{
-  display: inline-block;
-  background-color: green;
-}
-
-ul {
-  display: block;
-  list-style-type: disc;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  padding-inline-start: 40px;
-}
-
-li{
-  list-style: none;
-}
-
-li{
-  list-style: none;
 }
 
 .nav_menu a.on{
@@ -307,10 +277,6 @@ button {
 .M01:hover a {
   background-color: #ADBCA5;
   color: #514444;
-}
-
-#nav-hamburger div{
-  transition: all 1.4s;
 }
 
 /*게시판 바디*/
@@ -582,4 +548,11 @@ tbody tr td:hover
 
   .comment-table li:hover{
     text-decoration: dashed;
+  }
+
+  .edit-form-text{
+    border-radius: 10px; 
+    resize: none; 
+    overflow: auto;
+    background-color: red;
   }

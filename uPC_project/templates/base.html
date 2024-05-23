@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>uPC</title>
-    <link rel="icon" href="{% static 'img/load.gif' %}"/> 
+    <link rel="icon" href="{% static 'img/logo.png' %}"/> 
     <link rel="apple-touch-icon" href="{% static 'img/load.gif' %}"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +28,24 @@
         border-bottom: 1px solid var(--text-color);
         transition: all 0.3s;
       }
+      #dropdown-div{
+        display: none;
+        width: 100%; 
+        position: fixed; 
+        background-color: white; 
+        z-index: 10;
+      }
+
+      #dropdown-submenu{
+        display: flex;
+        justify-content: center;
+      }
+      
+      #dropdown-submenu li{
+        padding: 5px 10px 5px 10px; 
+        margin: 5px;
+      }
+      
     
       #newNavbar {
         background-color: var(--background-color);
@@ -129,6 +147,16 @@
         margin-right: 10px;
         position: relative;
       }
+
+      #edit-form-text{
+        resize: none; 
+        overflow: auto; 
+        border: none;
+        width: 100%;
+      }
+      #edit-form-text:focus{
+        outline: none;
+      }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/all.css' %}">
@@ -142,7 +170,8 @@ font-style: normal;">
     <div class="nav_logo">
       <!-- <a class="kaisei-decol-bold" id="brand-logo" href="/"><h1 style="font-size: 60px; font-weight: 900;">u.PC</h1></a> -->
       <a href="{% url 'home' %}">
-        <img src="{% static 'img/logo.png' %}" alt="My-logo" width="100px" style="margin-left: 10px; margin-top: 0px;">
+        <!--<img src="{% static 'img/logo.png' %}" alt="My-logo" width="100px" style="margin-left: 10px; margin-top: 0px;"> -->
+        <p>upc</p>
       </a>
     </div>
     
@@ -158,7 +187,7 @@ font-style: normal;">
     </div>
     
     <div class="nav_menu">
-      <div id = "nav-hamburger">중고 완제품</div>
+      <div id = "nav-category">중고 완제품</div>
       
       <div style="margin-left: 400px; margin-right: 60px;">
         <a id="nav-note" href="{% url 'board_app:board' %}" style="padding-top: 5px;">게시판</a>
@@ -235,26 +264,36 @@ font-style: normal;">
       {% endif %}
   </nav>
 <!--서브메뉴-->
-<div id"dropdown-menu" style="height: 110px;">
-  <div><a href="/category/report?category=1">중고 데스크탑</a></div>
-  <div><a href="/category/report?category=2">중고 노트북</a></div>
-  <div><a href="/category/report?category=3">CPU</a></div>
-  <div><a href="/category/report?category=4">메인보드</a></div>
-  <div><a href="/category/report?category=5">메모리</a></div>
-  <div><a href="/category/report?category=6">그래픽 카드</a></div>
-  <div><a href="/category/report?category=7">SSD</a></div>
-  <div><a href="/category/report?category=8">HHD</a></div>
-  <div><a href="/category/report?category=9">케이스</a></div>
-  <div><a href="/category/report?category=10">파워</a></div>
-  <div><a href="/category/report?category=11">키보드</a></div>
-  <div><a href="/category/report?category=12">마우스</a></div>
-  <div><a href="/category/report?category=13">모니터</a></div>
-  <div><a href="/category/report?category=14">스피커/헤드셋</a></div>
+<div id = "dropdown-div">
+  <ul id="dropdown-submenu">
+    <li><a href="/category/report?category=1">중고 데스크탑</a></li>
+    <li><a href="/category/report?category=2">중고 노트북</a></li>
+    <li><a href="/category/report?category=3">CPU</a></li>
+    <li><a href="/category/report?category=4">메인보드</a></li>
+    <li><a href="/category/report?category=5">메모리</a></li>
+    <li><a href="/category/report?category=6">그래픽 카드</a></li>
+    <li><a href="/category/report?category=7">SSD</a></li>
+    <li><a href="/category/report?category=8">HHD</a></li>
+    <li><a href="/category/report?category=9">케이스</a></li>
+    <li><a href="/category/report?category=10">파워</a></li>
+    <li><a href="/category/report?category=11">키보드</a></li>
+    <li><a href="/category/report?category=12">마우스</a></li>
+    <li><a href="/category/report?category=13">모니터</a></li>
+    <li><a href="/category/report?category=14">스피커/헤드셋</a></li>
+  </ul>
 </div>
 
 
   </div>
 <script>
+  const click = document.querySelector('#nav-category');
+  const divmenu = document.querySelector('#dropdown-div');
+  $(click).mouseenter(function(){
+    $(divmenu).stop().slideDown(400);
+  });
+  $(divmenu).mouseleave(function(){
+    $(divmenu).stop().slideUp(100);
+  });
 
   let prevScrollpos = window.pageYOffset; // 스크롤 이전 위치
 
