@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="board-head" style="background-color: #4D6A6D;">질문 게시판</h1>
+<h1 class="board-head" style="background-color: var(--questionboard-color);">질문 게시판</h1>
 {% if request.user.is_authenticated %}
     <button type="button" id="writePostButton" class="board-write-btn" onclick = "location.href = 'new_post/?board_type=question_board'">글쓰기</button>
 {% else %}

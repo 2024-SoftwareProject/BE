@@ -19,15 +19,17 @@ boardBtns.forEach(btn => {
   btn.addEventListener('mouseenter', () => {
     switch (btn.id) {
       case 'free-board':
-        body.style.backgroundColor = '#A0A083';
+        body.style.backgroundColor = 'var(--freeboard-color)';
         break;
       case 'review-board':
-        body.style.backgroundColor = '#798478';
+        body.style.backgroundColor = 'var(--reviewboard-color)';
         break;
       case 'question-board':
-        body.style.backgroundColor = '#4D6A6D';
+        body.style.backgroundColor = 'var(--questionboard-color)';
         break;
-
+        //'#A0A083';
+        //'#798478';
+        //'#4D6A6D';
       default:
         break;
     }

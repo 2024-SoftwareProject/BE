@@ -3,11 +3,11 @@
 <div style="display: flex; justify-content: center; position: relative; top: 70px;">
 <div style="width: 70%;">
         {% if post.board_type == 'free_board' %}
-            <div style="position: relative; top: -30px;"><a href="{% url 'board_app:free_board' %}" style="text-decoration: none; color: #A0A083; font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
+            <div style="position: relative; top: -30px;"><a href="{% url 'board_app:free_board' %}" style="text-decoration: none; color: var(--freeboard-color); font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
         {% elif post.board_type == 'question_board' %}
-        <div style="position: relative; top: -30px;"><a href="{% url 'board_app:question_board' %}" style="text-decoration: none; color: #798478; font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
+        <div style="position: relative; top: -30px;"><a href="{% url 'board_app:question_board' %}" style="text-decoration: none; color: var(--questionboard-color); font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
         {% elif post.board_type == 'review_board' %}
-        <div style="position: relative; top: -30px;"><a href="{% url 'board_app:review_board' %}" style="text-decoration: none; color: #4D6A6D; font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
+        <div style="position: relative; top: -30px;"><a href="{% url 'board_app:review_board' %}" style="text-decoration: none; color: var(--reviewboard-color); font-weight: bold;">목록으로 돌아가기 &gt;</a></div>
         {% endif %}
         <p id="post-title">{{ post.postname }}</p>
         <p>{{ post.author.username }}</p>
@@ -55,7 +55,7 @@
             {% if request.user.is_authenticated %}
             <div style="display: flex; width: 100%;">
                 <textarea name="content" id="post-text" style="color: grey; border: 1px solid #d4d4d4; border-radius: 10px 0px 0px 10px; resize: none; width: 100%; overflow: auto;"></textarea>
-                <button type="submit" style=" position: relative; border: 1px solid grey; background-color: #759378; color: white; border-radius: 0px 10px 10px 0px; width: 100px; font-weight: bold;">등록</button>
+                <button type="submit" style=" position: relative; border: 1px solid grey; background-color: var(--border-color); color: white; border-radius: 0px 10px 10px 0px; width: 100px; font-weight: bold;">등록</button>
             </div>
                 {% else %}
                 <p id="post-text" style="color: grey; border: #d4d4d4; ">로그인 후 이용해주세요.</p>

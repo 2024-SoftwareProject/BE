@@ -51,7 +51,15 @@
   --accent-color: #32989a;
   --text-color: #424B54;
   --background-color: white;
-  --border-color: #759378;
+  --border-color: #124559;
+  --freeboard-color: #bcd4e6;
+  --reviewboard-color: #99c1de;
+  --questionboard-color: #6a8eae;
+  /*'#A0A083';*/
+  /*'#798478';*/
+  /*'#4D6A6D';*/
+
+  /*#759378;*/
 }
 
 body {
@@ -598,8 +606,8 @@ button {
   border-bottom-width: 1px;
   border-top-style: solid;
   border-bottom-style: solid;
-  border-top-color: #759378;
-  border-bottom-color: #759378;
+  border-top-color: var(--border-color);
+  border-bottom-color: var(--border-color);
   transform: scale(0.1, 1);
 }
 
@@ -640,13 +648,13 @@ button {
 
 .board-write-btn{
   position: relative;
-  padding: 15px 20px 15px 20px;
+  padding: 10px 15px 10px 15px;
   float: right;
   right: 150px;
   top: 10px;
-  border: 2px solid var(--border-color);
+  background-color: var(--border-color);
   border-radius: 10px;
-  background-color: white;
+  color: white;
   cursor: pointer;
 }
 
