@@ -3,9 +3,9 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'upc_db', # mydatabase
+        'NAME': 'upc_db2', # mydatabase
         'USER': 'root', # mydatabaseuser
-        'PASSWORD': 'juwon1106!', # mypassword
+        'PASSWORD': 'soft1234', # mypassword
         'HOST': 'localhost', # host
         'PORT': '3306',
     }

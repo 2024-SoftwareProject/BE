@@ -160,31 +160,44 @@
 
 
 <body>
-    <div class="container px-5" style="display: flex; justify-content: center;">
-        <div style="display: flex; margin-top: 40px; margin-bottom: 30px; font-size: 20px; font-weight: bold; ">
+
+    <div class="container px-5" style="display: flex; justify-content: center; font-family: Noto Sans KR, sans-serif;">
+        <div style="display: flex; margin-top: 40px; margin-bottom: 6px; font-size: 20px;">
             <p>
             <span id="queryValueDisplay"></span>을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>&nbsp;순서로 찾아본 결과입니다.
             </p>
         </div>
     </div>
 
-    <div>
-        <table style="margin: 0 auto; border-collapse: collapse; width: 50%;">
-            <tr>
-                <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 23.33%;">최저가</td>
-                <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 23.33%;">평균가격</td>
-                <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 23.33%;">최고가</td>
-            </tr>
-            <tr>
-                <td style="text-align: center; border: 1px solid black; width: 23.33%;">{{ min_price_stat }}</td>
-                <td style="text-align: center; border: 1px solid black; width: 23.33%;">{{ average_price_stat }}</td>
-                <td style="text-align: center; border: 1px solid black; width: 23.33%;">{{ max_price_stat }}</td>
-            </tr>
-        </table>
+
+    <div class="container px-5">
+        <div style="font-family: Noto Sans KR, sans-serif; padding-top: 1px;">
+            <div class="search-results">
+                <div style="text-decoration-line: underline; text-decoration-color: #2196F3; text-decoration-thickness: 3px;  padding-bottom: 7px;">
+                    상품의 가격을 비교해 봤어요
+                </div>
+                <table id="search-table" style="border-collapse: collapse;">
+                    <tr>
+                        <td style="text-align: left; padding: 10px 15px 10px 20px">
+                            <div style="font-size: 14px; ">가장 낮은 가격이에요</div>
+                            <div style="font-weight: bold; font-size: 20px; color: #3565f2; " >{{ min_price_stat }}원</div>
+                        </td>
+                        <td style="text-align: left; padding: 10px 10px 10px 10px">
+                            <div style="font-size: 14px;">평균 가격이에요</div>
+                            <div style="font-weight: bold; font-size: 20px;">{{ average_price_stat }}원</div>
+                        </td>
+                        <td style="text-align: left; padding: 10px 10px 10px 10px">
+                            <div style="font-size: 14px;">가장 높은 가격이에요</div>
+                            <div style="font-weight: bold; font-size: 20px; color: #f24035;">{{ max_price_stat }}원</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
     
 
-        <div class="container px-5" style="display: flex; justify-content: end">
+        <div class="container px-5" style="display: flex; justify-content: end; padding-top: 12px;">
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex; margin-bottom: 10px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
             </button>

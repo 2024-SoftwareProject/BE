@@ -81,24 +81,90 @@ li{
 }
 
 .navbar {
-  display: block;
   background-color: var(--background-color);
-  position: fixed; 
-  width: 100%; /* 추가된 부분 */
-  width: 100%; /* 추가된 부분 */
-  top: 0; /* 추가된 부분 */
-  z-index: 9999; /* 추가된 부분 */
-  min-width: 1200px;
-  border: 200px;
-  border-bottom: 1px solid var(--text-color);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 9999;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column; /* 추가 */
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px;
 }
 
-.nav_logo{
-  position: absolute;
-  display: inline-block;
-  left:50px;
-  top:30px;
+.nav-container {
+  display: flex;
 
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.category-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 10px 0;
+}
+
+.category-container:hover .dropdown-menu {
+  display: block;
+}
+.category-container .category {
+  transition: color 0.3s; /* 애니메이션 효과를 위한 전환 */
+}
+
+.category-container:hover .category {
+  cursor: pointer;
+  color: #abdff1;
+}
+
+.category-container:hover .material-symbols-outlined {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+  z-index: 1;
+  width: 100%;
+  left: 0;
+  top: 40px;
+  border: none;
+}
+
+.dropdown-menu .category-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dropdown-menu a {
+  display: inline-block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s;
+  margin: 5px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f5f5f5;
+}
+
+.category-container:hover .dropdown-menu {
+  display: block;
+}
+
+.nav_logo {
+  flex: 1;
 }
 
 .nav_logo a{
@@ -106,19 +172,49 @@ li{
   text-decoration: none;
 }
 
+.search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+
+.search input {
+  width: 450px;
+  flex: 1;
+  border: 1px solid #566270;
+  background-color: #f4f4f4;
+  color: #303030;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 8px;
+}
+
+.search button {
+  position: relative;
+  cursor: pointer; /* 커서를 포인터로 변경 */
+  border-radius: 8px;
+  right: 40px;
+  margin: 0;
+  }
+
+.search button svg {
+  width: 70%;
+  height: 70%;
+}
+
 .nav_menu {
+  flex: 1;
   display: flex;
   justify-content: flex-end;
-  width:99%;
-  margin-top: 100px;
+  position: relative;
 }
 
 .nav_menu a {
-  padding: 10px 12px;
-  text-decoration: none;
+  margin-left: 20px; /* Adds space between menu items */
   color: var(--text-color);
-  margin-right: 15px;
-  
+  text-decoration: none;
 }
 
 .nav_menu a:last-child {
@@ -127,6 +223,51 @@ li{
 
 .nav_menu a.on{
   left:600px;
+}
+
+/* 게시판, 마이 페이지, 로그 아웃 링크 스타일 */
+.nav-links {
+  display: flex;
+  margin-right: 10px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  transition-duration :5s;
+  transition-delay:1s;
+}
+
+.dropdown .dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding-top: 1px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 150px;
+  z-index: 1009;
+  border-radius: 2px;
+  padding-left:0px;
+  border: 1px solid #566270;
+  top: 40px;
+}
+
+.dropdown-content a {
+  padding-left:0px;
+  color: black;
+  padding: 0.6em 1.0em 0.6em 1.0em;
+  text-decoration: none;
+  display: block;
+
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 #li-note{
@@ -144,46 +285,157 @@ padding-left: 0;
 padding: 8px 5px;
 }
 
-.navbar .search {
-position: absolute;
-display: inline-block;
-left: 50%;
-transform: translateX(-56%);
-margin-left: 100px;
+/* 내비게이션 바가 화면 상단으로 이동할 때 나타나도록 설정 */
+.navbar.visible {
+  display: flex;
+  animation: fadeIn 0.5s ease-in-out;
 
 }
 
-.search input {
-width: 700px;
-border: 3px solid #566270;
-border-radius: 8px;
-padding: 10px 12px;
-font-size: 14px;
+/* 내비게이션 바가 화면 상단에서 숨을 때 숨김 */
+.navbar.hidden {
+  display: none;
+  animation: fadeIn 0.5s ease-in-out;
+  animation-fill-mode: forwards;
+
+
 }
 
-.search {
-display: inline;
-left: 400px;
-width: 800px;
-top: 50px;
+#newNavbar .nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
-input {
-width: 100%;
-border: 1px solid #bbb;
-border-radius: 8px;
-padding: 10px 12px;
-font-size: 14px;
+#newNavbar .navbar {
+  background-color: var(--background-color);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 9999;
+  padding-bottom: 10px; /* 아래 여백 추가 */
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centers items vertically */
+  background-color: #fff;
+  padding: 10px;
 }
 
-.search button {
-position: relative;
-background-color: white;
-cursor: pointer; /* 커서를 포인터로 변경 */
-border-radius: 8px;
-right: 50px;
-margin: 0;
+#newNavbar .nav_logo {
+  flex: 1;
 }
+
+#newNavbar .nav_logo a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+#newNavbar .search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+#newNavbar .search input {
+  width: 450px;
+  flex: 1;
+  border: 1px solid #566270;
+  background-color: #f4f4f4;
+  color: #303030;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 8px;
+}
+
+#newNavbar .search button {
+  position: relative;
+  cursor: pointer; /* 커서를 포인터로 변경 */
+  border-radius: 8px;
+  right: 40px;
+  margin: 0;
+  }
+
+  #newNavbar .search button svg {
+  width: 70%;
+  height: 70%;
+}
+
+#newNavbar .nav_menu {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Search Results Section */
+.search-results {
+  margin-top: 30px; /* Add spacing above search results */
+}
+
+/* Search Info Container */
+.search-info {
+  display: flex;
+  align-items: center; /* Center search info vertically */
+  justify-content: center; /* Center search info horizontally */
+  margin-bottom: 20px; /* Add spacing below search info */
+}
+
+.search-info p {
+  font-size: 16px; /* Adjust font size for search info text */
+  font-weight: 500; /* Slightly bolden search info text */
+  color: #333; /* Use a dark gray color for text */
+  margin: 0; /* Remove default paragraph margins */
+}
+
+/* Search Info Text Highlights */
+#queryValueDisplay, #minValueDisplay, #maxValueDisplay, #sortValueDisplay {
+  color: #4994d1; /* Use a blue color for highlighted text */
+  font-weight: 600; /* Bolden highlighted text */
+}
+
+/* Search Table */
+#search-table {
+  pointer-events : none;
+  width: 100%; /* Make table span the full width of its container */
+  padding: 10px 48px 10px 48px;
+  border-collapse: collapse; /* Combine table borders */
+  table-layout: fixed; /* Fix table layout to ensure equal cell widths */
+}
+
+#search-table th, #search-table td {
+  padding: 1px; /* Add padding to table cells */
+  border: 1px solid transparent; /* Add a thin border to table cells */
+  text-align: center; /* Center table cell content */
+  background-color: #cef0fd;
+
+}
+
+#search-table th {
+  background-color: blue; /* Add a light gray background to table headers */
+  font-weight: 300; /* Bolden table headers */
+}
+
+#search-table tr:nth-child(even) {
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #search-table {
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #search-table {
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
+}
+
 
 .accounts-nav{
   width: 100%; 
@@ -405,11 +657,11 @@ button {
   justify-content: center;
 }
 
-table{
+table {
   width: 80%;
 }
 
-tbody tr{
+tbody tr {
   border-top-style: solid;
   border-top-width: 1px;
   border-top-color: var(--border-color);
@@ -418,14 +670,14 @@ tbody tr{
   border-bottom-color: var(--border-color);
   width: 100%;
 }
-tbody tr td{
+
+tbody tr td {
   padding: 20px;
   margin-right: 2rem;
 }
 
 tbody tr:hover,
-tbody tr td:hover
-{
+tbody tr td:hover {
   background-color: var(--border-color);
   color: white;
   cursor: pointer;
