@@ -808,3 +808,45 @@ tbody tr td:hover {
     overflow: auto;
     background-color: red;
   }
+
+  #scrap-button{
+    background-color: var(--border-color);
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+    position: relative;
+  }
+
+  #delete-post{
+    float: right;
+    background-color: var(--border-color);
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+    position: relative;
+    top: 20px;
+  }
+
+  .comment-layout{
+    position: relative;
+    top: 60px;
+  }
+  .comment-post-layout{
+    border: 1px solid grey;
+  }
+
+  #edit-form-text{
+    resize: none; 
+    overflow: auto; 
+    border: none;
+    width: 100%;
+  }
+  #edit-form-text:focus{
+    outline: none;
+  }
