@@ -682,6 +682,11 @@ tbody tr {
 tbody tr td {
   padding: 20px;
   margin-right: 2rem;
+  display:block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
 }
 
 tbody tr:hover,
