@@ -3,16 +3,16 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'upc_db', # mydatabase
-        'USER': 'root', # mydatabaseuser
-        'PASSWORD': '0309@dlfroal', # mypassword
+        'NAME': 'e', # mydatabase
+        'USER': 'e', # mydatabaseuser
+        'PASSWORD': 'e', # mypassword
         'HOST': 'localhost', # host
         'PORT': '3306',
     }
 }
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7+1muv^0)9%#-_o@vb4152b$pf!x$*do3e!3x45m1fwa@^^qt8'
+SECRET_KEY = 'e'
 
 # Email smtp
-EMAIL_HOST_PASSWORD = 'thdnp@1004'
+EMAIL_HOST_PASSWORD = 'e'
