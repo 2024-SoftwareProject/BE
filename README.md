@@ -1,7 +1,7 @@
 **u.PC 프로젝트**
 중고 컴퓨터 부품 통합 검색 서비스
 
-![banner](https://github.com/2024-SoftwareProject/BE/assets/127396481/a2fe1264-ad49-4134-bb93-0d051345f79c){: width="40" height="40"}
+![banner](https://github.com/2024-SoftwareProject/BE/assets/127396481/a2fe1264-ad49-4134-bb93-0d051345f79c){: width="40%" height="40%"}
 
 user-platform-computer의 약어로,
 "사용자와 컴퓨터를 연결시켜주는 platform"이라는 의미를 담고 있다.
