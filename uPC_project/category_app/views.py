@@ -9,9 +9,6 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import CategoryProduct
 
 #craling code 다운
-from category_app  import bunke
-from category_app  import jungo
-from category_app import dangeun
 from category_app import get_data
 
 # 위시리스트 
