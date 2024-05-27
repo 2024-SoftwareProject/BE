@@ -1,0 +1,588 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"> 
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .middle {
+            position: relative;
+        }
+        
+        .slider {
+            position: relative;
+            z-index: 1;
+            height: 10px;
+            margin: 0 15px;
+        }
+        .slider > .track {
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-radius: 5px;
+            background-color: #ADBCA5;
+        }
+        .slider > .range {
+            position: absolute;
+            z-index: 2;
+            left: 0%;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-radius: 5px;
+            background-color: #566270;
+        }
+        .slider > .thumb {
+            position: absolute;
+            z-index: 3;
+            width: 20px;
+            height: 20px;
+            background-color: #566270;
+            border-radius: 50%;
+            top: 50%; /* range의 높이의 중간에 위치시키기 위한 설정 */
+            transform: translateY(-50%); /* range의 높이의 중간에 위치시키기 위한 설정 */
+        }
+        .slider > .thumb.left {
+            left: 0%;
+            transform: translate(0px, -10px);
+        }
+        .slider > .thumb.right {
+            right: 0;
+            transform: translate(15px, -10px);
+        }
+        
+        input[type="range"] {
+            position: absolute;
+            /* opacity로 가린 것을 이벤트도 비활성화하기 위해 */
+            pointer-events: none;
+            -webkit-appearance: none;
+            z-index: 2;
+            height: 10px;
+            width: 100%;
+            opacity: 0;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            /* 겹쳐진 두 thumb를 모두 활성화 */
+            pointer-events: all;
+            width: 20px;
+            height: 20px;
+            border-radius: 0;
+            border: 0 none;
+            background-color: red;
+            cursor: pointer;
+        
+            /* appearance를 해야 위의 스타일들을 볼 수 있음 */
+            -webkit-appearance: none;
+        }
+
+        button {
+        display: inline-block;
+        margin-left: 10px;
+        vertical-align: middle;
+        }
+
+        .pagination {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination > li > a
+        {
+            text-decoration: none;
+            color: black;
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: var(--border-color) 0.3s;
+        }
+
+        .pagination > li > a:focus,
+        .pagination > li > a:hover,
+        .pagination > li > span:focus,
+        .pagination > li > span:hover
+        {
+            color: black;
+            background-color: #ccc;
+            border-color: var(--border-color);
+        }
+
+        .pagination > .active > a
+        {
+            color: white;
+            background-color: var(--border-color) !Important;
+            border: solid 1px var(--border-color) !Important;
+        }
+
+        .pagination > .active > a:hover
+        {
+            color:black;
+            background-color: var(--border-color) !Important;
+            border: solid 1px var(--border-color);
+        }
+
+
+    </style>
+</head>
+
+<script>
+    function get_url_parameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        function update() {
+            var query = get_url_parameter('query'); 
+            var updateUrl = '/search?query=' + query; 
+            window.location.href = updateUrl;
+        }
+</script>
+
+
+<body>
+
+    <div class="container px-5" style="display: flex; justify-content: center; font-family: Noto Sans KR, sans-serif;">
+        <div style="display: flex; margin-top: 40px; margin-bottom: 6px; font-size: 20px;">
+            <p>
+            <span id="queryValueDisplay"></span>을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>&nbsp;순서로 찾아본 결과입니다.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="container px-5">
+        <div style="font-family: Noto Sans KR, sans-serif; padding-top: 1px;">
+            <div class="search-results">
+                <div style="text-decoration-line: underline; text-decoration-color: #2196F3; text-decoration-thickness: 3px;  padding-bottom: 7px;">
+                    상품의 가격을 비교해 봤어요
+                </div>
+                <table id="search-table" style="border-collapse: collapse;">
+                    <tr>
+                        <td style="text-align: left; padding: 10px 15px 10px 20px">
+                            <div style="font-size: 14px; ">가장 낮은 가격이에요</div>
+                            <div style="font-weight: bold; font-size: 20px; color: #3565f2; " >{{ min_price_stat }}원</div>
+                        </td>
+                        <td style="text-align: left; padding: 10px 10px 10px 10px">
+                            <div style="font-size: 14px;">평균 가격이에요</div>
+                            <div style="font-weight: bold; font-size: 20px;">{{ average_price_stat }}원</div>
+                        </td>
+                        <td style="text-align: left; padding: 10px 10px 10px 10px">
+                            <div style="font-size: 14px;">가장 높은 가격이에요</div>
+                            <div style="font-weight: bold; font-size: 20px; color: #f24035;">{{ max_price_stat }}원</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+
+        <div class="container px-5" style="display: flex; justify-content: end; padding-top: 12px;">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex; margin-bottom: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
+        
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateModalLabel">업데이트</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container px-5">
+                                <p>최신 정보로 갱신 하시겠습니까? 15초 정도 소요됩니다.</p>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="modal-footer" >
+                            <button type="button" class="btn" name="action" value="no-btn" data-bs-dismiss="modal" onclick="return false;">아니오</button>
+                            <button type="button" id = "yes-btn" class="btn btn-primary" name="action" value="yes-btn" data-bs-dismiss="modal" onclick="update();">예</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: flex; margin-bottom: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="display:block;fill:none;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><path fill="none" d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 1 0 8 0 4 4 0 0 0-8 0zM17 6a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 20a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 0H3"></path></svg>
+            </button>                        
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
+                    
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">필터</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container px-5">
+                                <p>가격 범위</p>
+                                <div class="middle">
+                                    <div class="multi-range-slider">
+                                        <input type="range" min="0" max="3000000" value="0" class="slider" step="1000" id="minSlider">
+                                        <input type="range" min="0" max="3000000" value="3000000" class="slider" step="1000" id="maxSlider">
+                                        <div class="slider">
+                                            <div class="track"></div>
+                                            <div class="range"></div>
+                                            <div class="thumb left"></div>
+                                            <div class="thumb right"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p id="error" style="color: red; display: none; margin: 10px; margin-top: 18px; margin-left: 80px;">정확한 범위를 지정해 주세요!</p>
+                            </div>
+                                    
+                            <div class="container px-5 mx-auto mt-20">
+                                <div class="d-flex justify-content-between align-items-center" style="margin-top: 20px;">
+                                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 5px 5px; text-align: center; width: 45%;">
+                                        <p>최소 가격</p>
+                                        <span id="minValue"></span>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p>~</p>
+                                    </div>
+                                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 5px 5px; text-align: center; width: 45%;">
+                                        <p>최대 가격</p>
+                                        <span id="maxValue"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="container px-5">
+                                <div class="display-option">
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" name="sort" value="latest" onclick="updateSortOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label>최신순</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" name="sort" value="popularity" onclick="updateSortOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label>인기순</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" name="sort" value="price_low" onclick="updateSortOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label>가격 낮은순</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" name="sort" value="price_high" onclick="updateSortOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label>가격 높은순</label>
+                                        </div>
+                                    </div>
+                                                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" name="action" value="yes-btn" onclick="make_report();">필터링된 제품 찾기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container px-5 mx-auto mt-0" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 25px; width: 80%; padding: 0px 48px 0px 0px;">
+            {% for product in page_obj %}
+            <div class="d-flex flex-column" >
+                <a style="text-decoration-line: none; text-decoration: none; color: black;" href="{{ product.Pd_URL }}">
+                <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
+                <div style="margin-top: 5px;">{{ product.Pd_Name }}</div>
+                <div class="d-flex justify-content-between">
+                    <div style="font-weight: bold; margin-top: 5px;"> {{ product.Pd_Price }}원</div>
+                </a>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if user.is_authenticated %}   
+                    <!-- 데이터 마켓 정보 -->
+                    <!-- 위시리스트 -->
+                    <button onclick="ProductWishlist('{{ product.Pd_IndexNumber }}')" style="border: none; background-color: transparent; width:16px; height:16px; display:inline-flex; padding:0; margin-right: 12px;">
+                        {% if product.is_in_wishlist %}
+                            <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size:16px; color:red; cursor: pointer;"></i>
+                        {% else %}
+                            <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color:red; cursor: pointer;"></i>
+                        {% endif %}
+                        <span id="count-{{product.Pd_IndexNumber}}" style="color:gray; margin-left:4px;"> {{product.Pd_Count}} </span>
+                    </button>
+                    {% else %}
+                    <button onclick="PromptLogin('{{ product.Pd_IndexNumber }}')" style="border: none; background-color: transparent; width:16px; height:16px; display:inline-flex; padding:0; margin-right:12px ;">
+                        <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color:red; cursor:pointer;"></i>
+                        <span style="color:gray; margin-left:4px;">{{ product.Pd_Count }}</span>
+                    </button>
+                    {% endif %}
+                </div>
+        
+                <!-- <div style="color: grey; font-size: 12px;">{{ product.Pd_Market }}</div> -->
+                {% if product.Pd_Market == '당근마켓' %}
+                    <svg width="35" height="30" viewBox="0 0 65 36" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_47_13130)"><path d="M9.23186 11.6511C4.1335 11.6511 0 15.6932 0 20.7962C0 27.847 9.25838 31.5884 9.23186 31.5783C9.20661 31.5884 18.4637 27.847 18.4637 20.7962C18.4637 15.6969 14.3302 11.6511 9.23186 11.6511ZM9.23186 24.4985C8.54053 24.498 7.86486 24.2924 7.2903 23.9079C6.71573 23.5233 6.26807 22.977 6.00391 22.338C5.73975 21.6991 5.67096 20.9961 5.80623 20.318C5.9415 19.6399 6.27476 19.0171 6.76388 18.5285C7.25299 18.0398 7.87599 17.7072 8.55411 17.5726C9.23223 17.438 9.93502 17.5076 10.5736 17.7725C11.2122 18.0374 11.7579 18.4857 12.1418 19.0608C12.5256 19.6359 12.7304 20.3119 12.7301 21.0034C12.731 21.4632 12.6411 21.9187 12.4656 22.3437C12.2901 22.7687 12.0325 23.1549 11.7075 23.4802C11.3825 23.8055 10.9966 24.0634 10.5718 24.2392C10.1469 24.415 9.69161 24.5053 9.23186 24.5048V24.4985Z" fill="#FF6F0F"></path><path d="M11.3103 0C9.15573 0 7.6554 1.50565 7.41923 3.28415C4.54738 2.4909 2.29688 4.67359 2.29688 7.07354C2.29688 8.9114 3.55978 10.3956 5.24324 10.8781C6.60087 11.2659 9.04586 10.9766 9.04586 10.9766C9.03323 10.383 9.58007 9.73118 10.4237 9.13751C12.8232 7.44996 14.6999 6.65419 14.9891 4.35276C15.2922 1.94523 13.5052 0 11.3103 0Z" fill="#00A05B"></path><path d="M36.7873 14.8305C34.8374 15.4431 31.4616 15.769 28.2905 15.769V11.9114H34.8399V9.03906H24.7783V18.8208C30.2808 18.8208 35.0849 18.1576 37.1132 17.5298L36.7873 14.8305Z" fill="#FF6F0F"></path><path d="M41.4104 7.89453H37.9033V19.1402H41.4104V15.6148H44.2393V12.5467H41.4104V7.89453Z" fill="#FF6F0F"></path><path d="M34.8969 19.1138C31.1814 19.1138 28.4561 21.1613 28.4561 24.1663C28.4561 27.1713 31.1839 29.2188 34.8969 29.2188C38.6098 29.2188 41.3377 27.17 41.3377 24.1663C41.3377 21.1626 38.6124 19.1138 34.8969 19.1138ZM34.8969 26.4058C33.2223 26.4058 31.9657 25.6025 31.9657 24.1613C31.9657 22.72 33.2223 21.9179 34.8969 21.9179C36.5715 21.9179 37.8281 22.7213 37.8281 24.1613C37.8281 25.6012 36.5728 26.4058 34.8969 26.4058Z" fill="#FF6F0F"></path><path d="M51.0698 20.6055H47.4844V28.2133H61.735V25.202H51.0698V20.6055Z" fill="#FF6F0F"></path><path d="M61.2902 8.83301H47.3224V11.8443H57.7692C57.7692 12.5921 57.8046 14.3706 57.4623 16.3916H44.6514V19.5065H64.1002V16.3966H60.6347C61.0995 13.8426 61.2321 11.8519 61.2902 8.83301Z" fill="#FF6F0F"></path></g><defs><clipPath id="clip0_47_13130"><rect width="64.1053" height="36" fill="white"></rect></clipPath></defs></svg>
+                {% elif product.Pd_Market == '번개장터' %}
+                        <img src="https://bgzt.co.kr/assets/icon/icon_bunjang.svg" class="css-1vfhcql e1u3lzxx0" style="width: 50px; height: 30px;">
+                    
+                {% elif product.Pd_Market == '중고나라' %}
+                <img alt="Joonggonara" src="https://web.joongna.com/assets/images/custom-logo.svg" decoding="async" data-nimg="fill" style="width:50px; height: 30px;">
+                {% endif %}
+            </div>
+        
+            {% empty %}
+            <script>
+                alert("최신 정보로 갱신합니다. \n 15초정도 소요됩니다.")
+                update();
+            </script>
+            {% endfor %}
+        </div>
+      
+        <div class="container mt-5">
+            {% if page_obj.has_other_pages %}
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="goToPage({{ page_obj.previous_page_number }})">&#10094;</a>
+            </li>
+            {% endif %}
+      
+            {% for page in paginator.page_range %}
+            {% if page_start_number <= page and page_end_number >= page %}
+                {% if page == page_obj.number %}
+                <li class="page-item active">
+                    <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
+                </li>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+      
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="goToPage({{ page_obj.next_page_number }})">&#10095;</a>
+            </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+
+
+
+    <script>
+        var query = get_url_parameter('query');
+        var minSlider = document.getElementById("minSlider");
+        var maxSlider = document.getElementById("maxSlider");
+        var minOutput = document.getElementById("minValue");
+        var maxOutput = document.getElementById("maxValue");
+        var errorElement = document.getElementById("error");
+        var min = 0;
+        var max = 3000000;
+        var sort = "latest"; 
+        var page_point = 1;
+        
+        minOutput.innerHTML = addCommas(minSlider.value);
+        maxOutput.innerHTML = addCommas(maxSlider.value);
+
+        window.onload = function() {
+            optionDisplay();
+            updateMinOption();
+            updateMaxOption();
+        };
+        
+        minSlider.oninput = function() {
+        minOutput.innerHTML = addCommas(this.value);
+        checkRange();
+        updateMinOption();
+        }
+        
+        maxSlider.oninput = function() {
+        maxOutput.innerHTML = addCommas(this.value);
+        checkRange();
+        updateMaxOption()
+        
+        }
+        
+        function addCommas(value) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+        }
+        
+        function checkRange() {
+        if (parseInt(minSlider.value) >= parseInt(maxSlider.value)) {
+            errorElement.style.display = 'block';
+        } else {
+            errorElement.style.display = 'none';
+        }
+        }
+        
+        function make_report() {
+            query = get_url_parameter('query');
+            var newUrl = '/search/report?query=' + query + '&sort=' + sort + '&min=' + min + '&max=' + max + '&page=' + page_point;
+            optionDisplay();
+            window.location.href = newUrl; 
+        }
+
+        function get_url_parameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        function updateSortOption(checkbox) {
+            if (checkbox.checked) {
+                sort = checkbox.value;
+
+            } else {
+                sort = 'latest';
+            }
+        }
+
+        function updateMinOption() {
+            min = minSlider.value
+        }
+        function updateMaxOption() {
+            max = maxSlider.value
+        
+        }
+
+        function goToPage(page) 
+        {   
+            query = get_all_url_parameter('query');
+            sort = get_all_url_parameter('sort');
+            min = get_all_url_parameter('min');
+            max = get_all_url_parameter('max');
+
+            page_point = page;
+            make_report();
+
+        }
+        
+        function optionDisplay() {
+            query = get_all_url_parameter('query');
+            min = get_all_url_parameter('min');
+            max = get_all_url_parameter('max')
+            sort = get_all_url_parameter('sort');
+
+            document.getElementById("queryValueDisplay").innerText = query;
+            document.getElementById("minValueDisplay").innerText = addCommas(min);
+            document.getElementById("maxValueDisplay").innerText = addCommas(max);
+            document.getElementById("sortValueDisplay").innerText = sort;
+        }
+
+        function get_all_url_parameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        function PromptLogin(){
+            const userconfirmed = confirm("로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?");
+            if(userconfirmed){
+                window.location.href = '/accounts/login/';
+            }
+        }
+
+        function ProductWishlist(Pd_IndexNumber) {
+            $.ajax({
+                url: "/accounts/product_wishlist/" + Pd_IndexNumber,
+                dataType: "json",
+
+                success: function(response) {
+                    var alreadyWishlist = response.already_wishlist;
+                    var countElement = $('#count-' + Pd_IndexNumber);
+                    var currentCount = parseInt(countElement.text()) || 0;
+
+                    // 하트 아이콘의 클래스, Pd_Count 변경
+                    if (alreadyWishlist) {
+                        $('#heart-' + Pd_IndexNumber).attr('class','bi-heart-fill');
+                        currentCount += 1;
+                    } else {
+                        $('#heart-' + Pd_IndexNumber).attr('class','bi-heart');
+                        currentCount = Math.max(0, currentCount - 1);
+                    }
+
+                    countElement.text(currentCount);
+
+                    // 메시지 출력
+                    alert(response.message);
+                }
+            })
+        };
+
+        const inputLeft = document.getElementById("minSlider");
+        const inputRight = document.getElementById("maxSlider");
+
+        const thumbLeft = document.querySelector(".slider > .thumb.left");
+        const thumbRight = document.querySelector(".slider > .thumb.right");
+        const range = document.querySelector(".slider > .range");
+
+        const setLeftValue = () => {
+        const _this = inputLeft;
+        const [min, max] = [parseInt(_this.min), parseInt(_this.max)];
+        // 교차되지 않게, 1을 빼준 건 완전히 겹치기보다는 어느 정도 간격을 남겨두기 위해.
+        _this.value = Math.min(parseInt(_this.value), parseInt(inputRight.value) - 1);
+        // input, thumb 같이 움직이도록
+        const percent = ((_this.value - min) / (max - min)) * 100;
+        thumbLeft.style.left = percent + "%";
+        range.style.left = percent + "%";
+        };
+
+        const setRightValue = () => {
+        const _this = inputRight;
+        const [min, max] = [parseInt(_this.min), parseInt(_this.max)];
+        // 교차되지 않게
+        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft.value) + 1);
+        // input, thumb 같이 움직이도록
+        const percent = ((_this.value - min) / (max - min)) * 100;
+        thumbRight.style.right = 100 - percent + "%";
+        range.style.right = 100 - percent + "%";
+        };
+
+        inputLeft.addEventListener("input", setLeftValue);
+        inputRight.addEventListener("input", setRightValue);
+
+        function update() {
+        var query = get_url_parameter('query'); 
+        var updateUrl = '/search?query=' + query; 
+        window.location.href = updateUrl;
+        }
+
+</script>
+</body>
+</html>
+
+{% endblock %}

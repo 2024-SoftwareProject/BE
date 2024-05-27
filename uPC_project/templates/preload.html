@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading...</title>
+
+ <style>
+  .loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: 999;
+  }
+
+  .loading-image {
+    max-width: 100%;
+    max-height: 100%;
+  }
+</style> 
+
+</head>
+<body style="height: 100%;">
+  <div class="loading-container">
+    <img id="loadingImg" src="{% static 'img/load.gif' %}" alt="Loading..." class="loading-image">
+  </div>
+
+   
+   <script src="{% static 'js/search.js' %}"></script>
+
+</body>
+</html>

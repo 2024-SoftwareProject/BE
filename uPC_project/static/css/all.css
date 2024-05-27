@@ -1,0 +1,860 @@
+.do-hyeon-regular {
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.noto-serif-kr-regular {
+  font-family: "Noto Serif KR", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.nanum-gothic-regular {
+  font-family: "Nanum Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.jua-regular {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/*google font import*/
+.kaisei-decol-regular {
+  font-family: "Kaisei Decol", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.kaisei-decol-bold {
+  font-family: "Kaisei Decol", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+/*나눔 명조*/
+.nanum-myeongjo-regular {
+  font-family: "Nanum Myeongjo", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.nanum-myeongjo-bold {
+  font-family: "Nanum Myeongjo", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  --accent-color: #32989a;
+  --text-color: #424B54;
+  --background-color: white;
+  --border-color: #124559;
+  --freeboard-color: #bcd4e6;
+  --reviewboard-color: #99c1de;
+  --questionboard-color: #6a8eae;
+  /*'#A0A083';*/
+  /*'#798478';*/
+  /*'#4D6A6D';*/
+
+  /*#759378;*/
+}
+
+body {
+display: block;
+width: 100%;
+height: 100%;
+min-width: 1340px;
+}
+
+li a {
+text-decoration: none;
+color: var(--text-color);
+}
+
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+li{
+  list-style: none;
+}
+
+.navbar {
+  background-color: var(--background-color);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 9999;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column; /* 추가 */
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.nav-container {
+  display: flex;
+
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.category-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 10px 0;
+}
+
+.category-container:hover .dropdown-menu {
+  display: block;
+}
+.category-container .category {
+  transition: color 0.3s; /* 애니메이션 효과를 위한 전환 */
+}
+
+.category-container:hover .category {
+  cursor: pointer;
+  color: #abdff1;
+}
+
+.category-container:hover .material-symbols-outlined {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+  z-index: 1;
+  width: 100%;
+  left: 0;
+  top: 40px;
+  border: none;
+}
+
+.dropdown-menu .category-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dropdown-menu a {
+  display: inline-block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s;
+  margin: 5px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f5f5f5;
+}
+
+.category-container:hover .dropdown-menu {
+  display: block;
+}
+
+.nav_logo {
+  flex: 1;
+}
+
+.nav_logo a{
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+
+.search input {
+  width: 450px;
+  flex: 1;
+  border: 1px solid #566270;
+  background-color: #f4f4f4;
+  color: #303030;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 8px;
+}
+
+.search button {
+  position: relative;
+  cursor: pointer; /* 커서를 포인터로 변경 */
+  border-radius: 8px;
+  right: 40px;
+  margin: 0;
+  }
+
+.search button svg {
+  width: 70%;
+  height: 70%;
+}
+
+.nav_menu {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.nav_menu a {
+  margin-left: 20px; /* Adds space between menu items */
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.nav_menu a:last-child {
+  margin-right: 0; /* 마지막 요소의 오른쪽 마진을 제거합니다. */
+}
+
+.nav_menu a.on{
+  left:600px;
+}
+
+/* 게시판, 마이 페이지, 로그 아웃 링크 스타일 */
+.nav-links {
+  display: flex;
+  margin-right: 10px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  transition-duration :5s;
+  transition-delay:1s;
+}
+
+.dropdown .dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding-top: 1px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 150px;
+  z-index: 1009;
+  border-radius: 2px;
+  padding-left:0px;
+  border: 1px solid #566270;
+  top: 40px;
+}
+
+.dropdown-content a {
+  padding-left:0px;
+  color: black;
+  padding: 0.6em 1.0em 0.6em 1.0em;
+  text-decoration: none;
+  display: block;
+
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#li-note{
+  margin-left: 300px;
+}
+
+.nav_icons {
+display: flex;
+color: #7dc0ff;
+list-style: none;
+padding-left: 0;
+}
+
+.nav_icons li {
+padding: 8px 5px;
+}
+
+/* 내비게이션 바가 화면 상단으로 이동할 때 나타나도록 설정 */
+.navbar.visible {
+  display: flex;
+  animation: fadeIn 0.5s ease-in-out;
+
+}
+
+/* 내비게이션 바가 화면 상단에서 숨을 때 숨김 */
+.navbar.hidden {
+  display: none;
+  animation: fadeIn 0.5s ease-in-out;
+  animation-fill-mode: forwards;
+
+
+}
+
+#newNavbar .nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+#newNavbar .navbar {
+  background-color: var(--background-color);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 9999;
+  padding-bottom: 10px; /* 아래 여백 추가 */
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centers items vertically */
+  background-color: #fff;
+  padding: 10px;
+}
+
+#newNavbar .nav_logo {
+  flex: 1;
+}
+
+#newNavbar .nav_logo a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+#newNavbar .search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+#newNavbar .search input {
+  width: 450px;
+  flex: 1;
+  border: 1px solid #566270;
+  background-color: #f4f4f4;
+  color: #303030;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 8px;
+}
+
+#newNavbar .search button {
+  position: relative;
+  cursor: pointer; /* 커서를 포인터로 변경 */
+  border-radius: 8px;
+  right: 40px;
+  margin: 0;
+  }
+
+  #newNavbar .search button svg {
+  width: 70%;
+  height: 70%;
+}
+
+#newNavbar .nav_menu {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Search Results Section */
+.search-results {
+  margin-top: 30px; /* Add spacing above search results */
+}
+
+/* Search Info Container */
+.search-info {
+  display: flex;
+  align-items: center; /* Center search info vertically */
+  justify-content: center; /* Center search info horizontally */
+  margin-bottom: 20px; /* Add spacing below search info */
+}
+
+.search-info p {
+  font-size: 16px; /* Adjust font size for search info text */
+  font-weight: 500; /* Slightly bolden search info text */
+  color: #333; /* Use a dark gray color for text */
+  margin: 0; /* Remove default paragraph margins */
+}
+
+/* Search Info Text Highlights */
+#queryValueDisplay, #minValueDisplay, #maxValueDisplay, #sortValueDisplay {
+  color: #4994d1; /* Use a blue color for highlighted text */
+  font-weight: 600; /* Bolden highlighted text */
+}
+
+/* Search Table */
+#search-table {
+  pointer-events : none;
+  width: 100%; /* Make table span the full width of its container */
+  padding: 10px 48px 10px 48px;
+  border-collapse: collapse; /* Combine table borders */
+  table-layout: fixed; /* Fix table layout to ensure equal cell widths */
+}
+
+#search-table th, #search-table td {
+  padding: 1px; /* Add padding to table cells */
+  border: 1px solid transparent; /* Add a thin border to table cells */
+  text-align: center; /* Center table cell content */
+  background-color: #cef0fd;
+
+}
+
+#search-table th {
+  background-color: blue; /* Add a light gray background to table headers */
+  font-weight: 300; /* Bolden table headers */
+}
+
+#search-table tr:nth-child(even) {
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #search-table {
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #search-table {
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
+}
+
+
+.accounts-nav{
+  width: 100%; 
+  display: inline-block;
+  z-index: 9999;
+  background-color: var(--background-color);
+  text-align: center;
+}
+.accounts-logo{
+  text-decoration-line: none;
+  color: var(--text-color);
+}
+.accounts-logo:hover{
+  color: var(--accent-color);
+}
+/*모달창 버튼 나중에 클래스 변경해야 함*/
+button {
+  border: 0;
+  background-color: transparent;
+}
+.btn-box .btn-open {
+    display: block;
+    width: 200px;
+    height: 50px;
+    margin: 80px auto 0;
+    line-height: 50px;
+    background: #333;
+    text-align: center;
+}
+
+.btn-box .btn-open span {
+    color: #fff;
+}
+
+/* 팝업 스타일 */
+.modal-bg {
+  display:none;
+  width:100%;
+  height:100%;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index:999;
+  border-radius: 10px;
+}
+
+.modal-wrap {
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:700px;
+  height:500px;
+  background:#fff;
+  z-index:1000;
+  height: 50vh; 
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 30px 20px 20px 20px;
+  border-radius: 10px;
+}
+
+/*로그인 관련*/
+#recovery-pw-btn{
+  display: flex;
+  text-decoration: none;
+}
+
+#login-btn{
+  display: flex;
+  position: relative;
+  left: 300px;
+  top: -20px;
+}
+
+.M01{
+  padding: 10px;
+  padding: 10px;
+}
+
+
+.M01 a{
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.M01:hover,
+.M01:hover a {
+  background-color: #ADBCA5;
+  color: #514444;
+}
+
+/*게시판 바디*/
+#board-body{
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+}
+
+#board-body:hover{
+  transition: 0.5s;
+}
+
+.board-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.board-select .board-btn{
+  line-height: 100px;
+  height: 100px;
+  text-align: center;
+  width: 500px;
+  cursor: pointer;
+  font-family: "Gothic A1", sans-serif;
+  font-weight: 100;
+}
+
+.board-btn {
+  color: #FFF;
+  transition: all 0.3s;
+  position: relative;
+  margin: 30px;
+}
+
+.board-btn span {
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  font-size: 40px;
+}
+
+.board-btn span a{
+  z-index: 20;
+  text-decoration: none;
+  color: black;
+}
+
+.board-btn::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.3s;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-top-color: var(--border-color);
+  border-bottom-color: var(--border-color);
+  transform: scale(0.1, 1);
+}
+
+.board-btn:hover span,
+.board-btn:hover span a
+{
+  letter-spacing: 5px;
+  color: white;
+}
+
+.board-btn::before {
+  opacity: 1; 
+  transform: scale(1, 1); 
+}
+
+.board-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+  background-color: rgba(255,255,255,0.1);
+}
+
+.board-btn:hover::after {
+  opacity: 0; 
+  transform: scale(0.1, 1);
+}
+
+.board-head{
+  text-align: center; 
+  padding: 70px;
+  color: white;
+}
+
+.board-write-btn{
+  position: relative;
+  padding: 10px 15px 10px 15px;
+  float: right;
+  right: 150px;
+  top: 10px;
+  background-color: var(--border-color);
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.board-table{
+  top: 100px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  width: 80%;
+}
+
+tbody tr {
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: var(--border-color);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: var(--border-color);
+  width: 100%;
+}
+
+tbody tr td {
+  padding: 20px;
+  margin-right: 2rem;
+}
+
+tbody tr:hover,
+tbody tr td:hover {
+  background-color: var(--border-color);
+  color: white;
+  cursor: pointer;
+}
+
+#board-id{
+  width: 1.5rem;
+}
+
+#board-photo{
+  width: 5rem;
+}
+
+#board-postname{
+  position:relative;
+  padding-left: 3rem;
+}
+
+#board-author{
+  width: 5rem;
+}
+
+#post-wrap{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 30px;
+}
+
+#post-textarea{
+  width: 1000px;
+  height: 1rem;
+}
+
+#post-title{
+  overflow: hidden; 
+  overflow-wrap: break-word; 
+  border: none;
+  height: 60px;
+  font-size: 40px;
+  width: 100%;
+  white-space: pre-line;
+  resize: none;
+}
+
+#post-text{
+  overflow: hidden; 
+  overflow-wrap: break-word; 
+  height: 60px;
+  font-size: 20px;
+  width: 100%;
+  white-space: pre-wrap;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
+  resize: none;
+}
+
+#post-title:focus,
+#post-text:focus{
+  outline: none;
+}
+
+#posted-text{
+  height: 60px;
+  width: 100%;
+  white-space: pre;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
+}
+
+#post-btn{
+  position: relative;
+  top: 50px;
+  justify-content: center;
+  float: right;
+  font-size: 20px;
+  padding: 20px 30px 20px 30px;
+  background-color: var(--border-color);
+  color: white;
+  border-radius: 0.5rem;
+}
+  #posting-title{
+    overflow: hidden; 
+    overflow-wrap: break-word; 
+    font-size: 40px;
+    white-space: pre-line;
+    display: flex;
+    justify-content: center;
+  }
+  
+  #posting-comments{
+    overflow: hidden; 
+    overflow-wrap: break-word; 
+    height: 60px;
+    font-size: 20px;
+    width: 100%;
+    white-space: pre-wrap;
+    border: none;
+    border-bottom: 1px solid #d4d4d4;
+    padding-bottom: 20px;
+    resize: none;
+  }
+
+  .posted-comment{
+    font-size: 20px; 
+    padding: 15px;  
+    border-top: 1px solid #d4d4d4; 
+  }
+
+  #posting-comments:focus{
+    outline: none;
+  }
+
+  #delete-btn{
+    left: 600px;
+    float: right;
+  }
+
+  .comment-table li:hover{
+    text-decoration: dashed;
+  }
+
+  .edit-form-text{
+    border-radius: 10px; 
+    resize: none; 
+    overflow: auto;
+    background-color: red;
+  }
+
+  #scrap-button{
+    background-color: var(--border-color);
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+    position: relative;
+  }
+
+  #delete-post{
+    float: right;
+    background-color: var(--border-color);
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+    position: relative;
+    top: 20px;
+  }
+
+  .comment-layout{
+    position: relative;
+    top: 60px;
+  }
+  .comment-post-layout{
+    border: 1px solid grey;
+  }
+
+  #edit-form-text{
+    resize: none; 
+    overflow: auto; 
+    border: none;
+    width: 100%;
+  }
+  #edit-form-text:focus{
+    outline: none;
+  }

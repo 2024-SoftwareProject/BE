@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<body id="board-body">
+<div style="height: 100%; position: relative; top: 70px;">
+    <div class="board-wrap">
+        <div class="board-select">
+            <div class = "board-btn" id="free-board"><span><a style="width: 700px;" href="{% url 'board_app:free_board' %}">자유 게시판</a></span></div>
+            <div class = "board-btn" id="review-board"><span><a style="width: 700px;" href="{% url 'board_app:review_board' %}">리뷰 게시판</a></span></div>
+            <div class = "board-btn" id="question-board"><span><a style="width: 700px;" href="{% url 'board_app:question_board' %}">질문 게시판</a></span></div>
+        </div>
+    </div>
+</div>
+<script>
+
+const boardBtns = document.querySelectorAll('.board-btn');
+const body = document.querySelector('body');
+
+boardBtns.forEach(btn => {
+  btn.addEventListener('mouseenter', () => {
+    switch (btn.id) {
+      case 'free-board':
+        body.style.backgroundColor = 'var(--freeboard-color)';
+        break;
+      case 'review-board':
+        body.style.backgroundColor = 'var(--reviewboard-color)';
+        break;
+      case 'question-board':
+        body.style.backgroundColor = 'var(--questionboard-color)';
+        break;
+        //'#A0A083';
+        //'#798478';
+        //'#4D6A6D';
+      default:
+        break;
+    }
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    body.style.backgroundColor = '';
+  });
+});
+</script>
+</body>
+{% endblock %}

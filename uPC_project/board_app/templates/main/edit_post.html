@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div style="display: flex; justify-content: center; position: relative; top: 70px;">
+    <div style="width: 70%;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="board_type" value="{{ board_type }}">
+            
+            <textarea id="post-title" name="postname" placeholder="제목을 입력해주세요" rows="1" maxlength="100" onKeyPress="javascript: if (event.keyCode==13) return false;" style="resize: none; border-bottom: 1px solid #c4c4c4; font-weight: 600;" wrap="soft">{{ form.postname.value }}</textarea>
+            <textarea id="post-text" name = "contents" placeholder="내용을 입력해주세요" rows="1" style="resize: none; padding-top: 20px;">{{ form.contents.value }}</textarea>
+            
+            {% for photo in photos %}
+                <li>
+                    <img src="{{ photo.image.url }}" alt="Photo">
+                    <label>
+                        <input type="checkbox" name="delete_photos" value="{{ photo.id }}"> Delete
+                    </label>
+                </li>
+            {% endfor %}
+
+            <input type="file" name="photos" multiple accept="image/*">
+            <input type="submit" id="post-btn" value="수정하기">
+        </form> 
+    </div>
+  </div>
+
+  <script>
+        $(document).ready(function() {
+        var $textarea = $('textarea');
+        $textarea.height($textarea.prop('scrollHeight'));
+        $textarea.on('input', function() {
+          $(this).height(0).height(this.scrollHeight);
+        });
+      });
+    function changeFieldName() {
+        var fileInput = document.getElementById("mainphotos");
+        if (fileInput.files.length > 0) {
+            fileInput.name = "mainphotos";
+        } else {
+            fileInput.name = "photos";
+        }
+    }
+</script>
+{% endblock %}
