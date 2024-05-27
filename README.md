@@ -2,6 +2,7 @@
 
 
 ===============
+
 [코드 참고 시 유의 사항]
 1. private_settings.py 설정 변경
 ```py
@@ -27,6 +28,9 @@ EMAIL_HOST_PASSWORD = 'your email_password'
 ```
 
 2. url 변경
+
 accounts_app/templates/accounts/signup_email.html
+
 이메일 인증 후 리다이렉트 주소 개인에 맞게 변경
+
 (ex. http://127.0.0.0:8000)
