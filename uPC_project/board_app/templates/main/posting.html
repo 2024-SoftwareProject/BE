@@ -47,6 +47,7 @@
         {% elif post.board_type == 'review_board' %}
             <a id="delete-post"href="#" onclick="document.getElementById('delete-post-form').submit(); return false;" >삭제</a>
         {% endif %}
+</form>
         <a href="{% url 'board_app:edit_post' pk=post.pk board_type=post.board_type %} " id="delete-post" style="margin-right: 10px;">수정</a>
         <div class="comment-layout">
         <form method="post" action="{% if post.board_type == 'free_board' %}{% url 'board_app:free_board_add_comment' pk=post.pk %}{% elif post.board_type == 'review_board' %}{% url 'board_app:review_board_add_comment' pk=post.pk %}{% elif post.board_type == 'question_board' %}{% url 'board_app:question_board_add_comment' pk=post.pk %}{% endif %}">
