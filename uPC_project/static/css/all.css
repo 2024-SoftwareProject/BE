@@ -732,10 +732,19 @@ tbody tr td:hover {
 #board-postname{
   position:relative;
   padding-left: 3rem;
+  width: 5rem;
+  font-weight: bold;
+}
+
+#board-contents{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 12rem;
 }
 
 #board-author{
-  width: 5rem;
+  width: 3rem;
 }
 
 #post-wrap{
@@ -885,6 +894,7 @@ tbody tr td:hover {
     border: none;
     width: 100%;
   }
+
   #edit-form-text:focus{
     outline: none;
   }
