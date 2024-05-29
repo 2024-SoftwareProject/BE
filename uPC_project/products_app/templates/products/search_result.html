@@ -113,7 +113,7 @@
             padding: 8px 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            transition: var(--border-color) 0.3s;
+            transition: var(--base-color) 0.3s;
         }
 
         .pagination > li > a:focus,
@@ -122,22 +122,21 @@
         .pagination > li > span:hover
         {
             color: black;
-            background-color: #ccc;
-            border-color: var(--border-color);
+            border-color: var(--base-color);
         }
 
         .pagination > .active > a
         {
             color: white;
-            background-color: var(--border-color) !Important;
-            border: solid 1px var(--border-color) !Important;
+            background-color: var(--base-color) !Important;
+            border: solid 1px var(--base-color) !Important;
         }
 
         .pagination > .active > a:hover
         {
             color:black;
-            background-color: var(--border-color) !Important;
-            border: solid 1px var(--border-color);
+            background-color: var(--base-color) !Important;
+            border: solid 1px var(--base-color);
         }
 
 
@@ -161,7 +160,7 @@
 
 <body>
 
-    <div class="container px-5" style="display: flex; justify-content: center; font-family: Noto Sans KR, sans-serif;">
+    <div class="container px-0" style="display: flex; justify-content: center; font-family: Noto Sans KR, sans-serif;">
         <div style="display: flex; margin-top: 40px; margin-bottom: 6px; font-size: 20px;">
             <p>
             <span id="queryValueDisplay"></span>을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>&nbsp;순서로 찾아본 결과입니다.
@@ -170,7 +169,7 @@
     </div>
 
 
-    <div class="container px-5">
+    <div class="container px-0">
         <div style="font-family: Noto Sans KR, sans-serif; padding-top: 1px;">
             <div class="search-results">
                 <div style="text-decoration-line: underline; text-decoration-color: #2196F3; text-decoration-thickness: 3px;  padding-bottom: 7px;">
@@ -197,7 +196,7 @@
     </div>
     
 
-        <div class="container px-5" style="display: flex; justify-content: end; padding-top: 12px;">
+        <div class="container px-0" style="display: flex; justify-content: end; padding-top: 12px;">
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex; margin-bottom: 10px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
             </button>
@@ -319,7 +318,7 @@
         </div>
 
 
-        <div class="container px-5 mx-auto mt-0" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 25px; width: 80%; padding: 0px 48px 0px 0px;">
+        <div class="container px-0" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 35px; padding: 0px 150px 0px 150px;">
             {% for product in page_obj %}
             <div class="d-flex flex-column" >
                 <a style="text-decoration-line: none; text-decoration: none; color: black;" href="{{ product.Pd_URL }}">
@@ -370,35 +369,36 @@
       
         <div class="container mt-5">
             {% if page_obj.has_other_pages %}
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="#" onclick="goToPage({{ page_obj.previous_page_number }})">&#10094;</a>
-            </li>
-            {% endif %}
-      
-            {% for page in paginator.page_range %}
-            {% if page_start_number <= page and page_end_number >= page %}
-                {% if page == page_obj.number %}
-                <li class="page-item active">
-                    <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
-                </li>
-                {% else %}
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
+                    <a class="page-link" href="#" onclick="goToPage({{ page_obj.previous_page_number }})">&#10094;</a>
                 </li>
                 {% endif %}
-            {% endif %}
-            {% endfor %}
-      
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="#" onclick="goToPage({{ page_obj.next_page_number }})">&#10095;</a>
-            </li>
-            {% endif %}
-        </ul>
-    {% endif %}
-
+        
+                {% for page in paginator.page_range %}
+                {% if page_start_number <= page and page_end_number >= page %}
+                    {% if page == page_obj.number %}
+                    <li class="page-item active">
+                        <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="goToPage({{ page }})">{{ page }}</a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+        
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="goToPage({{ page_obj.next_page_number }})">&#10095;</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %} 
+        </div>
+    </body>
 
 
     <script>
@@ -582,7 +582,7 @@
         }
 
 </script>
-</body>
+
 </html>
 
 {% endblock %}

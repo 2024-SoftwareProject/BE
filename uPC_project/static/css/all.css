@@ -52,6 +52,8 @@
   --text-color: #424B54;
   --background-color: white;
   --border-color: #124559;
+  --baselight-color:#cef0fd;
+  --base-color:#4994d1;
   --freeboard-color: #bcd4e6;
   --reviewboard-color: #99c1de;
   --questionboard-color: #6a8eae;
@@ -108,7 +110,6 @@ li{
 
   align-items: center;
   width: 100%;
-  max-width: 1200px;
 }
 
 .category-container {
@@ -120,17 +121,38 @@ li{
   padding: 10px 0;
 }
 
-.category-container:hover .dropdown-menu {
+.category-container:hover .middle-category1 {
   display: block;
 }
+
+.category-container:hover .middle-category2 {
+  display: block;
+}
+
+.category-container:hover .middle-category3 {
+  display: block;
+}
+
 .category-container .category {
   transition: color 0.3s; /* 애니메이션 효과를 위한 전환 */
 }
 
-.category-container:hover .category {
+.middle-category1:hover .category {
   cursor: pointer;
   color: #abdff1;
 }
+
+.middle-category2:hover .category {
+  cursor: pointer;
+  color: #abdff1;
+}
+
+.middle-category3:hover .category {
+  cursor: pointer;
+  color: #abdff1;
+}
+
+
 
 .category-container:hover .material-symbols-outlined {
   cursor: pointer;
@@ -148,15 +170,24 @@ li{
   border: none;
 }
 
-.dropdown-menu .category-group {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+.dropdown-menu .category-group1:hover .middle-category1{
+  cursor: pointer;
+  color: #abdff1;
+}
+
+.dropdown-menu .category-group2:hover .middle-category2{
+  cursor: pointer;
+  color: #abdff1;
+}
+
+.dropdown-menu .category-group3:hover .middle-category3{
+  cursor: pointer;
+  color: #abdff1;
 }
 
 .dropdown-menu a {
   display: inline-block;
-  padding: 8px 16px;
+  padding: 8px 16px 8px 0px;
   text-decoration: none;
   color: #333;
   transition: background-color 0.3s;
@@ -311,10 +342,9 @@ padding: 8px 5px;
 
 #newNavbar .nav-container {
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
   width: 100%;
-  max-width: 1200px;
 }
 
 #newNavbar .navbar {
@@ -858,3 +888,7 @@ tbody tr td:hover {
   #edit-form-text:focus{
     outline: none;
   }
+
+
+/* 여기는 search_result style */
+

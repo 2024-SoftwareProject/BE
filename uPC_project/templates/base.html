@@ -27,139 +27,167 @@
 <body style="margin-top: 115px; font-family: 'Nanum Gothic', sans-serif; font-weight: 400;font-style: normal;">
 
   <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <div class="nav_logo" style="margin-right: auto;">
-        <i class="fa-solid fa-star"></i>
-        <a href="{% url 'home' %}" class="kaisei-decol-bold" style="font-size: 30px;">u.PC</a>
-      </div>
-      
-      <div class="search d-flex justify-content-center flex-grow-1" style="margin: 0 auto;">
-        <form action="{% url 'products_app:search_report' %}" method="GET" class="d-flex" style="width: 500px">
-          <input type="text" name="query" value="" placeholder="찾고 싶은 컴퓨터 중고 물품을 검색해 보세요" style="flex-grow: 1;">
-          <button type="submit" id="into-search" style="border: none; background: none;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-            </svg>
-          </button>
-        </form>
-      </div>
+    <div class="container px-0">
+      <div class="nav-container">
 
-      <div class="nav_menu" style="margin-left: auto;">
-        {% if not user.is_authenticated %}
-          <a id="nav-login" href="{% url 'accounts_app:login' %}" style="border: 1px solid rgb(223, 223, 223); border-radius: 3px; font-size: 10px; padding: 5px;">로그인</a>
-          <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="margin-left: 10px; border: 1px solid rgb(223, 223, 223); border-radius: 3px; font-size: 10px; padding: 5px;">회원가입</a>
-        {% else %}
-          <a id="nav-note" href="{% url 'board_app:board' %}" style="padding: 5px; margin-right: 20px; font-size: 15px;">게시판</a>            
-          <div class="dropdown">
-              <button class="dropbtn" style="padding: 5px;">
-                <span class="material-symbols-outlined">
-                  account_circle
-                </span>  
-              </button>
-              <div class="dropdown-content">
-                <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}" style="font-size: 15px;">마이페이지</a>
-                <a id="nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">로그아웃</a>
-                  <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
-                    {% csrf_token %}
-                  </form> 
-              </div>
-          </div>
-        {% endif %}
+        <div class="nav_logo" style="margin-right: auto;">
+            <i class="fa-solid fa-star"></i>
+            <a href="{% url 'home' %}" class="kaisei-decol-bold" style="font-size: 30px;">u.PC</a>
+        </div>
+
+      
+        <div class="search d-flex justify-content-center flex-grow-1" style="margin: 0 auto;">
+          <form action="{% url 'products_app:search_report' %}" method="GET" class="d-flex" style="width: 500px">
+            <input type="text" name="query" value="" placeholder="찾고 싶은 컴퓨터 중고 물품을 검색해 보세요" style="flex-grow: 1;">
+            <button type="submit" id="into-search" style="border: none; background: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+
+        <div class="nav_menu" style="margin-left: auto;">
+          {% if not user.is_authenticated %}
+            <a id="nav-login" href="{% url 'accounts_app:login' %}" style="border: 1px solid rgb(223, 223, 223); border-radius: 3px; font-size: 10px; padding: 5px;">로그인</a>
+            <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="margin-left: 10px; border: 1px solid rgb(223, 223, 223); border-radius: 3px; font-size: 10px; padding: 5px;">회원가입</a>
+          {% else %}
+            <a id="nav-note" href="{% url 'board_app:board' %}" style="padding: 5px; margin-right: 20px; font-size: 15px;">게시판</a>            
+            <div class="dropdown">
+                <button class="dropbtn" style="padding: 5px;">
+                  <span class="material-symbols-outlined">
+                    account_circle
+                  </span>  
+                </button>
+                <div class="dropdown-content">
+                  <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}" style="font-size: 15px;">마이페이지</a>
+                  <a id="nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">로그아웃</a>
+                    <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
+                      {% csrf_token %}
+                    </form> 
+                </div>
+            </div>
+          {% endif %}
+        </div>
+
       </div>
     </div>
   </nav>
    
   <nav class="navbar" id="category_navbar" style="top: 65px; height: 49px; z-index: 100;">
-    <div class="nav-container">
-      
-      <div class="category-container" style="width: 110px;">
-          <span class="material-symbols-outlined">
-            menu
-          </span> 
-          <span class="category" style="padding-left: 10px; font-size: 15px; font-family: Noto Sans KR, sans-serif;">
-            카테고리
-          </span> 
-        <!--서브메뉴-->
-        <div class="dropdown-menu" style="top: 40px; font-size: 14px; font-family: Noto Sans KR, sans-serif;">
-          <div class="category-group">
-            <a style="margin-left: 300px;" href="/category/report?category=1">중고 데스크탑</a>
-            <a style="margin-right: auto;" href="/category/report?category=2">중고 노트북</a>
-          </div>
+    <div class="container px-0">
+      <div class="nav-container">
         
-          <div class="category-group">
-            <a style="margin-left: 300px; " href="/category/report?category=3">CPU</a>
-            <a href="/category/report?category=4">메인보드</a>
-            <a href="/category/report?category=5">메모리</a>
-            <a href="/category/report?category=6">그래픽 카드</a>
-            <a href="/category/report?category=7">SSD</a>
-            <a href="/category/report?category=8">HDD</a>
-            <a href="/category/report?category=9">케이스</a>
-            <a style="margin-right: auto;" href="/category/report?category=10">파워</a>
-          </div>
-        
-          <div class="category-group">
-            <a style="margin-left: 300px;" href="/category/report?category=11">키보드</a>
-            <a href="/category/report?category=12">마우스</a>
-            <a href="/category/report?category=13">모니터</a>
-            <a style="margin-right: auto;" href="/category/report?category=14">스피커/헤드셋</a>
-          </div>
-        </div>
-        
-        
-      </div> 
-      
-      <div class="search d-flex justify-content-center flex-grow-1" style="display: none;">
-      </div>
+        <div class="category-container">
+            <span class="material-symbols-outlined">
+              menu
+            </span> 
+            <span class="category" style="padding-left: 10px; font-size: 15px; font-family: Noto Sans KR, sans-serif;">
+              카테고리
+            </span> 
+          <!--서브메뉴-->
+          <div class="dropdown-menu" style="top: 40px; font-size: 14px; font-family: Noto Sans KR, sans-serif;">
+            <div class="container px-0">
 
-      <div class="nav_menu" style="display: none;">
+              <div class="middle-category">
+
+                <div class="middle-category1">중고 완제품
+                </div>
+
+                <div class="category-group1">
+                  <a href="/category/report?category=1">중고 데스크탑</a>
+                  <a href="/category/report?category=2">중고 노트북</a>
+                </div>
+
+                <div class="middle-category2">PC 주요부품
+                </div>
+
+                <div class="category-group2">
+                  <a href="/category/report?category=3">CPU</a>
+                  <a href="/category/report?category=4">메인보드</a>
+                  <a href="/category/report?category=5">메모리</a>
+                  <a href="/category/report?category=6">그래픽 카드</a>
+                  <a href="/category/report?category=7">SSD</a>
+                  <a href="/category/report?category=8">HDD</a>
+                  <a href="/category/report?category=9">케이스</a>
+                  <a href="/category/report?category=10">파워</a>
+                </div>
+
+                <div class="middle-category3">PC 주변기기
+                </div>
+
+                <div class="category-group3">
+                  <a href="/category/report?category=11">키보드</a>
+                  <a href="/category/report?category=12">마우스</a>
+                  <a href="/category/report?category=13">모니터</a>
+                  <a href="/category/report?category=14">스피커/헤드셋</a>
+                </div>
+
+            </div>
+          </div>
+          </div>
+          
+          
+        </div> 
+        
+        <div class="search d-flex justify-content-center flex-grow-1" style="display: none;">
+        </div>
+
+        <div class="nav_menu" style="display: none;">
+        </div>
       </div>
     </div>
-    
   </nav>
 
   <!-- 새로운 내비게이션 바 -->
   <nav class="navbar hidden" id="newNavbar">
 
-    <div class="nav-container">
-      <div class="nav_logo">
-        <i class="fa-solid fa-star"></i>
-        <a href="{% url 'home' %}" class="kaisei-decol-bold" style="font-size: 30px;">u.PC</a>
-      </div>
+    <div class="container px-0">
+      <div class="nav-container">
+        
+        <div class="nav_logo" style="margin-right: auto;">
+            <i class="fa-solid fa-star"></i>
+            <a href="{% url 'home' %}" class="kaisei-decol-bold" style="font-size: 30px;">u.PC</a>
+        </div>
+
       
-      <div class="search d-flex justify-content-center flex-grow-1">
-        <form action="{% url 'products_app:search_report' %}" method="GET" class="d-flex" style="width: 500px;">
-          <input type="text" name="query" value="" placeholder="찾고 싶은 컴퓨터 중고 물품을 검색해 보세요" style="flex-grow: 1;">
-          <button type="submit" id="into-search" style="border: none; background: none;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-            </svg>
-          </button>
-        </form>
+        <div class="search d-flex justify-content-center flex-grow-1" style="margin: 0 auto;">
+          <form action="{% url 'products_app:search_report' %}" method="GET" class="d-flex" style="width: 500px">
+            <input type="text" name="query" value="" placeholder="찾고 싶은 컴퓨터 중고 물품을 검색해 보세요" style="flex-grow: 1;">
+            <button type="submit" id="into-search" style="border: none; background: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+
+        <div class="nav_menu" style="margin-left: auto;">
+          {% if not user.is_authenticated %}
+            <a id="nav-login" href="{% url 'accounts_app:login' %}" style="border: 1px solid rgb(223, 223, 223); border-radius: 3px; font-size: 10px; padding: 5px;">로그인</a>
+            <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="margin-left: 10px; border: 1px solid rgb(223, 223, 223); border-radius: 3px; font-size: 10px; padding: 5px;">회원가입</a>
+          {% else %}
+            <a id="nav-note" href="{% url 'board_app:board' %}" style="padding: 5px; margin-right: 20px; font-size: 15px;">게시판</a>            
+            <div class="dropdown">
+                <button class="dropbtn" style="padding: 5px;">
+                  <span class="material-symbols-outlined">
+                    account_circle
+                  </span>  
+                </button>
+                <div class="dropdown-content">
+                  <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}" style="font-size: 15px;">마이페이지</a>
+                  <a id="nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">로그아웃</a>
+                    <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
+                      {% csrf_token %}
+                    </form> 
+                </div>
+            </div>
+          {% endif %}
+        </div>
+
       </div>
-
-      <div class="nav_menu">
-        {% if not user.is_authenticated %}
-          <a id="nav-login" href="{% url 'accounts_app:login' %}" style="border: 1px solid rgb(223, 223, 223); border-radius: 3px; font-size: 10px; padding: 5px;">로그인</a>
-          <a id="nav-signup" href="{% url 'accounts_app:signup' %}"  style="margin-left: 10px; border: 1px solid rgb(223, 223, 223); border-radius: 3px; font-size: 10px; padding: 5px;">회원가입</a>
-        {% else %}
-          <a id="nav-note" href="{% url 'board_app:board' %}" style="padding: 5px; margin-right: 20px; font-size: 15px;">게시판</a>            
-          <div class="dropdown">
-              <button class="dropbtn" style="padding: 5px;">
-                <span class="material-symbols-outlined">
-                  account_circle
-                </span>  
-              </button>
-              <div class="dropdown-content">
-                <a id="nav-mypage" href="{% url 'accounts_app:mypage' %}" style="font-size: 15px;">마이페이지</a>
-                <a id="nav-logout" href="{% url 'accounts_app:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">로그아웃</a>
-                  <form id="logout-form" action="{% url 'accounts_app:logout' %}" method="post" style="display: none;">
-                    {% csrf_token %}
-                  </form> 
-              </div>
-          </div>
-        {% endif %}
-    </div>
-
     </div>
 
   </nav>
