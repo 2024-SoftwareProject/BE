@@ -12,11 +12,11 @@ user-platform-computer의 약어로,
 
 ## [핵심 주요 기능]
 
-1. 크롤링(당근마켓, 번개장터, 중고나라 중고 제품 데이터)
+1. 크롤링_<당근마켓, 번개장터, 중고나라 중고 제품 데이터> **(Selenium, beautifulSoup 활용)**
 
 2. (사용자 검색 쿼리 기반/카테고리 기반) 제품 검색 엔진
 
-3. 위시리스트 기반 제품 추천 알고리즘
+3. 사용자 맞춤형 제품 추천 알고리즘 **(KNN 알고리즘-User Based Collaborative Filtering)**
 
 4. 커뮤니티 
 
@@ -50,6 +50,8 @@ user-platform-computer의 약어로,
 
    os : mac, window, linux
 
+   database : mysql
+
    release : amazon ec2
 
 
@@ -64,36 +66,63 @@ user-platform-computer의 약어로,
 
 
 
-## [코드 참고 시 유의 사항]
+## [코드 참조 시 유의 사항]
 
-1. private_settings.py 설정 변경
-```py
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mydb', # mydatabase
-        'USER': 'root', # mydatabaseuser
-        'PASSWORD': 'password', # mypassword
-        'HOST': 'localhost', # host
-        'PORT': '3306',
-    }
-}
+1. 설정 변경
+   - private_settings.py
+   ```py
+   # Database
+   # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.mysql',
+           'NAME': 'your_dbName', # mydatabase
+           'USER': 'root', # mydatabaseuser
+           'PASSWORD': 'your_password', # mypassword
+           'HOST': 'localhost', # host
+           'PORT': '3306',
+       }
+   }
+   
+   # SECURITY WARNING: keep the secret key used in production secret!
+   SECRET_KEY = 'your_secret_key'
+   
+   # Email smtp
+   EMAIL_HOST_PASSWORD = 'your_email_password'
+   # 사전에 stmp 연동 필요
+   ```
+   
+   - accounts_app/helper.py
+   ```py
+   24행|send_mail(subject, recipient_list, body='', from_email='your_email', fail_silently=False, html=None, *args, **kwargs)
+   ```
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'your secret_key'
-
-# Email smtp
-EMAIL_HOST_PASSWORD = 'your email_password'
-# 사전에 stmp 연동 필요
-```
-
-2. url 변경
+3. 서비스 도메인 변경
 
    accounts_app/templates/accounts/signup_email.html
 
    이메일 인증 후 리다이렉트 주소 목적에 맞게 수정
    ```html
+   # 로컬에서 테스트 실행 시 다음으로 설정
    12행 | http://127.0.0.0:8000
+   ```
+
+4. 추천알고리즘_사전에 유저 생성
+   ```py
+   # 관리자 유저 생성
+   python manage.py createsuperuser
+   ```
+   recommend_app/recommendations.py
+   
+   model_knn = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=2, n_jobs=-1)의
+   n_neightbors크기에 맞춰 유저 생성 필요
+
+5. 데이터베이스 migrate
+   모델 상속 관계에 의해 데이터베이스 충돌 시 다음 순서로 makemigrations/migrate 진행
+   ```shell
+   python manage.py migrate category_app
+   python manage.py migrate products_app
+   python manage.py migrate accounts_app
+   python manage.py migrate board_app
+   python manage.py migrate
    ```
