@@ -12,90 +12,138 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"> 
     <style>
         body {
-            margin: 0;
-            padding: 0;
-        }
+                    margin: 0;
+                    padding: 0;
+                }
+                
+                .middle {
+                    position: relative;
+                }
+                
+                .slider {
+                    position: relative;
+                    z-index: 1;
+                    height: 10px;
+                    margin: 0 15px;
+                }
+                .slider > .track {
+                    position: absolute;
+                    z-index: 1;
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    border-radius: 5px;
+                    background-color: #abdff1;
+                }
+                .slider > .range {
+                    position: absolute;
+                    z-index: 2;
+                    left: 0%;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    border-radius: 5px;
+                    background-color: #2196F3;
+                }
+                .slider > .thumb {
+                    position: absolute;
+                    z-index: 3;
+                    width: 20px;
+                    height: 20px;
+                    background-color: #2196F3;
+                    border-radius: 50%;
+                    top: 50%; /* range의 높이의 중간에 위치시키기 위한 설정 */
+                    transform: translateY(-50%); /* range의 높이의 중간에 위치시키기 위한 설정 */
+                }
+                .slider > .thumb.left {
+                    left: 0%;
+                    transform: translate(0px, -10px);
+                }
+                .slider > .thumb.right {
+                    right: 0%;
+                    transform: translate(0px, -10px);
+                }
+                
+                input[type="range"] {
+                    position: absolute;
+                    /* opacity로 가린 것을 이벤트도 비활성화하기 위해 */
+                    pointer-events: none;
+                    -webkit-appearance: none;
+                    z-index: 2;
+                    height: 10px;
+                    width: 100%;
+                    opacity: 0;
+                }
+                input[type="range"]::-webkit-slider-thumb {
+                    /* 겹쳐진 두 thumb를 모두 활성화 */
+                    pointer-events: all;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 0;
+                    border: 0 none;
+                    background-color: red;
+                    cursor: pointer;
+                
+                    /* appearance를 해야 위의 스타일들을 볼 수 있음 */
+                    -webkit-appearance: none;
+                }
         
-        .middle {
-            position: relative;
-        }
+                button {
+                display: inline-block;
+                margin-left: 10px;
+                vertical-align: middle;
+                }
         
-        .slider {
-            position: relative;
-            z-index: 1;
-            height: 10px;
-            margin: 0 15px;
-        }
-        .slider > .track {
-            position: absolute;
-            z-index: 1;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            border-radius: 5px;
-            background-color: #ADBCA5;
-        }
-        .slider > .range {
-            position: absolute;
-            z-index: 2;
-            left: 0%;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            border-radius: 5px;
-            background-color: #566270;
-        }
-        .slider > .thumb {
-            position: absolute;
-            z-index: 3;
-            width: 20px;
-            height: 20px;
-            background-color: #566270;
-            border-radius: 50%;
-            top: 50%; /* range의 높이의 중간에 위치시키기 위한 설정 */
-            transform: translateY(-50%); /* range의 높이의 중간에 위치시키기 위한 설정 */
-        }
-        .slider > .thumb.left {
-            left: 0%;
-            transform: translate(0px, -10px);
-        }
-        .slider > .thumb.right {
-            right: 0;
-            transform: translate(15px, -10px);
-        }
+                .pagination {
+                    list-style-type: none;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
         
-        input[type="range"] {
-            position: absolute;
-            /* opacity로 가린 것을 이벤트도 비활성화하기 위해 */
-            pointer-events: none;
-            -webkit-appearance: none;
-            z-index: 2;
-            height: 10px;
-            width: 100%;
-            opacity: 0;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            /* 겹쳐진 두 thumb를 모두 활성화 */
-            pointer-events: all;
-            width: 20px;
-            height: 20px;
-            border-radius: 0;
-            border: 0 none;
-            background-color: red;
-            cursor: pointer;
+                .pagination li {
+                    margin: 0 5px;
+                }
         
-            /* appearance를 해야 위의 스타일들을 볼 수 있음 */
-            -webkit-appearance: none;
-        }
-
-        button {
-        display: inline-block;
-        margin-left: 10px;
-        vertical-align: middle;
-        }
-
-    </style>
+                .pagination > li > a
+                {
+                    text-decoration: none;
+                    color: black;
+                    padding: 8px 16px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    transition: #abdff1 0.3s;
+                }
+        
+                .pagination > li > a:focus,
+                .pagination > li > a:hover,
+                .pagination > li > span:focus,
+                .pagination > li > span:hover
+                {
+                    color: black;
+                    background-color: #ccc;
+                    border-color: #88c7fa;
+                }
+        
+                .pagination > .active > a
+                {
+                    color: white;
+                    background-color: #88c7fa !Important;
+                    border: solid 1px #88c7fa !Important;
+                }
+        
+                .pagination > .active > a:hover
+                {
+                    color:black;
+                    background-color: #88c7fa !Important;
+                    border: solid 1px #88c7fa;
+                }
+        
+                
+        
+        
+            </style>
 
     <script>
         function get_url_parameter(name) {
@@ -133,16 +181,16 @@
 
 </head>
 
-<body>순
-    <div class="container px-5" style="display: flex; justify-content: center;">
-        <div style="display: flex; margin-top: 40px; margin-bottom: 30px; font-size: 20px; font-weight: bold; ">
+<body>
+    <div class="container px-0" style="display: flex; justify-content: center; font-family: Noto Sans KR, sans-serif;">
+        <div style="display: flex; margin-top: 30px; margin-bottom: 6px; font-size: 20px;">
             <p>
-            {{ categoryName }} 을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>으로 찾아본 결과입니다.
+            <span id="categoryDisplay">{{ categoryName }}</span>을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>으로 찾아본 결과입니다.
             </p>
         </div>
     </div>
 
-    <div class="container px-5">
+    <div class="container px-0">
         <div style="font-family: Noto Sans KR, sans-serif; padding-top: 1px;">
             <div class="search-results">
                 <div style="text-decoration-line: underline; text-decoration-color: #2196F3; text-decoration-thickness: 3px;  padding-bottom: 7px;">
@@ -169,41 +217,37 @@
     </div>
 
 
-        <div class="container px-5" style="display: flex; justify-content: end">
-            <div class="container px-5" style="display: flex; justify-content: end; padding-top: 12px;">
-                <div class="d-flex">
-                    <div>
-                        <input type="checkbox" name="market"  value="번개장터" onclick="updateMarketOption(this);">
-                    </div>
-                    <div style="padding-left: 10px;">
-                        <label>번개장터</label>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div>
-                        <input type="checkbox" name="market"  value="중고나라" onclick="updateMarketOption(this);">
-                    </div>
-                    <div style="padding-left: 10px;">
-                        <label>중고나라</label>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div>
-                        <input type="checkbox" name="market"  value="당근마켓" onclick="updateMarketOption(this);">
-                    </div>
-                    <div style="padding-left: 10px;">
-                        <label>당근마켓</label>
-                    </div>
-                </div>
+    <div class="container px-0" style="display: flex; justify-content: end; margin-top: 10px; margin-bottom: 10px;">
+        <div class="d-flex">
+            <div style="margin-right: 15px; align-content: center;">
+                <input type="checkbox" name="market"  value="번개장터" onclick="updateMarketOption(this);">
+                <label>번개장터</label>
             </div>
-            
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex; margin-bottom: 10px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false">!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.<path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
-            </button>
+        </div>
+        <div class="d-flex">
+            <div style="margin-right: 15px; align-content: center;">
+                <input type="checkbox" name="market"  value="중고나라" onclick="updateMarketOption(this);">
+                <label>중고나라</label>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div style="margin-right: 15px; align-content: center;">
+                <input type="checkbox" name="market"  value="당근마켓" onclick="updateMarketOption(this);">
+                <label>당근마켓</label>
+            </div>
+        </div>
 
-            <!-- Modal -->
-            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="d-flex">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex;align-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
+            </button>
+        </div>
+
+        <div class="d-flex">
+        <!-- Modal -->
+            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="align-content: center;">
                 <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
+        
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="updateModalLabel">업데이트</h5>
@@ -211,26 +255,31 @@
                         </div>
                         <div class="modal-body">
                             <div class="container px-5">
-                                <p>최신 정보로 갱신 하시겠습니까?</p>
+                                <p>최신 정보로 갱신 하시겠습니까? 15초 정도 소요됩니다.</p>
                             </div>
                             <br>
                         </div>
-                        <div class="modal-footer" id="yes-btn">
+                        <div class="modal-footer" >
                             <button type="button" class="btn" name="action" value="no-btn" data-bs-dismiss="modal" onclick="return false;">아니오</button>
-                            <button type="button"  class="btn btn-primary" name="action" value="yes-btn" data-bs-dismiss="modal" onclick="update();">예</button>
+                            <button type="button" id = "yes-btn" class="btn btn-primary" name="action" value="yes-btn" data-bs-dismiss="modal" onclick="update();">예</button>
                         </div>
                     </div>
+
                 </div>
             </div>
-            
+        </div>
 
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: flex; margin-bottom: 10px;">
+        <div class="d-flex">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: flex;align-content: center;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="display:block;fill:none;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><path fill="none" d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 1 0 8 0 4 4 0 0 0-8 0zM17 6a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 20a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 0H3"></path></svg>
-            </button>                        
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            </button>   
+        </div>     
+
+        <!-- Modal -->
+        <div class="d-flex">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="align-content: center;">
                 <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
-        
+                    
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">필터</h5>
@@ -303,332 +352,60 @@
                                         <div style="padding-left: 10px;">
                                             <label>가격 높은순</label>
                                         </div>
-                                    </div>                  
+                                    </div>
+                                                            
                                 </div>
                             </div>
-
-                            <div class="container px-5">
-                    
-                                {% if categoryNumber == 1 %}
-                                    <!-- 1번 카테고리의 옵션 -->
-                                    <div class="display-option category-option-1">
-                                        <p>제조사:</p>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="samsung">삼성전자</label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="b" name="c" value="아이맥" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="apple">아이맥</label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="lg" name="lg" value="LG" onclick="updateaOcption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="lg">LG</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                        
-                                    
-                                {% elif categoryNumber == 2 %}
-                                    <!-- 2번 카테고리의 옵션 -->
-                                    <div class="display-option category-option-2">
-                                        <p> </p>
-                                        <p>제조사</p>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="samsung2">삼성전자</label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="b" name="b" value="LG" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="lg2">LG 전자</label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="c" name="c" value="맥북" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="mac">MAC</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                 
-                            
-                                {% elif categoryNumber == 3 %}
-                                    <!-- 3번 카테고리의 옵션 -->
-                                    <div class="display-option category-option-3">
-                                        <p>프로세서:</p>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="a" name="a" value="인텔" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="a">인텔</label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="b" name="b" value="AMD" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="b">AMD</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                {% elif categoryNumber == 4 %}
-                                <!-- 3번 카테고리의 옵션 -->
-                                <div class="category-option-3">
-                                    <p>제조사:</p>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="a" name="a" value="인텔" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="intel">ASUS</label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="b" name="b" value="AMD" onclick="updateaOption(this)>
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="amd">기타</label>
-                                            </div>
-                                        </div>
-                                </div>
-
-                                {% elif categoryNumber == 5 %}
-                                    <!-- 5번 카테고리의 옵션 -->
-                                    <div class="category-option-5">
-                                        <p>제조사:</p>
-                                        <div class="d-flex">
-                                            <div>
-                                                <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
-                                            </div>
-                                            <div style="padding-left: 10px;">
-                                                <label for="intel">삼성전자</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                {% elif categoryNumber == 6 %}
-                                    <!-- 6번 카테고리의 옵션 -->
-                                    <div class="category-option-3">
-                                        <p>제조사:</p>
-                                            <div class="d-flex">
-                                                <div>
-                                                    <input type="checkbox" id="a" name="a" value="ASUS" onclick="updateaOption(this)">
-                                                </div>
-                                                <div style="padding-left: 10px;">
-                                                    <label for="intel">ASUS</label>
-                                                </div>
-                                            </div>
-                                            
-                                    </div>
-                                {% elif categoryNumber == 7 %}
-                                    <!-- 7번 카테고리의 옵션 -->
-                                    <div class="category-option-3">
-                                        <p>제조사:</p>
-                                            <div class="d-flex">
-                                                <div>
-                                                    <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
-                                                </div>
-                                                <div style="padding-left: 10px;">
-                                                    <label for="intel">삼성전자</label>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div>
-                                                    <input type="checkbox" id="b" name="b" value="하이닉스" onclick="updateaOption(this)>
-                                                </div>
-                                                <div style="padding-left: 10px;">
-                                                    <label for="amd">하이닉스</label>
-                                                </div>
-                                            </div>
-                                    </div>
-
-                                {% elif categoryNumber == 8 %}
-                                    <!-- 8번 카테고리의 옵션 -->
-                                    <div class="category-option-3">
-                                        <p>제조사:</p>
-                                            <div class="d-flex">
-                                                <div>
-                                                    <input type="checkbox" id="a" name="a" value="SEAGATE" onclick="updateaOption(this)">
-                                                </div>
-                                                <div style="padding-left: 10px;">
-                                                    <label for="intel">SEAGATE</label>
-                                                </div>
-                                            </div>
-                                
-                                    </div>
-                                {% elif categoryNumber == 9 %}
-                                    <!-- 9번 카테고리의 옵션 -->
-                                    <p>제조사:</p>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" id="a" name="a" value="앱코" onclick="updateaOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label for="a">앱코</label>
-                                        </div>
-                                    </div>
-                            </div>
-
-                                {% elif categoryNumber == 10 %}
-                                    <!-- 10번 카테고리의 옵션 -->
-                                    <p>제조사:</p>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" id="a" name="a" value="MSL" onclick="updateaOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label for="al">MSL</label>
-                                        </div>
-                                    </div>
-                            </div>
-
-                                {% elif categoryNumber == 11 %}
-                                    <!-- 11번 카테고리의 옵션 -->
-                                    <p>제조사:</p>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" id="a" name="a" value="로지텍" onclick="updateaOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label for="intel">로지텍</label>
-                                        </div>
-                                    </div>
-                            </div>
-
-                                {% elif categoryNumber == 12 %}
-                                    <!-- 12번 카테고리의 옵션 -->
-                                     <p>제조사:</p>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" id="a" name="a" value="로지텍" onclick="updateaOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label for="intel">로지텍</label>
-                                        </div>
-                                    </div>
-                            </div>
-
-                                {% elif categoryNumber == 13 %}
-                                    <!-- 13번 카테고리의 옵션 -->
-                                    <p>제조사:</p>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label for="a">삼성전자</label>
-                                        </div>
-                                    </div>
-                             
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" id="b" name="b" value="LG" onclick="updateaOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label for="b">LG</label>
-                                        </div>
-                                    </div>
-
-                                    <p>화면 크기 (인치)</p>: <input type="text" id="cores" name="cores"></p>
-                            </div>
-                                {% elif categoryNumber == 14 %}
-                                    <!-- 14번 카테고리의 옵션 -->
-                                    <p>제조사:</p>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" id="a" name="a" value="스피커" onclick="updateaOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label for="a">스피커</label>
-                                        </div>
-                                    </div>
-                             
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" id="b" name="b" value="헤드셋" onclick="updateaOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label for="b">헤드셋</label>
-                                        </div>
-                                    </div>
-                                
-                            </div>
-                            {% endif %}
-                            
                         </div>
+                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" name="action" value="yes-btn" onclick="make_report();">필터링된 제품 찾기</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>       
+    </div>
 
-        <div class="container px-5 mx-auto mt-0" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 25px; width: 80%; padding: 0px 48px 0px 0px;">
+        <div class="container px-0" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; padding: 0px 150px 0px 150px;">
             {% for product in page_obj %}
-            <div class="d-flex flex-column" >
-                <a style="text-decoration-line: none; text-decoration: none; color: black;" href="{{ product.Pd_URL }}">
-                <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
-                <div style="margin-top: 5px;">{{ product.Pd_Name }}</div>
-                <div class="d-flex justify-content-between">
-                    <div style="font-weight: bold; margin-top: 5px;"> {{ product.Pd_Price }}원</div>
-                </a>
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    {% if user.is_authenticated %}   
-                    <!-- 데이터 마켓 정보 -->
-                    <!-- 위시리스트 -->
-                    <button onclick="ProductWishlist('{{ product.Pd_IndexNumber }}')" style="border: none; background-color: transparent; width:16px; height:16px; display:inline-flex; padding:0; margin-right: 12px;">
-                        {% if product.is_in_wishlist %}
-                            <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size:16px; color:red; cursor: pointer;"></i>
+            <div class="product-card" style="border-radius: 10px; overflow: hidden; transition: transform 0.2s;">
+                <div class="d-flex flex-column">
+                    <a href="{{ product.Pd_URL }}" class="product-link" style="text-decoration: none; color: inherit;">
+                        <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
+                        <h3 class="product-name" style="font-size: 18px; font-weight: 450; margin-bottom: 10px; line-height: 1.4; height: 50px; overflow: hidden;">{{ product.Pd_Name }}</h3>
+                        <div class="d-flex justify-content-between">
+                            <div class="product-price" style="font-size: 20px; font-weight: 500;">{{ product.Pd_Price }}원</div>
+                        </div>
+                    </a>
+                    <div class="d-flex justify-content-between align-items-center" style="margin-top: 10px;">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {% if user.is_authenticated %}
+                        <button onclick="ProductWishlist('{{ product.Pd_IndexNumber }}')" style="border: none; background-color: transparent; display: flex; align-items: center; padding: 0;">
+                            {% if product.is_in_wishlist %}
+                                <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart-fill" style="font-size: 20px; color: red; cursor: pointer;"></i>
+                            {% else %}
+                                <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size: 20px; color: red; cursor: pointer;"></i>
+                            {% endif %}
+                            <span id="count-{{ product.Pd_IndexNumber }}" style="color: gray; margin-left: 5px;">{{ product.Pd_Count }}</span>
+                        </button>
                         {% else %}
-                            <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color:red; cursor: pointer;"></i>
+                        <button onclick="PromptLogin('{{ product.Pd_IndexNumber }}')" style="border: none; background-color: transparent; display: flex; align-items: center; padding: 0;">
+                            <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size: 20px; color: red; cursor: pointer;"></i>
+                            <span style="color: gray; margin-left: 5px;">{{ product.Pd_Count }}</span>
+                        </button>
                         {% endif %}
-                        <span id="count-{{product.Pd_IndexNumber}}" style="color:gray; margin-left:4px;"> {{product.Pd_Count}} </span>
-                    </button>
-                    {% else %}
-                    <button onclick="PromptLogin('{{ product.Pd_IndexNumber }}')" style="border: none; background-color: transparent; width:16px; height:16px; display:inline-flex; padding:0; margin-right:12px ;">
-                        <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color:red; cursor:pointer;"></i>
-                        <span style="color:gray; margin-left:4px;">{{ product.Pd_Count }}</span>
-                    </button>
-                    {% endif %}
-                </div>
-        
-                <!-- <div style="color: grey; font-size: 12px;">{{ product.Pd_Market }}</div> -->
-                {% if product.Pd_Market == '당근마켓' %}
-                    <svg width="35" height="30" viewBox="0 0 65 36" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_47_13130)"><path d="M9.23186 11.6511C4.1335 11.6511 0 15.6932 0 20.7962C0 27.847 9.25838 31.5884 9.23186 31.5783C9.20661 31.5884 18.4637 27.847 18.4637 20.7962C18.4637 15.6969 14.3302 11.6511 9.23186 11.6511ZM9.23186 24.4985C8.54053 24.498 7.86486 24.2924 7.2903 23.9079C6.71573 23.5233 6.26807 22.977 6.00391 22.338C5.73975 21.6991 5.67096 20.9961 5.80623 20.318C5.9415 19.6399 6.27476 19.0171 6.76388 18.5285C7.25299 18.0398 7.87599 17.7072 8.55411 17.5726C9.23223 17.438 9.93502 17.5076 10.5736 17.7725C11.2122 18.0374 11.7579 18.4857 12.1418 19.0608C12.5256 19.6359 12.7304 20.3119 12.7301 21.0034C12.731 21.4632 12.6411 21.9187 12.4656 22.3437C12.2901 22.7687 12.0325 23.1549 11.7075 23.4802C11.3825 23.8055 10.9966 24.0634 10.5718 24.2392C10.1469 24.415 9.69161 24.5053 9.23186 24.5048V24.4985Z" fill="#FF6F0F"></path><path d="M11.3103 0C9.15573 0 7.6554 1.50565 7.41923 3.28415C4.54738 2.4909 2.29688 4.67359 2.29688 7.07354C2.29688 8.9114 3.55978 10.3956 5.24324 10.8781C6.60087 11.2659 9.04586 10.9766 9.04586 10.9766C9.03323 10.383 9.58007 9.73118 10.4237 9.13751C12.8232 7.44996 14.6999 6.65419 14.9891 4.35276C15.2922 1.94523 13.5052 0 11.3103 0Z" fill="#00A05B"></path><path d="M36.7873 14.8305C34.8374 15.4431 31.4616 15.769 28.2905 15.769V11.9114H34.8399V9.03906H24.7783V18.8208C30.2808 18.8208 35.0849 18.1576 37.1132 17.5298L36.7873 14.8305Z" fill="#FF6F0F"></path><path d="M41.4104 7.89453H37.9033V19.1402H41.4104V15.6148H44.2393V12.5467H41.4104V7.89453Z" fill="#FF6F0F"></path><path d="M34.8969 19.1138C31.1814 19.1138 28.4561 21.1613 28.4561 24.1663C28.4561 27.1713 31.1839 29.2188 34.8969 29.2188C38.6098 29.2188 41.3377 27.17 41.3377 24.1663C41.3377 21.1626 38.6124 19.1138 34.8969 19.1138ZM34.8969 26.4058C33.2223 26.4058 31.9657 25.6025 31.9657 24.1613C31.9657 22.72 33.2223 21.9179 34.8969 21.9179C36.5715 21.9179 37.8281 22.7213 37.8281 24.1613C37.8281 25.6012 36.5728 26.4058 34.8969 26.4058Z" fill="#FF6F0F"></path><path d="M51.0698 20.6055H47.4844V28.2133H61.735V25.202H51.0698V20.6055Z" fill="#FF6F0F"></path><path d="M61.2902 8.83301H47.3224V11.8443H57.7692C57.7692 12.5921 57.8046 14.3706 57.4623 16.3916H44.6514V19.5065H64.1002V16.3966H60.6347C61.0995 13.8426 61.2321 11.8519 61.2902 8.83301Z" fill="#FF6F0F"></path></g><defs><clipPath id="clip0_47_13130"><rect width="64.1053" height="36" fill="white"></rect></clipPath></defs></svg>
-                {% elif product.Pd_Market == '번개장터' %}
+                        {% if product.Pd_Market == '당근마켓' %}
+                        <svg width="35" height="30" viewBox="0 0 65 36" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_47_13130)"><path d="M9.23186 11.6511C4.1335 11.6511 0 15.6932 0 20.7962C0 27.847 9.25838 31.5884 9.23186 31.5783C9.20661 31.5884 18.4637 27.847 18.4637 20.7962C18.4637 15.6969 14.3302 11.6511 9.23186 11.6511ZM9.23186 24.4985C8.54053 24.498 7.86486 24.2924 7.2903 23.9079C6.71573 23.5233 6.26807 22.977 6.00391 22.338C5.73975 21.6991 5.67096 20.9961 5.80623 20.318C5.9415 19.6399 6.27476 19.0171 6.76388 18.5285C7.25299 18.0398 7.87599 17.7072 8.55411 17.5726C9.23223 17.438 9.93502 17.5076 10.5736 17.7725C11.2122 18.0374 11.7579 18.4857 12.1418 19.0608C12.5256 19.6359 12.7304 20.3119 12.7301 21.0034C12.731 21.4632 12.6411 21.9187 12.4656 22.3437C12.2901 22.7687 12.0325 23.1549 11.7075 23.4802C11.3825 23.8055 10.9966 24.0634 10.5718 24.2392C10.1469 24.415 9.69161 24.5053 9.23186 24.5048V24.4985Z" fill="#FF6F0F"></path><path d="M11.3103 0C9.15573 0 7.6554 1.50565 7.41923 3.28415C4.54738 2.4909 2.29688 4.67359 2.29688 7.07354C2.29688 8.9114 3.55978 10.3956 5.24324 10.8781C6.60087 11.2659 9.04586 10.9766 9.04586 10.9766C9.03323 10.383 9.58007 9.73118 10.4237 9.13751C12.8232 7.44996 14.6999 6.65419 14.9891 4.35276C15.2922 1.94523 13.5052 0 11.3103 0Z" fill="#00A05B"></path><path d="M36.7873 14.8305C34.8374 15.4431 31.4616 15.769 28.2905 15.769V11.9114H34.8399V9.03906H24.7783V18.8208C30.2808 18.8208 35.0849 18.1576 37.1132 17.5298L36.7873 14.8305Z" fill="#FF6F0F"></path><path d="M41.4104 7.89453H37.9033V19.1402H41.4104V15.6148H44.2393V12.5467H41.4104V7.89453Z" fill="#FF6F0F"></path><path d="M34.8969 19.1138C31.1814 19.1138 28.4561 21.1613 28.4561 24.1663C28.4561 27.1713 31.1839 29.2188 34.8969 29.2188C38.6098 29.2188 41.3377 27.17 41.3377 24.1663C41.3377 21.1626 38.6124 19.1138 34.8969 19.1138ZM34.8969 26.4058C33.2223 26.4058 31.9657 25.6025 31.9657 24.1613C31.9657 22.72 33.2223 21.9179 34.8969 21.9179C36.5715 21.9179 37.8281 22.7213 37.8281 24.1613C37.8281 25.6012 36.5728 26.4058 34.8969 26.4058Z" fill="#FF6F0F"></path><path d="M51.0698 20.6055H47.4844V28.2133H61.735V25.202H51.0698V20.6055Z" fill="#FF6F0F"></path><path d="M61.2902 8.83301H47.3224V11.8443H57.7692C57.7692 12.5921 57.8046 14.3706 57.4623 16.3916H44.6514V19.5065H64.1002V16.3966H60.6347C61.0995 13.8426 61.2321 11.8519 61.2902 8.83301Z" fill="#FF6F0F"></path></g><defs><clipPath id="clip0_47_13130"><rect width="64.1053" height="36" fill="white"></rect></clipPath></defs></svg>
+                        {% elif product.Pd_Market == '번개장터' %}
                         <img src="https://bgzt.co.kr/assets/icon/icon_bunjang.svg" class="css-1vfhcql e1u3lzxx0" style="width: 50px; height: 30px;">
-                    
-                {% elif product.Pd_Market == '중고나라' %}
-                <img alt="Joonggonara" src="https://web.joongna.com/assets/images/custom-logo.svg" decoding="async" data-nimg="fill" style="width:50px; height: 30px;">
-                {% endif %}
+                        {% elif product.Pd_Market == '중고나라' %}
+                        <img alt="Joonggonara" src="https://web.joongna.com/assets/images/custom-logo.svg" decoding="async" data-nimg="fill" style="width: 50px; height: 30px;">
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        
             {% empty %}
             <script>
                 alert("최신 정보로 갱신합니다. \n 15초정도 소요됩니다.")

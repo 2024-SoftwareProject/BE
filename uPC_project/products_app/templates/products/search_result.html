@@ -113,7 +113,7 @@ body {
             padding: 8px 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            transition: #2196F3 0.3s;
+            transition: #abdff1 0.3s;
         }
 
         .pagination > li > a:focus,
@@ -123,21 +123,21 @@ body {
         {
             color: black;
             background-color: #ccc;
-            border-color: #2196F3;
+            border-color: #88c7fa;
         }
 
         .pagination > .active > a
         {
             color: white;
-            background-color: #2196F3 !Important;
-            border: solid 1px #2196F3 !Important;
+            background-color: #88c7fa !Important;
+            border: solid 1px #88c7fa !Important;
         }
 
         .pagination > .active > a:hover
         {
             color:black;
-            background-color: #2196F3 !Important;
-            border: solid 1px #2196F3;
+            background-color: #88c7fa !Important;
+            border: solid 1px #88c7fa;
         }
 
         
@@ -173,7 +173,7 @@ body {
 <body>
 
     <div class="container px-0" style="display: flex; justify-content: center; font-family: Noto Sans KR, sans-serif;">
-        <div style="display: flex; margin-top: 40px; margin-bottom: 6px; font-size: 20px;">
+        <div style="display: flex; margin-top: 30px; margin-bottom: 6px; font-size: 20px;">
             <p>
             <span id="queryValueDisplay"></span>을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>으로 찾아본 결과입니다.
             </p>
@@ -208,151 +208,151 @@ body {
     </div>
     
 
-        <div class="container px-5" style="display: flex; justify-content: end; padding-top: 12px;">
-            <div class="container px-5" style="display: flex; justify-content: end; padding-top: 12px;">
-                <div class="d-flex">
-                    <div>
-                        <input type="checkbox" name="market"  value="번개장터" onclick="updateMarketOption(this);">
-                    </div>
-                    <div style="padding-left: 10px;">
-                        <label>번개장터</label>
-                    </div>
+        <div class="container px-0" style="display: flex; justify-content: end; margin-top: 10px; margin-bottom: 10px;">
+            <div class="d-flex">
+                <div style="margin-right: 15px; align-content: center;">
+                    <input type="checkbox" name="market"  value="번개장터" onclick="updateMarketOption(this);">
+                    <label>번개장터</label>
                 </div>
-                <div class="d-flex">
-                    <div>
-                        <input type="checkbox" name="market"  value="중고나라" onclick="updateMarketOption(this);">
-                    </div>
-                    <div style="padding-left: 10px;">
-                        <label>중고나라</label>
-                    </div>
+            </div>
+            <div class="d-flex">
+                <div style="margin-right: 15px; align-content: center;">
+                    <input type="checkbox" name="market"  value="중고나라" onclick="updateMarketOption(this);">
+                    <label>중고나라</label>
                 </div>
-                <div class="d-flex">
-                    <div>
-                        <input type="checkbox" name="market"  value="당근마켓" onclick="updateMarketOption(this);">
-                    </div>
-                    <div style="padding-left: 10px;">
-                        <label>당근마켓</label>
-                    </div>
+            </div>
+            <div class="d-flex">
+                <div style="margin-right: 15px; align-content: center;">
+                    <input type="checkbox" name="market"  value="당근마켓" onclick="updateMarketOption(this);">
+                    <label>당근마켓</label>
                 </div>
             </div>
             
             
+            <div class="d-flex">
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex;align-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
+                </button>
+            </div>
 
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex; margin-bottom: 10px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
-            </button>
-
+            <div class="d-flex">
             <!-- Modal -->
-            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
-        
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="updateModalLabel">업데이트</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container px-5">
-                                <p>최신 정보로 갱신 하시겠습니까? 15초 정도 소요됩니다.</p>
+                <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="align-content: center;">
+                    <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
+            
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateModalLabel">업데이트</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <br>
+                            <div class="modal-body">
+                                <div class="container px-5">
+                                    <p>최신 정보로 갱신 하시겠습니까? 15초 정도 소요됩니다.</p>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="modal-footer" >
+                                <button type="button" class="btn" name="action" value="no-btn" data-bs-dismiss="modal" onclick="return false;">아니오</button>
+                                <button type="button" id = "yes-btn" class="btn btn-primary" name="action" value="yes-btn" data-bs-dismiss="modal" onclick="update();">예</button>
+                            </div>
                         </div>
-                        <div class="modal-footer" >
-                            <button type="button" class="btn" name="action" value="no-btn" data-bs-dismiss="modal" onclick="return false;">아니오</button>
-                            <button type="button" id = "yes-btn" class="btn btn-primary" name="action" value="yes-btn" data-bs-dismiss="modal" onclick="update();">예</button>
-                        </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
 
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: flex; margin-bottom: 10px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="display:block;fill:none;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><path fill="none" d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 1 0 8 0 4 4 0 0 0-8 0zM17 6a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 20a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 0H3"></path></svg>
-            </button>                        
+            <div class="d-flex">
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: flex;align-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="display:block;fill:none;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><path fill="none" d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 1 0 8 0 4 4 0 0 0-8 0zM17 6a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 20a4 4 0 1 0 8 0 4 4 0 0 0-8 0zm0 0H3"></path></svg>
+                </button>   
+            </div>     
+
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
-                    
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">필터</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container px-5">
-                                <p>가격 범위</p>
-                                <div class="middle">
-                                    <div class="multi-range-slider">
-                                        <input type="range" min="0" max="3000000" value="0" class="slider" step="1000" id="minSlider">
-                                        <input type="range" min="0" max="3000000" value="3000000" class="slider" step="1000" id="maxSlider">
-                                        <div class="slider">
-                                            <div class="track"></div>
-                                            <div class="range"></div>
-                                            <div class="thumb left"></div>
-                                            <div class="thumb right"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p id="error" style="color: red; display: none; margin: 10px; margin-top: 18px; margin-left: 80px;">정확한 범위를 지정해 주세요!</p>
-                            </div>
-                                    
-                            <div class="container px-5 mx-auto mt-20">
-                                <div class="d-flex justify-content-between align-items-center" style="margin-top: 20px;">
-                                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 5px 5px; text-align: center; width: 45%;">
-                                        <p>최소 가격</p>
-                                        <span id="minValue"></span>
-                                    </div>
-                                    <div style="text-align: center;">
-                                        <p>~</p>
-                                    </div>
-                                    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 5px 5px; text-align: center; width: 45%;">
-                                        <p>최대 가격</p>
-                                        <span id="maxValue"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="container px-5">
-                                <div class="display-option">
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" name="sort" value="latest" onclick="updateSortOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label>최신순</label>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" name="sort" value="popularity" onclick="updateSortOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label>인기순</label>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" name="sort" value="price_low" onclick="updateSortOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label>가격 낮은순</label>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div>
-                                            <input type="checkbox" name="sort" value="price_high" onclick="updateSortOption(this)">
-                                        </div>
-                                        <div style="padding-left: 10px;">
-                                            <label>가격 높은순</label>
-                                        </div>
-                                    </div>
-                                                            
-                                </div>
-                            </div>
-                        </div>
+            <div class="d-flex">
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="align-content: center;">
+                    <div class="modal-dialog modal-dialog-centered" style="margin-top: 100px;">
                         
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" name="action" value="yes-btn" onclick="make_report();">필터링된 제품 찾기</button>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">필터</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container px-5">
+                                    <p>가격 범위</p>
+                                    <div class="middle">
+                                        <div class="multi-range-slider">
+                                            <input type="range" min="0" max="3000000" value="0" class="slider" step="1000" id="minSlider">
+                                            <input type="range" min="0" max="3000000" value="3000000" class="slider" step="1000" id="maxSlider">
+                                            <div class="slider">
+                                                <div class="track"></div>
+                                                <div class="range"></div>
+                                                <div class="thumb left"></div>
+                                                <div class="thumb right"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p id="error" style="color: red; display: none; margin: 10px; margin-top: 18px; margin-left: 80px;">정확한 범위를 지정해 주세요!</p>
+                                </div>
+                                        
+                                <div class="container px-5 mx-auto mt-20">
+                                    <div class="d-flex justify-content-between align-items-center" style="margin-top: 20px;">
+                                        <div style="border: 1px solid #ccc; border-radius: 10px; padding: 5px 5px; text-align: center; width: 45%;">
+                                            <p>최소 가격</p>
+                                            <span id="minValue"></span>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p>~</p>
+                                        </div>
+                                        <div style="border: 1px solid #ccc; border-radius: 10px; padding: 5px 5px; text-align: center; width: 45%;">
+                                            <p>최대 가격</p>
+                                            <span id="maxValue"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="container px-5">
+                                    <div class="display-option">
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" name="sort" value="latest" onclick="updateSortOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label>최신순</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" name="sort" value="popularity" onclick="updateSortOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label>인기순</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" name="sort" value="price_low" onclick="updateSortOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label>가격 낮은순</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" name="sort" value="price_high" onclick="updateSortOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label>가격 높은순</label>
+                                            </div>
+                                        </div>
+                                                                
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" name="action" value="yes-btn" onclick="make_report();">필터링된 제품 찾기</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -360,7 +360,7 @@ body {
         </div>
 
 
-        <div class="container px-0" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; padding: 0px 150px 0px 150px;">
+        <div class="container px-0" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; padding: 0px 150px 0px 150px;">
             {% for product in page_obj %}
             <div class="product-card" style="border-radius: 10px; overflow: hidden; transition: transform 0.2s;">
                 <div class="d-flex flex-column">

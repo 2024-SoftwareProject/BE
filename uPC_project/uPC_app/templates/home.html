@@ -201,7 +201,7 @@
                     {% empty %}
                         <p>No results found.</p>
                     {% endfor %}
-                </div>
+            </div>
         
 
         <div class="container px-0" style="">
@@ -211,15 +211,33 @@
                 </div>
             </div>
             {% if user.is_authenticated %}
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 25px;">
+            <div class="container px-0 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 25px; width: 100%;">
                 {% for product in recommended_products %}
-                <div class="d-flex flex-column" >
-                    <a style="text-decoration-line: none; text-decoration: none; color: black;" href="{{ product.Pd_URL }}">
-                    <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
-                    <div style="margin-top: 5px;">{{ product.Pd_Name }}</div>
-                    <div class="d-flex justify-content-between">
-                        <div style="font-weight: bold;"> {{ product.Pd_Price }}원</div>
-                    </a>
+                <div class="product-card" style="border-radius: 10px; overflow: hidden; transition: transform 0.2s;">
+                    <div class="d-flex flex-column" >
+                        <a href="{{ product.Pd_URL }}" class="product-link" style="text-decoration: none; color: inherit;">
+                            <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
+                            <h3 class="product-name" style="font-size: 18px; font-weight: 450; margin-bottom: 10px; line-height: 1.4; height: 50px; overflow: hidden;">{{ product.Pd_Name }}</h3>
+                            <div class="d-flex justify-content-between">
+                                <div class="product-price" style="font-size: 20px; font-weight: 500;">{{ product.Pd_Price }}원</div>
+                            
+                        </a>
+    
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {% if user.is_authenticated %}   
+                        <!-- 데이터 마켓 정보 -->
+                        <!-- 위시리스트 -->
+                            <button onclick="add(this.getAttribute('data-product-id'))" data-product-id="{{ product.Pd_IndexNumber }}" style="border: none; background-color: transparent; width:16px; height: 16px; display: inline-block; padding: 0;">
+                                <i id="heart-{{ product.Pd_IndexNumber }}" class="bi-heart" style="font-size:16px; color: red; cursor: pointer;"></i>
+                            </button>
+    
+                        {% else %}
+                            <div class="login-prompt-wish">
+                                <a href="{% url 'accounts_app:login' %}" class="login-link">로그인하여 찜하기</a>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
                 <!-- wishlist 추가사항 -->
                 {% csrf_token %}

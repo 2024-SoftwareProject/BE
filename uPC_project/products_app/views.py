@@ -114,7 +114,7 @@ def search_report_view(request):
     else:
         outputDB = outputDB
 
-    paginator=Paginator(outputDB,48)
+    paginator=Paginator(outputDB,50)
     page=request.GET.get('page') 
     try:
         page_obj=paginator.page(page)

@@ -328,7 +328,7 @@ padding: 8px 5px;
 /* 메인페이지 - 로그인하세요! 문구 */
 .login-prompt {  
   width: 153px;
-  background-color: #abdff1;
+  background-color: #88c7fa;
   justify-content: center;
   text-align: center;
   
@@ -339,7 +339,7 @@ padding: 8px 5px;
 
 .login-prompt-wish {  
   width: 103px;
-  background-color: #abdff1;
+  background-color: #88c7fa;
   display: inline-block;
   justify-content: center;
   text-align: center;
@@ -465,7 +465,7 @@ padding: 8px 5px;
 .product-price {
   font-size: 20px;
   font-weight: bold;
-  color: #71cbea;
+  color: #1863a0;
   margin: 5px 5px;
 }
 

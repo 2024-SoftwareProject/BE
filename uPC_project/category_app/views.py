@@ -75,7 +75,7 @@ def search_view(request):
     outputDB = get_data.get_all_products(categoryNumber)
 
     # 페이지 분할 과정
-    paginator=Paginator(outputDB,48)
+    paginator=Paginator(outputDB,50)
     page=request.GET.get('page') 
     try:
         page_obj=paginator.page(page)
@@ -153,7 +153,7 @@ def search_report_view(request):
     if aOption != '':
         outputDB = get_data.filter_products_by_aOption(outputDB, aOption)
 
-    paginator=Paginator(outputDB,48)
+    paginator=Paginator(outputDB,50)
     print("22")
     
     page=request.GET.get('page') 
