@@ -48,7 +48,7 @@ def search_view(request):
     outputDB = get_data.get_products_by_latest(edited_query)
 
     # 페이지 분할 과정
-    paginator=Paginator(outputDB,48)
+    paginator=Paginator(outputDB,50)
     page=request.GET.get('page') 
     try:
         page_obj=paginator.page(page)

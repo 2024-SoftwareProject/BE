@@ -146,7 +146,7 @@ def search_report_view(request):
         outputDB = get_data.get_all_products(categoryNumber)
         print("카테앱 리포트 뷰 함수 error")
 
-    paginator=Paginator(outputDB,50)
+    paginator=Paginator(outputDB,48)
     print("22")
     
     page=request.GET.get('page') 
