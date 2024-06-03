@@ -6,10 +6,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from django.db.utils import OperationalError
 
-import requests
-
 from bs4 import BeautifulSoup
 import pymysql
+
 django.setup()
 
 from selenium import webdriver
@@ -101,10 +100,7 @@ def dangeun_search(query):
 
             Pd_Name = temp_name
 
-            #전체
             if(Pd_Name.find("삽")!= -1):
-                continue
-            if(Pd_Name.find("케이스")!= -1):
                 continue
             if(Pd_Name.find("매입")!= -1):
                 continue
@@ -127,9 +123,65 @@ def dangeun_search(query):
             if(Pd_Name.find("닌텐도")!= -1):
                 continue
             if(Pd_Name.find("메모리북")!= -1):
-                    continue
+                continue
             if(Pd_Name.find("폼")!= -1):
-                    continue
+                continue
+            if(Pd_Name.find("에어팟")!= -1):
+                continue
+            if(Pd_Name.find("쇼케이스")!= -1):
+                continue
+            if(Pd_Name.find("아이폰")!= -1):
+                continue
+            if(Pd_Name.find("갤럭시")!= -1):
+                continue
+
+            if(Pd_Name.find("섀도우")!= -1):
+                continue
+            if(Pd_Name.find("양도")!= -1):
+                continue
+            if(Pd_Name.find("메모리박스")!= -1):
+                continue
+            if(Pd_Name.find("USB")!= -1):
+                continue
+            if(Pd_Name.find("굿즈")!= -1):
+                continue
+            if(Pd_Name.find("시계")!= -1):
+                continue
+            if(Pd_Name.find("카메라")!= -1):
+                continue
+            if(Pd_Name.find("스위치")!= -1):
+                continue
+            if(Pd_Name.find("캠코더")!= -1):
+                continue
+            if(Pd_Name.find("보드게임")!= -1):
+                continue
+            if(Pd_Name.find("CD")!= -1):
+                continue
+            if(Pd_Name.find("프리즘스톤")!= -1):
+                continue
+            if(Pd_Name.find("포멘토")!= -1):
+                continue
+            if(Pd_Name.find("시계")!= -1):
+                continue
+            if(Pd_Name.find("ps4")!= -1):
+                continue
+            if(Pd_Name.find("디카")!= -1):
+                continue
+            if(Pd_Name.find("다이슨")!= -1):
+                continue
+
+            if(Pd_Name.find("계산기")!= -1):
+                continue
+            if(Pd_Name.find("패드")!= -1):
+                continue
+            if(Pd_Name.find("미니마우스")!= -1):
+                continue
+            if(Pd_Name.find("미키마우스")!= -1):
+                continue
+
+            if(Pd_Name.find("인형")!= -1):
+                continue
+            
 
             #이미지 url 주소 추출
             a =item.find('img')

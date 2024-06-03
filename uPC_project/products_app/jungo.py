@@ -61,8 +61,6 @@ def jungo_search(query):
                     continue
                 if(Pd_Name.find("구매")!= -1):
                     continue
-                if(Pd_Name.find("에어팟")!= -1):
-                    continue
 
                 #메모리
                 if(Pd_Name.find("시트")!= -1):
@@ -82,6 +80,61 @@ def jungo_search(query):
                 if(Pd_Name.find("메모리북")!= -1):
                     continue
                 if(Pd_Name.find("폼")!= -1):
+                    continue
+                if(Pd_Name.find("에어팟")!= -1):
+                    continue
+                if(Pd_Name.find("쇼케이스")!= -1):
+                    continue
+                if(Pd_Name.find("아이폰")!= -1):
+                    continue
+                if(Pd_Name.find("갤럭시")!= -1):
+                    continue
+
+                if(Pd_Name.find("섀도우")!= -1):
+                    continue
+                if(Pd_Name.find("양도")!= -1):
+                    continue
+                if(Pd_Name.find("메모리박스")!= -1):
+                    continue
+                if(Pd_Name.find("USB")!= -1):
+                    continue
+                if(Pd_Name.find("굿즈")!= -1):
+                    continue
+                if(Pd_Name.find("시계")!= -1):
+                    continue
+                if(Pd_Name.find("카메라")!= -1):
+                    continue
+                if(Pd_Name.find("스위치")!= -1):
+                    continue
+                if(Pd_Name.find("캠코더")!= -1):
+                    continue
+                if(Pd_Name.find("보드게임")!= -1):
+                    continue
+                if(Pd_Name.find("CD")!= -1):
+                    continue
+                if(Pd_Name.find("프리즘스톤")!= -1):
+                    continue
+                if(Pd_Name.find("포멘토")!= -1):
+                    continue
+                if(Pd_Name.find("시계")!= -1):
+                    continue
+                if(Pd_Name.find("ps4")!= -1):
+                    continue
+                if(Pd_Name.find("디카")!= -1):
+                    continue
+                if(Pd_Name.find("다이슨")!= -1):
+                    continue
+
+                if(Pd_Name.find("계산기")!= -1):
+                    continue
+                if(Pd_Name.find("패드")!= -1):
+                    continue
+                if(Pd_Name.find("미니마우스")!= -1):
+                    continue
+                if(Pd_Name.find("미키마우스")!= -1):
+                    continue
+
+                if(Pd_Name.find("인형")!= -1):
                     continue
 
                 Pd_Price = price.text.strip()[:-1] #원을 빼고 

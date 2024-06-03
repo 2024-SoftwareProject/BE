@@ -38,8 +38,6 @@ def search_view(request):
     edited_query = edited_query.replace(' ', '')
     edited_query = edited_query.replace('%20', '')
 
-    print(1)
-
     # 검색 실행
     bunke.bunke_search(edited_query)
     jungo.jungo_search(edited_query)
@@ -86,14 +84,16 @@ def search_report_view(request):
     sort = request.GET.get('sort', 'latest')
     min_price = request.GET.get('min', '0')
     max_price = request.GET.get('max', '3000000')
+    market = request.GET.get('market', '')
 
     if not min_price:
         min_price = '0'
     if not max_price:
         max_price = '3000000'
-
     if not sort:
         sort = 'lastest'
+    if not market:
+        market= ''
 
     min_price = int(min_price)
     max_price = int(max_price)
@@ -108,7 +108,11 @@ def search_report_view(request):
         outputDB = get_data.get_products_by_price_high(edited_query, min_price, max_price)
     else:
         outputDB = get_data.get_products_by_latest(edited_query, min_price, max_price)
-        print("error")
+
+    if market != '':
+        outputDB = get_data.filter_products_by_market(outputDB, market)
+    else:
+        outputDB = outputDB
 
     paginator=Paginator(outputDB,48)
     page=request.GET.get('page') 

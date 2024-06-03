@@ -156,6 +156,15 @@
             var updateUrl = '/search?query=' + query; 
             window.location.href = updateUrl;
         }
+        function updateMarketOption(label) {
+            if (checkbox.checked) {
+                market = checkbox.value;
+                make_report();
+            } else {
+                market = '';
+                make_report();
+            }
+        }
 </script>
 
 
@@ -164,7 +173,7 @@
     <div class="container px-5" style="display: flex; justify-content: center; font-family: Noto Sans KR, sans-serif;">
         <div style="display: flex; margin-top: 40px; margin-bottom: 6px; font-size: 20px;">
             <p>
-            <span id="queryValueDisplay"></span>을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>&nbsp;순서로 찾아본 결과입니다.
+            <span id="queryValueDisplay"></span>을(를)&nbsp;<span id="minValueDisplay"></span>부터&nbsp;<span id="maxValueDisplay"></span>까지&nbsp;<span id="sortValueDisplay"></span>으로 찾아본 결과입니다.
             </p>
         </div>
     </div>
@@ -198,6 +207,35 @@
     
 
         <div class="container px-5" style="display: flex; justify-content: end; padding-top: 12px;">
+            <div class="container px-5" style="display: flex; justify-content: end; padding-top: 12px;">
+                <div class="d-flex">
+                    <div>
+                        <input type="checkbox" name="market"  value="번개장터" onclick="updateMarketOption(this);">
+                    </div>
+                    <div style="padding-left: 10px;">
+                        <label>번개장터</label>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div>
+                        <input type="checkbox" name="market"  value="중고나라" onclick="updateMarketOption(this);">
+                    </div>
+                    <div style="padding-left: 10px;">
+                        <label>중고나라</label>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div>
+                        <input type="checkbox" name="market"  value="당근마켓" onclick="updateMarketOption(this);">
+                    </div>
+                    <div style="padding-left: 10px;">
+                        <label>당근마켓</label>
+                    </div>
+                </div>
+            </div>
+            
+            
+
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: flex; margin-bottom: 10px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:block;height:20px;width:20px;stroke:currentColor;stroke-width:3;overflow:visible" aria-hidden="true" role="presentation" focusable="false"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H464c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z"/></svg>
             </button>
@@ -412,6 +450,7 @@
         var max = 3000000;
         var sort = "latest"; 
         var page_point = 1;
+        var market ='중고나라';
         
         minOutput.innerHTML = addCommas(minSlider.value);
         maxOutput.innerHTML = addCommas(maxSlider.value);
@@ -448,10 +487,10 @@
         }
         
         function make_report() {
-            query = get_url_parameter('query');
-            var newUrl = '/search/report?query=' + query + '&sort=' + sort + '&min=' + min + '&max=' + max + '&page=' + page_point;
-            optionDisplay();
-            window.location.href = newUrl; 
+        query = get_url_parameter('query');
+        var newUrl = '/search/report?query=' + query + '&sort=' + sort + '&min=' + min + '&max=' + max + '&page=' + page_point + '&market=' + market;
+        optionDisplay();
+        window.location.href = newUrl; 
         }
 
         function get_url_parameter(name) {
@@ -467,6 +506,16 @@
 
             } else {
                 sort = 'latest';
+            }
+        }
+
+        function updateMarketOption(checkbox) {
+            if (checkbox.checked) {
+                market = checkbox.value;
+                make_report();
+            } else {
+                market = '';
+                make_report();
             }
         }
 
@@ -496,10 +545,35 @@
             max = get_all_url_parameter('max')
             sort = get_all_url_parameter('sort');
 
+            if (!min) {
+                min = 0;
+            }
+            if (!max) {
+                max = 300000;
+            }
+
+            if(sort == "lastest"){
+                this_sort = "최신순";
+            }
+            else if(sort == "popularity"){
+                this_sort = "인기순";
+            }
+            else if(sort == "price_low"){
+                this_sort = "가격 낮은순";
+            }
+            else if(sort == "price_high"){
+                this_sort = "가격 높은순";   
+            }
+            else{
+                this_sort = '최신순';
+            }
+
+            market = get_all_url_parameter('market');
+
             document.getElementById("queryValueDisplay").innerText = query;
             document.getElementById("minValueDisplay").innerText = addCommas(min);
             document.getElementById("maxValueDisplay").innerText = addCommas(max);
-            document.getElementById("sortValueDisplay").innerText = sort;
+            document.getElementById("sortValueDisplay").innerText = this_sort;
         }
 
         function get_all_url_parameter(name) {

@@ -78,11 +78,7 @@ def bunke_search(query):
                 Pd_Name = name.get_text()
 
             if(item.parent.find(attrs={'alt':'판매 완료'}) or item.parent.find(attrs={'alt':'예약중'})):
-                print("a")
                 continue
-            print("여기")
-            print("1")
-
             
             if(Pd_Name.find("삽")!= -1):
                 continue
@@ -112,25 +108,67 @@ def bunke_search(query):
                 continue
             if(Pd_Name.find("에어팟")!= -1):
                 continue
-            
+            if(Pd_Name.find("쇼케이스")!= -1):
+                continue
+            if(Pd_Name.find("아이폰")!= -1):
+                continue
+            if(Pd_Name.find("갤럭시")!= -1):
+                continue
+
+            if(Pd_Name.find("섀도우")!= -1):
+                continue
+            if(Pd_Name.find("양도")!= -1):
+                continue
+            if(Pd_Name.find("메모리박스")!= -1):
+                continue
+            if(Pd_Name.find("USB")!= -1):
+                continue
+            if(Pd_Name.find("굿즈")!= -1):
+                continue
+            if(Pd_Name.find("시계")!= -1):
+                continue
+            if(Pd_Name.find("카메라")!= -1):
+                continue
+            if(Pd_Name.find("스위치")!= -1):
+                continue
+            if(Pd_Name.find("캠코더")!= -1):
+                continue
+            if(Pd_Name.find("보드게임")!= -1):
+                continue
+            if(Pd_Name.find("CD")!= -1):
+                continue
+            if(Pd_Name.find("프리즘스톤")!= -1):
+                continue
+            if(Pd_Name.find("포멘토")!= -1):
+                continue
+            if(Pd_Name.find("시계")!= -1):
+                continue
+            if(Pd_Name.find("ps4")!= -1):
+                continue
+            if(Pd_Name.find("디카")!= -1):
+                continue
+            if(Pd_Name.find("다이슨")!= -1):
+                continue
+
+            if(Pd_Name.find("계산기")!= -1):
+                continue
+            if(Pd_Name.find("패드")!= -1):
+                continue
+            if(Pd_Name.find("미니마우스")!= -1):
+                continue
+            if(Pd_Name.find("미키마우스")!= -1):
+                continue
+
+            if(Pd_Name.find("인형")!= -1):
+                continue
 
             temp_price = parent_div.find('div', class_='sc-RcBXQ knGFtN')  # 이름을 포함한 div 태그 선택하고 즉시 텍스트 추출
-            
-            print("2")
-            print(parent_div)
             temp_price = temp_price.get_text()
-
-            print("3")
             temp_price = temp_price.replace(',', '')  # 쉼표 삭제
-            print("4")
 
             Pd_Price = temp_price
-
-            print("5")
-
             print("가격 : ", Pd_Price )
 
-            
             # 이미지 URL 출력
             if item.has_attr('src'):
                 print("이미지 : {}".format(item['src']))
