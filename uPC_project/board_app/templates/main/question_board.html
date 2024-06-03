@@ -7,13 +7,13 @@
 {% else %}
     <span class="board-write-btn" onClick="goToLogin('{% url 'accounts_app:login' %}')">로그인이 필요합니다.</span>
 {% endif %}
-<div class="board-table" class="cursor: pointer;">
-    <table>
+<div class="board-table" class="cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+    <table style="table-layout:fixed;">
     {% for post in posts %}
     <tbody>
     <tr onClick="goToBoard('{{post.pk}}/')">
-        <td id="board-postname">{{post.postname}}</td>
-        <td id="board-contents">{{post.contents}}</td>
+        <td id="board-postname">{{post.postname|safe}}</td>
+        <td id="board-contents"> {{post.contents|safe}}</td>
         <td id="board-author">{{post.author}}</td>
     </tr>
     <tbody>

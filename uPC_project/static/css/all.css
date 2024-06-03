@@ -67,6 +67,7 @@ display: block;
 width: 100%;
 height: 100%;
 min-width: 1340px;
+
 }
 
 li a {
@@ -108,15 +109,13 @@ li{
 
   align-items: center;
   width: 100%;
-  max-width: 1200px;
 }
 
 .category-container {
   display: flex;
-  justify-content: flex-start;
+
   align-items: center;
   width: 100%;
-  max-width: 1200px;
   padding: 10px 0;
 }
 
@@ -140,6 +139,7 @@ li{
   display: none;
   position: absolute;
   background-color: #fff;
+  opacity: 0.97;
   padding: 10px;
   z-index: 1;
   width: 100%;
@@ -154,9 +154,25 @@ li{
   margin-bottom: 10px;
 }
 
+.category-group {
+  text-align: left; /* 부모 요소에 text-align 추가 */
+}
+
+.category-group span {
+  display: inline-block; /* inline-block으로 변경 */
+  
+  width: 90px;
+  font-weight: 500;
+  color: #333;
+  padding: 8px 0;
+  border-bottom: 1px solid #abdff1;
+  margin-bottom: 8px;
+  margin-right: 10px;
+}
+
 .dropdown-menu a {
   display: inline-block;
-  padding: 8px 16px;
+  padding: 8px 0px;
   text-decoration: none;
   color: #333;
   transition: background-color 0.3s;
@@ -268,7 +284,7 @@ li{
 .dropdown-content a {
   padding-left:0px;
   color: black;
-  padding: 0.6em 1.0em 0.6em 1.0em;
+  padding: 0.6em 0.6em 0.6em 0.6em;
   text-decoration: none;
   display: block;
 
@@ -309,74 +325,60 @@ padding: 8px 5px;
 
 }
 
-#newNavbar .nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-}
-
-#newNavbar .navbar {
-  background-color: var(--background-color);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 9999;
-  padding-bottom: 10px; /* 아래 여백 추가 */
-  transition: all 0.3s;
-  display: flex;
+/* 메인페이지 - 로그인하세요! 문구 */
+.login-prompt {  
+  width: 153px;
+  background-color: #abdff1;
   justify-content: center;
-  align-items: center; /* Centers items vertically */
-  background-color: #fff;
-  padding: 10px;
+  text-align: center;
+  
+  display: inline-block;
+  border-radius: 3px;
+  margin-bottom: 30px;
 }
 
-#newNavbar .nav_logo {
-  flex: 1;
-}
-
-#newNavbar .nav_logo a {
-  color: var(--text-color);
-  text-decoration: none;
-}
-
-#newNavbar .search {
-  flex: 1;
-  display: flex;
+.login-prompt-wish {  
+  width: 103px;
+  background-color: #abdff1;
+  display: inline-block;
   justify-content: center;
+  text-align: center;
+  border-radius: 3px;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  margin-left: auto;
+  margin-right: 0px;
 }
 
-#newNavbar .search input {
-  width: 450px;
-  flex: 1;
-  border: 1px solid #566270;
-  background-color: #f4f4f4;
-  color: #303030;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  padding: 8px;
-}
+.login-link {
+  font-size: 12px;
 
-#newNavbar .search button {
   position: relative;
-  cursor: pointer; /* 커서를 포인터로 변경 */
-  border-radius: 8px;
-  right: 40px;
-  margin: 0;
-  }
-
-  #newNavbar .search button svg {
-  width: 70%;
-  height: 70%;
+  border: 0;
+  padding: 5px 5px;
+  display: inline-block;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  border-radius: 35px;
 }
 
-#newNavbar .nav_menu {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
+.login-link:hover {
+  color: white;
 }
+
+/* 메인 페이지 슬라이드 배너 */
+.slider {
+  width: 100%;                                 
+  overflow: hidden;
+  position: relative;
+}
+.slide {
+  float: left;
+  width: 100%;
+  position: relative;
+}
+
 
 /* Search Results Section */
 .search-results {
@@ -399,7 +401,7 @@ padding: 8px 5px;
 }
 
 /* Search Info Text Highlights */
-#queryValueDisplay, #minValueDisplay, #maxValueDisplay, #sortValueDisplay {
+#queryValueDisplay, #minValueDisplay, #maxValueDisplay, #sortValueDisplay, #categoryDisplay {
   color: #4994d1; /* Use a blue color for highlighted text */
   font-weight: 600; /* Bolden highlighted text */
 }
@@ -443,6 +445,35 @@ padding: 8px 5px;
     font-size: 14px; /* Reduce font size for smaller screens */
   }
 }
+
+/* 상품 디자인 */
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 5px 5px;
+  line-height: 1.4;
+  height: 50px;
+  overflow: hidden;
+
+}
+
+.product-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #71cbea;
+  margin: 5px 5px;
+}
+
+.product-actions img {
+  width: 80px;
+  height: auto;
+}
+
 
 
 .accounts-nav{
@@ -559,7 +590,10 @@ button {
   flex-direction: column;
   flex-wrap: wrap;
   align-content: center;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: Noto Sans KR, sans-serif;
+font-optical-sizing: auto;
+font-weight: 400;
+font-style: normal;
 }
 
 .board-select .board-btn{
@@ -568,7 +602,10 @@ button {
   text-align: center;
   width: 500px;
   cursor: pointer;
-  font-family: "Gothic A1", sans-serif;
+  font-family: Noto Sans KR, sans-serif;
+font-optical-sizing: auto;
+font-weight: 400;
+font-style: normal;
   font-weight: 100;
 }
 
@@ -669,6 +706,7 @@ table {
   width: 80%;
 }
 
+
 tbody tr {
   border-top-style: solid;
   border-top-width: 1px;
@@ -702,10 +740,19 @@ tbody tr td:hover {
 #board-postname{
   position:relative;
   padding-left: 3rem;
+  width: 5rem;
+  font-weight: bold;
+}
+
+#board-contents{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 12rem;
 }
 
 #board-author{
-  width: 5rem;
+  width: 3rem;
 }
 
 #post-wrap{
@@ -855,6 +902,7 @@ tbody tr td:hover {
     border: none;
     width: 100%;
   }
+
   #edit-form-text:focus{
     outline: none;
   }

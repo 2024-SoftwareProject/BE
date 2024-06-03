@@ -66,3 +66,6 @@ def get_minorname(categoryNumber):
 
 def filter_products_by_market(products, market):
     return products.filter(Pd_Market=market)
+
+def filter_products_by_aOption(products, aOption):
+    return products.filter(Pd_Name__icontains=aOption)    

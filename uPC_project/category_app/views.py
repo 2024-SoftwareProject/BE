@@ -150,6 +150,9 @@ def search_report_view(request):
     else:
         outputDB = outputDB
 
+    if aOption != '':
+        outputDB = get_data.filter_products_by_aOption(outputDB, aOption)
+
     paginator=Paginator(outputDB,48)
     print("22")
     
