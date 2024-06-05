@@ -356,6 +356,300 @@
                                                             
                                 </div>
                             </div>
+
+                            <div class="container px-5">
+                    
+                                {% if categoryNumber == 1 %}
+                                    <!-- 1번 카테고리의 옵션 -->
+                                    <div class="display-option category-option-1">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="samsung">삼성전자</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="b" name="c" value="아이맥" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="apple">아이맥</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="lg" name="lg" value="LG" onclick="updateaOcption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="lg">LG</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                    
+                                {% elif categoryNumber == 2 %}
+                                    <!-- 2번 카테고리의 옵션 -->
+                                    <div class="display-option category-option-2">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="samsung2">삼성전자</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="b" name="b" value="LG" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="lg2">LG 전자</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="c" name="c" value="맥북" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="mac">MAC</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                {% elif categoryNumber == 3 %}
+                                    <!-- 3번 카테고리의 옵션 -->
+                                    <div class="display-option category-option-3">
+                                        <p></p>
+                                        <div>프로세서:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="인텔" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="a">인텔</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="b" name="b" value="AMD" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="b">AMD</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% elif categoryNumber == 4 %}
+                                <!-- 3번 카테고리의 옵션 -->
+                                <div class="category-option-3">
+                                    <p></p>
+                                    <div>제조사:</div>
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" id="a" name="a" value="인텔" onclick="updateaOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label for="intel">ASUS</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>
+                                            <input type="checkbox" id="b" name="b" value="AMD" onclick="updateaOption(this)">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <label for="amd">기타</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% elif categoryNumber == 5 %}
+                                    <!-- 5번 카테고리의 옵션 -->
+                                    <div class="category-option-5">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="intel">삼성전자</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% elif categoryNumber == 6 %}
+                                    <!-- 6번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <input type="checkbox" id="a" name="a" value="ASUS" onclick="updateaOption(this)">
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <label for="intel">ASUS</label>
+                                                </div>
+                                            </div>
+                                            
+                                    </div>
+                                {% elif categoryNumber == 7 %}
+                                    <!-- 7번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <label for="intel">삼성전자</label>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <input type="checkbox" id="b" name="b" value="하이닉스" onclick="updateaOption(this)">
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <label for="amd">하이닉스</label>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                {% elif categoryNumber == 8 %}
+                                    <!-- 8번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <input type="checkbox" id="a" name="a" value="SEAGATE" onclick="updateaOption(this)">
+                                                </div>
+                                                <div style="padding-left: 10px;">
+                                                    <label for="intel">SEAGATE</label>
+                                                </div>
+                                            </div>
+                                
+                                    </div>
+                                {% elif categoryNumber == 9 %}
+                                    <!-- 9번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="앱코" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="a">앱코</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% elif categoryNumber == 10 %}
+                                    <!-- 10번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="MSL" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="al">MSL</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+
+                                {% elif categoryNumber == 11 %}
+                                    <!-- 11번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="로지텍" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="intel">로지텍</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+
+                                {% elif categoryNumber == 12 %}
+                                    <!-- 12번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="로지텍" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="intel">로지텍</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+
+                                {% elif categoryNumber == 13 %}
+                                    <!-- 13번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="삼성" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="a">삼성전자</label>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="b" name="b" value="LG" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="b">LG</label>
+                                            </div>
+                                        </div>
+
+                                        <span>화면 크기(인치) : </span> <input type="text" id="cores" name="cores"></p>
+                                    </div>
+                            
+                                {% elif categoryNumber == 14 %}
+                                    <!-- 14번 카테고리의 옵션 -->
+                                    <div class="category-option-3">
+                                        <p></p>
+                                        <div>제조사:</div>
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="a" name="a" value="인텔" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="a">스피커</label>
+                                            </div>
+                                        </div>
+                                
+                                        <div class="d-flex">
+                                            <div>
+                                                <input type="checkbox" id="b" name="b" value="게임용헤드셋" onclick="updateaOption(this)">
+                                            </div>
+                                            <div style="padding-left: 10px;">
+                                                <label for="b">게임용 헤드셋</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                         
                         <div class="modal-footer">
