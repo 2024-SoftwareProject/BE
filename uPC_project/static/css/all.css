@@ -448,9 +448,6 @@ padding: 8px 5px;
 
 /* 상품 디자인 */
 
-.product-card:hover {
-  transform: scale(1.05);
-}
 
 .product-name {
   font-size: 18px;
@@ -458,7 +455,6 @@ padding: 8px 5px;
   margin: 5px 5px;
   line-height: 1.4;
   height: 50px;
-  overflow: hidden;
 
 }
 

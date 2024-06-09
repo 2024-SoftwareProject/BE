@@ -161,11 +161,11 @@
             </div> 
             <div class="container px-0 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 25px; width: 100%;">
                 {% for product in popularity_outputDB %}
-                <div class="product-card" style="border-radius: 10px; overflow: hidden; transition: transform 0.2s;">
+                <div class="product-card" style="border-radius: 10px;">
                 <div class="d-flex flex-column" >
                     <a href="{{ product.Pd_URL }}" class="product-link" style="text-decoration: none; color: inherit;">
                         <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
-                        <h3 class="product-name" style="font-size: 18px; font-weight: 450; margin-bottom: 10px; line-height: 1.4; height: 50px; overflow: hidden;">{{ product.Pd_Name }}</h3>
+                        <h3 class="product-name" style="font-size: 18px; font-weight: 450; margin-bottom: 10px; line-height: 1.4; height: 50px;">{{ product.Pd_Name }}</h3>
                         <div class="d-flex justify-content-between">
                             <div class="product-price" style="font-size: 20px; font-weight: 500;">{{ product.Pd_Price }}원</div>
                         
@@ -213,11 +213,11 @@
             {% if user.is_authenticated %}
             <div class="container px-0 mx-auto mt-20" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 25px; width: 100%;">
                 {% for product in recommended_products %}
-                <div class="product-card" style="border-radius: 10px; overflow: hidden; transition: transform 0.2s;">
+                <div class="product-card" style="border-radius: 10px;">
                     <div class="d-flex flex-column" >
                         <a href="{{ product.Pd_URL }}" class="product-link" style="text-decoration: none; color: inherit;">
                             <img src="{{ product.Pd_IMG }}" style="width: 100%; height: auto; border-radius: 10px;" alt="Product Image">
-                            <h3 class="product-name" style="font-size: 18px; font-weight: 450; margin-bottom: 10px; line-height: 1.4; height: 50px; overflow: hidden;">{{ product.Pd_Name }}</h3>
+                            <h3 class="product-name" style="font-size: 18px; font-weight: 450; margin-bottom: 10px; line-height: 1.4; height: 50px;">{{ product.Pd_Name }}</h3>
                             <div class="d-flex justify-content-between">
                                 <div class="product-price" style="font-size: 20px; font-weight: 500;">{{ product.Pd_Price }}원</div>
                             
