@@ -44,7 +44,7 @@ class CategoryProduct(models.Model):
 def create_initial_records(sender, **kwargs):
 
     majorName = ['중고 완제품', '중고 PC 주요부품', '중고 PC 주변기기']
-    minorName = ['중고 데스크탑', '중고 노트북', 'CPU', '메인보드', '메모리', '그래픽카드', 'SSD', 'HHD', '케이스', '파워', '키보드', '마우스', '모니터', '스피커/헤드셋']
+    minorName = ['중고 데스크탑', '중고 노트북', 'CPU', '메인보드', '메모리', '그래픽카드', 'SSD', 'HDD', '케이스', '파워', '키보드', '마우스', '모니터', '스피커/헤드셋']
     minorCount = [2, 8, 4]
 
     for i in range(len(majorName)):

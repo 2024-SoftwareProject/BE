@@ -4,9 +4,8 @@ from django.db import models
 
 from products_app.models import Product
 
-def get_products_by_latest(categoryNumber, min=0, max=3000000, aOption='abcdef9129'):
+def get_products_by_latest(categoryNumber, min=0, max=3000000, aOption=''):
     print(aOption)
-    print("gaga")
     products = list(CategoryProduct.objects.filter(Pd_Category__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max)))
 
     sorted_products = sorted(products, key=lambda x: x.Pd_IndexNumber)
@@ -14,7 +13,7 @@ def get_products_by_latest(categoryNumber, min=0, max=3000000, aOption='abcdef91
     return sorted_products
 
 
-def get_products_by_price_low(categoryNumber, min=0, max=3000000, aOption='abcdef9129'):
+def get_products_by_price_low(categoryNumber, min=0, max=3000000, aOption=''):
     products = list(CategoryProduct.objects.filter(Pd_Name__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max)))
 
     sorted_products = sorted(products, key=lambda x: x.Pd_Price)
@@ -22,16 +21,15 @@ def get_products_by_price_low(categoryNumber, min=0, max=3000000, aOption='abcde
     return sorted_products
 
 
-def get_products_by_price_high(categoryNumber, min=0, max=3000000, aOption='abcdef9129'):
+def get_products_by_price_high(categoryNumber, min=0, max=3000000, aOption=''):
     print(aOption)
     products = list(CategoryProduct.objects.filter(Pd_Name__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max))) 
-    print("gaga3")
     sorted_products = sorted(products, key=lambda x: -x.Pd_Price)
     
     return sorted_products
 
 
-def get_products_by_popularity(categoryNumber, min=0, max=3000000, aOption='abcdef9129'):
+def get_products_by_popularity(categoryNumber, min=0, max=3000000, aOption=''):
     products = list(CategoryProduct.objects.filter(Pd_Name__icontains=aOption, Pd_CategoryNumber=categoryNumber, Pd_Price__range=(min, max)))
 
     sorted_products = sorted(products, key=lambda x: x.Pd_IndexNumber)
@@ -65,3 +63,9 @@ def plus_products_from_product_model(categoryNumber, categoryName):
 def get_minorname(categoryNumber):
     category = Category.objects.get(Ct_IndexNumber=categoryNumber)
     return category.Ct_MinorName
+
+def filter_products_by_market(products, market):
+    return products.filter(Pd_Market=market)
+
+def filter_products_by_aOption(products, aOption):
+    return products.filter(Pd_Name__icontains=aOption)    
