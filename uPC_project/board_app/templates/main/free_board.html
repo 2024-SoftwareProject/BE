@@ -15,7 +15,7 @@
             <!--<th>{{post.board_type}}</th>-->
             <!-- <td id="board-id">{{ post.id }}</td>
             <td id="board-photo">{{post.mainphotos}}</td> -->
-            <td id="board-postname">{{post.postname}}</td>
+            <td id="board-postname">{{post.postname|safe}}</td>
             <td id="board-contents"> {{post.contents|safe}}</td>
             <td id="board-author">{{post.author}}</td>
         </tr>
