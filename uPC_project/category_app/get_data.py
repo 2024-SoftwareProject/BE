@@ -2,6 +2,8 @@ from .models import CategoryProduct
 from .models import Category
 from django.db import models
 
+from django.db.models import QuerySet
+
 from products_app.models import Product
 
 def get_products_by_latest(categoryNumber, min=0, max=3000000, aOption=''):
@@ -65,7 +67,17 @@ def get_minorname(categoryNumber):
     return category.Ct_MinorName
 
 def filter_products_by_market(products, market):
-    return products.filter(Pd_Market=market)
+    # 'products'가 QuerySet인지 확인
+    if isinstance(products, QuerySet):
+        return products.filter(Pd_Market=market)
+    else:
+        # 'products'가 리스트일 경우 리스트 컴프리헨션을 사용하여 필터링
+        return [product for product in products if product.Pd_Market == market]
 
 def filter_products_by_aOption(products, aOption):
-    return products.filter(Pd_Name__icontains=aOption)    
+    # 'products'가 QuerySet인지 확인
+    if isinstance(products, QuerySet):
+        return products.filter(Pd_Name__icontains=aOption)
+    else:
+        # 'products'가 리스트일 경우 리스트 컴프리헨션을 사용하여 필터링
+        return [product for product in products if aOption.lower() in product.Pd_Name.lower()]
