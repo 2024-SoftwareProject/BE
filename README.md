@@ -1,59 +1,128 @@
-# BE
-2024 소프트웨어프로젝트 준비
+## ***u.PC 프로젝트***
 
-===========
+**중고 컴퓨터 부품 통합 검색 서비스**
 
-**clone 할때 DB, migrations files 다 삭제하고 create DB, migation 진행해야함**
-**그리고 private setting file 자기 db에 맞게 설정 변경**
+<img src="https://github.com/2024-SoftwareProject/BE/assets/127396481/a2fe1264-ad49-4134-bb93-0d051345f79c" width="20%" height="20%">
 
-===========
+user-platform-computer의 약어로,
 
-~2/13
-가상환경, django, gitignore, mysql 세팅
-signup(회원가입)로직 구현 (로그인 자체 코드는 금방할 것 같은데 회원 관리 db부터 막힘...)
+"사용자와 컴퓨터를 연결시켜주는 platform"이라는 의미를 담고 있다.
 
-*DB문제
-mysql 설치해서 uPC용 db까지는 어찌저찌 설치했다만,, 테이블 어케 관리하는겨..어휴
-연결도 맞게 했는지 모르겠고
-pc db서버에 연결해뒀는데(localhost) pc를 항상 켤 수는 없으니,, 노트북에 연결해야하나 고민,,
-아니 이걸 원격에 할 수는 없나?
 
-*라이브러리(?) 문제
-django.core.exceptions.ImproperlyConfigured: WSGI application 'uPC.wsgi.application' could not be loaded; Error importing module.
-어떤 블로거가 로그인 구현할 때 어떤 패키지 깔길래 나도 해봤는데 망,,, 여기부터 뇌 안 돌아감..
 
-*gitignore문제
-이것도 db문제랑 연결되는데 db password를 감춰야 해서 gitignore 하면 import private_settings 가 안 되는 문제,,
+## [핵심 주요 기능]
 
-===========
+1. 크롤링_<당근마켓, 번개장터, 중고나라 중고 제품 데이터> **(Selenium, beautifulSoup 활용)**
 
-~2/26
-accounts구현
-회원가입 // 닉네임, 비밀번호 2중확인
-로그인 // 닉네임, 비밀번호
-로그아웃
-회원삭제
-마이페이지
-프로필업데이트 // 메일, 이름 수정가능
+2. (사용자 검색 쿼리 기반/카테고리 기반) 제품 검색 엔진
 
-++ html상속관계 리드코드 작성
+3. 사용자 맞춤형 제품 추천 알고리즘 **(KNN 알고리즘-User Based Collaborative Filtering)**
 
-+++ 카카오 api 연동시도했지만 html에 나타나지 않음
-우선, backend에서 할 수 있는 영역은 아님
-front에서 담당 요망
+4. 커뮤니티 
 
-===========
 
-~2/29
-accounts 수정 및 html 리드 코드 작성
-로그인
-로그아웃
-회원탈퇴
-회원정보 수정
-비밀번호 변경
-마이페이지
+## [기타 기능]
 
-===========
+1. 회원관리
 
-~ 3/8
-accounts_app, product_app 통합
+
+
+## [서비스 효과]
+1. 시간 절약
+
+   3사 플랫폼 검색 데이터를 하나로 모아 사용자가 검색하는 데 들이는 시간을 단축시킨다.
+
+2. 정보 획득
+
+   커뮤니트 공간을 통해 전문성이 필요한 pc 관련 정보를 쉽게 얻을 수 있도록 한다.
+
+3. 고민 해결
+
+   사용자 맞춤형 추천 알고리즘으로 구매 결정에 도움을 준다.
+
+
+
+## [개발 환경]
+
+   language : python
+
+   framework : django
+
+   os : mac, window, linux
+
+   database : mysql
+
+   release : amazon ec2
+
+
+## [라이브러리]
+
+   크롤링 : selenium, beautifulSoup
+
+   추천 알고리즘 : scikit-learn (KNN방식_User-Based Collaborative Filtering)
+
+   디자인 : django_bootstrap5
+
+
+
+
+## [코드 참조 시 유의 사항]
+
+1. 설정 변경
+   - private_settings.py
+   ```py
+   # Database
+   # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.mysql',
+           'NAME': 'your_dbName', # mydatabase
+           'USER': 'root', # mydatabaseuser
+           'PASSWORD': 'your_password', # mypassword
+           'HOST': 'localhost', # host
+           'PORT': '3306',
+       }
+   }
+   
+   # SECURITY WARNING: keep the secret key used in production secret!
+   SECRET_KEY = 'your_secret_key'
+   
+   # Email smtp
+   EMAIL_HOST_PASSWORD = 'your_email_password'
+   # 사전에 stmp 연동 필요
+   ```
+   
+   - accounts_app/helper.py
+   ```py
+   24행|send_mail(subject, recipient_list, body='', from_email='your_email', fail_silently=False, html=None, *args, **kwargs)
+   ```
+
+3. 서비스 도메인 변경
+
+   accounts_app/templates/accounts/signup_email.html
+
+   이메일 인증 후 리다이렉트 주소 목적에 맞게 수정
+   ```html
+   # 로컬에서 테스트 실행 시 다음으로 설정
+   12행 | http://127.0.0.0:8000
+   ```
+
+4. 추천알고리즘_사전에 유저 생성
+   ```py
+   # 관리자 유저 생성
+   python manage.py createsuperuser
+   ```
+   recommend_app/recommendations.py
+   
+   model_knn = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=2, n_jobs=-1)의
+   n_neightbors크기에 맞춰 유저 생성 필요
+
+5. 데이터베이스 migrate
+   모델 상속 관계에 의해 데이터베이스 충돌 시 다음 순서로 makemigrations/migrate 진행
+   ```shell
+   python manage.py migrate category_app
+   python manage.py migrate products_app
+   python manage.py migrate accounts_app
+   python manage.py migrate board_app
+   python manage.py migrate
+   ```
