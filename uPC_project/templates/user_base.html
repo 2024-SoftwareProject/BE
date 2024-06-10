@@ -575,13 +575,14 @@
     </style>
    
 <head>
-<body class = "jua-regular" style="font-family: 'Nanum Gothic', sans-serif;
-font-weight: 400;
-font-style: normal;"> 
-<body class = "nanum-gothic-regular"> 
+<body style="font-family: Noto Sans KR, sans-serif; height: 100%;"> 
     <div class = "accounts-nav">
-        <div><h1 class="kaisei-decol-bold" style="font-size: 80px;"><a class="accounts-logo" href="/">u.PC</a></h1>
+      <a href="{% url 'home' %}">
+        <img src="{% static 'img/index/logo_B.png' %}" alt="Dinosaur" style="width: 200px;"/>
+      </a>
     </div>
+  <div>
+    {% block accounts_extra %}
+    {% endblock %}
+  </div>
 </body>
-{% block accounts_extra %}
-{% endblock %}

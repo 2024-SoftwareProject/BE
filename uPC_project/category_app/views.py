@@ -34,14 +34,14 @@ def search_view(request):
     if categoryNumber == 1:
         get_data.plus_products_from_product_model(1, "아이맥")
         get_data.plus_products_from_product_model(1, "데스크탑")
+        get_data.plus_products_from_product_model(1, "pc")
+        get_data.plus_products_from_product_model(1, "컴퓨터")
     elif categoryNumber == 2:
         get_data.plus_products_from_product_model(2, "맥북")
         get_data.plus_products_from_product_model(2, "노트북")
-        print("22")
         get_data.plus_products_from_product_model(2, "삼성노트북")
         get_data.plus_products_from_product_model(2, "LG노트북")
     elif categoryNumber == 3:
-        print("cha")
         get_data.plus_products_from_product_model(3, "CPU")
     elif categoryNumber == 4:
         get_data.plus_products_from_product_model(4, "메인보드")
@@ -53,8 +53,9 @@ def search_view(request):
         get_data.plus_products_from_product_model(7, "SSD")
     elif categoryNumber == 8:
         get_data.plus_products_from_product_model(8, "HDD")
+        get_data.plus_products_from_product_model(8, "하드디스크")
     elif categoryNumber == 9:
-        get_data.plus_products_from_product_model(9, "케이스")
+        get_data.plus_products_from_product_model(9, "컴퓨터케이스")
     elif categoryNumber == 10:
         get_data.plus_products_from_product_model(10, "파워")
     elif categoryNumber == 11:
@@ -74,7 +75,7 @@ def search_view(request):
     outputDB = get_data.get_all_products(categoryNumber)
 
     # 페이지 분할 과정
-    paginator=Paginator(outputDB,48)
+    paginator=Paginator(outputDB,50)
     page=request.GET.get('page') 
     try:
         page_obj=paginator.page(page)
@@ -101,12 +102,13 @@ def search_view(request):
 
 def search_report_view(request):
     categoryNumber = request.GET.get('category', '')
+    market = request.GET.get('market', '')
     print("DD")
     categoryNumber = int(categoryNumber)
     categoryName = get_data.get_minorname(categoryNumber)
 
     sort = request.GET.get('sort', 'latest')
-    aOption = request.GET.get('aoption', 'abcdef')
+    aOption = request.GET.get('aoption', '')
 
     print(aOption, "!1dd")
 
@@ -123,12 +125,10 @@ def search_report_view(request):
         sort = 'lastest'
 
     if not sort and not min_price and not max_price:
-        sort = 'dd'
+        sort = ''
 
-    if aOption == "abcdef":
-        sort = 'dd'
-
-    print(sort)
+    if not market:
+        market= ''
 
     min_price = int(min_price)
     max_price = int(max_price)
@@ -138,15 +138,22 @@ def search_report_view(request):
     elif sort == 'popularity':
         outputDB = get_data.get_products_by_popularity(categoryNumber, min_price, max_price, aOption)
     elif sort == 'price_low':
-        print("adfafdaf")
         outputDB = get_data.get_products_by_price_low(categoryNumber, min_price, max_price, aOption)
     elif sort == 'price_high':
         outputDB = get_data.get_products_by_price_high(categoryNumber, min_price, max_price, aOption)
     else:
         outputDB = get_data.get_all_products(categoryNumber)
         print("카테앱 리포트 뷰 함수 error")
+    
+    if market != '':
+        outputDB = get_data.filter_products_by_market(outputDB, market)
+    else:
+        outputDB = outputDB
 
-    paginator=Paginator(outputDB,48)
+    if aOption != '':
+        outputDB = get_data.filter_products_by_aOption(outputDB, aOption)
+
+    paginator=Paginator(outputDB,50)
     print("22")
     
     page=request.GET.get('page') 
