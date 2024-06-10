@@ -129,60 +129,43 @@
                           {% if post.board_type == 'free_board' %}
                             <li style="margin-bottom: -1px;">
                               <a href="{% url 'board_app:free_board_posting' pk=post.pk %}">
-                                <table style="width: 100%;">
+                                <table style="width: 100%; table-layout:fixed;">
                                   <tbody>
-                                    <tr>
-                                      <td style="width: 100px;">
-                                        자유 게시판
-                                      </td>
-                                      <td id="board-postname">
-                                        {{ post.postname }}
-                                      </td>
-                                      <td id="board-author">
-                                        {{post.author}}
-                                      </td>
+                                    <tr onClick="goToBoard('{{post.pk}}/')">
+                        
+                                        <td id="board-postname">자유 게시판</td>
+                                        <td id="board-contents">{{post.postname|safe}}</td>
+                                        <td id="board-author">{{post.author}}</td>
                                     </tr>
-                                  </tbody>
+                                <tbody>
                                 </table>
                               </a>
                             </li>
                           {% elif post.board_type == 'question_board' %}
                             <li style="margin-bottom: -1px;">
                               <a href="{% url 'board_app:question_board_posting' pk=post.pk %}">
-                                <table style="width: 100%;">
+                                <table style="width: 100%; table-layout:fixed;">
                                   <tbody>
-                                    <tr>
-                                      <td style="width: 100px;">
-                                        질문 게시판
-                                      </td>
-                                      <td id="board-postname" >
-                                        {{ post.postname }}
-                                      </td>
-                                      <td id="board-author">
-                                        {{post.author}}
-                                      </td>
+                                    <tr onClick="goToBoard('{{post.pk}}/')">
+                                        <td id="board-postname">질문 게시판</td>
+                                        <td id="board-contents"> {{post.postname|safe}}</td>
+                                        <td id="board-author">{{post.author}}</td>
                                     </tr>
-                                  </tbody>
+                                  <tbody>
                                 </table>
                               </a>
                             </li>
                           {% elif post.board_type == 'review_board' %}
                             <li style="margin-bottom: -1px;">
                               <a href="{% url 'board_app:review_board_posting' pk=post.pk %}">
-                                <table style="width: 100%;">
+                                <table style="width: 100%; table-layout:fixed;">
                                   <tbody>
-                                    <tr>
-                                      <td style="width: 100px;">
-                                        리뷰 게시판
-                                      </td>
-                                      <td id="board-postname">
-                                        {{ post.postname }}
-                                      </td>
-                                      <td id="board-author">
-                                        {{post.author}}
-                                      </td>
+                                    <tr onClick="goToBoard('{{post.pk}}/')">
+                                        <td id="board-postname">리뷰 게시판</td>
+                                        <td id="board-contents"> {{post.postname|safe}}</td>
+                                        <td id="board-author">{{post.author}}</td>
                                     </tr>
-                                  </tbody>
+                                  <tbody>
                                 </table>
                               </a>
                             </li>
@@ -207,20 +190,14 @@
                       {% if post.board_type == 'free_board' %}
                       <li style="margin-bottom: -1px;">
                         <a href="{% url 'board_app:free_board_posting' pk=post.pk %}">
-                          <table style="width: 100%;">
+                          <table style="width: 100%; table-layout:fixed;">
                             <tbody>
-                              <tr>
-                                <td style="width: 100px;">
-                                  자유 게시판
-                                </td>
-                                <td id="board-postname" >
-                                  {{ post.postname }}
-                                </td>
-                                <td id="board-author">
-                                  {{post.author}}
-                                </td>
+                              <tr onClick="goToBoard('{{post.pk}}/')">
+                                  <td id="board-postname">자유 게시판</td>
+                                  <td id="board-contents"> {{post.postname|safe}}</td>
+                                  <td id="board-author">{{post.author}}</td>
                               </tr>
-                            </tbody>
+                            <tbody>
                           </table>
                         </a>
                       </li>
@@ -228,41 +205,29 @@
                       {% elif post.board_type == 'question_board' %}
                       <li style="margin-bottom: -1px;">
                         <a href="{% url 'board_app:question_board_posting' pk=post.pk %}">
-                          <table style="width: 100%;">
+                          <table style="width: 100%; table-layout:fixed;">
                             <tbody>
-                              <tr>
-                                <td style="width: 100px">
-                                  질문 게시판
-                                </td>
-                                <td id="board-postname" ">
-                                  {{ post.postname }}
-                                </td>
-                                <td id="board-author">
-                                  {{post.author}}
-                                </td>
+                              <tr onClick="goToBoard('{{post.pk}}/')">
+                                  <td id="board-postname">질문 게시판</td>
+                                  <td id="board-contents"> {{post.postname|safe}}</td>
+                                  <td id="board-author">{{post.author}}</td>
                               </tr>
-                            </tbody>
+                            <tbody>
                           </table>
                         </a>
                       </li>
                                 
                       {% elif post.board_type == 'review_board' %}
-                      <li style="margin-bottom: -1px;">
+                      <li style="margin-bottom: -1px; ">
                         <a href="{% url 'board_app:review_board_posting' pk=post.pk %}">
-                          <table style="width: 100%;">
+                          <table style="width: 100%; table-layout:fixed;">
                             <tbody>
-                              <tr>
-                                <td style="width: 100px;">
-                                  리뷰 게시판
-                                </td>
-                                <td id="board-postname">
-                                  {{ post.postname }}
-                                </td>
-                                <td id="board-author">
-                                  {{post.author}}
-                                </td>
+                              <tr onClick="goToBoard('{{post.pk}}/')">
+                                  <td id="board-postname">리뷰 게시판</td>
+                                  <td id="board-contents"> {{post.postname|safe}}</td>
+                                  <td id="board-author">{{post.author}}</td>
                               </tr>
-                            </tbody>
+                            <tbody>
                           </table>
                         </a>
                       </li>

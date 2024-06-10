@@ -707,9 +707,6 @@ tbody tr {
   border-top-style: solid;
   border-top-width: 1px;
   border-top-color: var(--border-color);
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: var(--border-color);
   width: 100%;
 }
 
